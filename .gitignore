@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+/RayTracer/nbproject/private/
+RayTracer/build.xml
+RayTracer/manifest.mf
+RayTracer/nbproject/build-impl.xml
+RayTracer/nbproject/genfiles.properties
+RayTracer/nbproject/project.properties
+RayTracer/nbproject/project.xml
