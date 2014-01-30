@@ -12,4 +12,7 @@ package raytracer;
  */
 public interface ICamera {
     
+    // creates a ray from the camera's eye to the pixel with coordinat (px,py,d)
+    Ray createRay(int pX, int pY);
+    
 }
