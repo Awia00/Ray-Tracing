@@ -12,4 +12,6 @@ package raytracer;
  */
 public interface IVirtualObject {
     
+    double checkCollision(Ray ray);
+    IShader getShader();
 }

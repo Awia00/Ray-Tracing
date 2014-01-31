@@ -37,9 +37,9 @@ public class Vector3d {
 
     public static double getVectorLenght(Vector3d vector)
     {
-        return Math.sqrt(Math.pow(vector.getX(), 2.0)
+        return Math.round(Math.sqrt(Math.pow(vector.getX(), 2.0)
                 + Math.pow(vector.getY(), 2.0)
-                + Math.pow(vector.getZ(), 2.0));
+                + Math.pow(vector.getZ(), 2.0)));
     }
 
     public static Vector3d normalize(Vector3d vector)

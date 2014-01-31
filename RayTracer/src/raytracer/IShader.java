@@ -6,10 +6,13 @@
 
 package raytracer;
 
+import java.awt.Color;
+
 /**
  *
  * @author Anders
  */
 public interface IShader {
     
+    Color getShadingColor();
 }
