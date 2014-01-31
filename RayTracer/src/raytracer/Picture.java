@@ -6,22 +6,23 @@
 
 package raytracer;
 
+import java.awt.Color;
+
 /**
  *
  * @author Anders
  */
 public class Picture {
-    private int height, width;
     private int amtPixelHeight, amtPixelWidth;
+    private Color[][] imageColors;
     // Need an array, where every point has a Color object in it.
 
     // Need an array, where every point has a Color object in it.
-    public Picture(int height, int width, int amtPixelHeight, int amtPixelWidth)
+    public Picture(int amtPixelHeight, int amtPixelWidth)
     {
-        this.height = height;
-        this.width = width;
         this.amtPixelHeight = amtPixelHeight;
         this.amtPixelWidth = amtPixelWidth;
+        imageColors = new Color[amtPixelWidth][amtPixelHeight];
     }
 
     public int getAmtPixelHeight()
@@ -33,14 +34,14 @@ public class Picture {
     {
         return amtPixelWidth;
     }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
+    
+    public void setColor(int pX, int pY, Color color)
+    {
+        imageColors[pX][pY] = color;
     }
     
-    
+    public Color getColor(int pX, int pY)
+    {
+        return imageColors[pX][pY];
+    }
 }

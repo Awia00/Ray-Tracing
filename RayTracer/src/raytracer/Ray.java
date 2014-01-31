@@ -21,6 +21,11 @@ public class Ray {
         this.z = z;
         this.vector = vector;
     }
+
+    public Vector3d getVector()
+    {
+        return vector;
+    }
     
     public void print()
     {
