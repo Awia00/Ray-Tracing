@@ -48,7 +48,9 @@ public class Scene {
         this.backgroundColor = backgroundColor;
     }
      
-    
+    /**
+     * create the rays one by one.
+     */
     public void createRays()
     {
         for (int pX = 0; pX < camera.getAmtPixelWidth(); pX++)
