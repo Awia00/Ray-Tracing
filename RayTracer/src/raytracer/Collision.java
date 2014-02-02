@@ -6,13 +6,19 @@
 
 package raytracer;
 
-import java.awt.Color;
-
 /**
  *
  * @author Anders
  */
-public interface IShader {
+public class Collision {
     
-    Color getShadingColor(Collision collision);
+    private Position3d position;
+    private Vector3d normal;
+
+    public Collision(Position3d position, Vector3d normal) {
+        
+        this.position = position;
+        this.normal = normal;
+    }
+    
 }

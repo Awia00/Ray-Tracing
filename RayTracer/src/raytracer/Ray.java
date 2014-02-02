@@ -11,14 +11,12 @@ package raytracer;
  * @author Anders
  */
 public class Ray {
-    private int x, y, z;
+    private Position3d position;
     private Vector3d vector;
 
-    public Ray(int x, int y, int z, Vector3d vector)
+    public Ray(Position3d position, Vector3d vector)
     {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = position;
         this.vector = vector;
     }
 
@@ -29,7 +27,6 @@ public class Ray {
     
     public void print()
     {
-        System.out.println("Ray: dotX=" + x + " dotY=" + y + " dotZ=" + z);
         System.out.println("Vector: vectX=" + vector.getX() + " vectY=" + vector.getY() + " vectZ=" + vector.getZ());
         System.out.println("Vector length = " + Vector3d.getVectorLenght(vector));
         System.out.println("");
