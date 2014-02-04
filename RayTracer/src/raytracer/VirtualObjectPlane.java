@@ -25,7 +25,7 @@ public class VirtualObjectPlane implements IVirtualObject{
     @Override
     public double checkCollision(Ray ray) {
         
-        double t = (Vector3d.dotProdukt(normVector, new Vector3d(planePosition.getPosX(),planePosition.posY, planePosition.getPosZ())))/(Vector3d.dotProdukt(normVector, ray.getVector()));
+        double t = (Vector3d.dotProdukt(normVector, new Vector3d(planePosition.getPosX(),planePosition.getPosY(), planePosition.getPosZ())))/(Vector3d.dotProdukt(normVector, ray.getVector()));
         if(t == 0)
         {
             return 0.0;
