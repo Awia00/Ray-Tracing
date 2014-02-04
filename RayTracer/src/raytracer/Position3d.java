@@ -11,23 +11,23 @@ package raytracer;
  * @author Anders
  */
 public class Position3d {
-    int posX, posY, posZ;
+    double posX, posY, posZ;
 
-    public Position3d(int posX, int posY, int posZ) {
+    public Position3d(double posX, double posY, double posZ) {
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
     }
 
-    public int getPosX() {
+    public double getPosX() {
         return posX;
     }
 
-    public int getPosY() {
+    public double getPosY() {
         return posY;
     }
 
-    public int getPosZ() {
+    public double getPosZ() {
         return posZ;
     }
     

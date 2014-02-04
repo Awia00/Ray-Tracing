@@ -13,8 +13,6 @@ public interface IVirtualObject {
 
     double checkCollision(Ray ray);
 
-    Position3d getCollisionPosition(Ray ray);
-
     Vector3d getNormalOnCollisionPosition(Position3d colPos);
 
     IShader getShader();

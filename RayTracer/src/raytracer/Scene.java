@@ -20,6 +20,7 @@ public class Scene {
     private int levelOfRays = 1;
     private Color backgroundColor;
     private ArrayList<IVirtualObject> virtualObjects;
+    private ArrayList<ILightObject> lights;
 
     public Scene(ICamera camera) {
         this.camera = camera;
@@ -98,7 +99,8 @@ public class Scene {
     }
 
     private Collision getCollision(Ray ray, IVirtualObject virtualObject) {
-        Position3d position = virtualObject.getCollisionPosition(ray);
+        //Position3d position = virtualObject.getCollisionPosition(ray);
+        Position3d position = ray.getCollisionPosition(virtualObject.checkCollision(ray));
         Vector3d normal = virtualObject.getNormalOnCollisionPosition(position);
         Collision collision = new Collision(position, normal);
 
@@ -117,6 +119,6 @@ public class Scene {
     }
 
     public static void main(String[] args) {
-        new Scene(new SimpleOptCamera(20, 200, 200, 200, 200));
+        new Scene(new SimpleOptCamera(20, 20, 20, 800, 600));
     }
 }

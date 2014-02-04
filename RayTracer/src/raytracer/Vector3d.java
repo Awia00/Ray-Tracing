@@ -49,4 +49,14 @@ public class Vector3d {
                             vector.getY() / length,
                             vector.getZ() / length);
     }
+    
+    public static double dotProdukt(Vector3d vect1, Vector3d vect2)
+    { 
+        return vect1.getX()*vect2.getX() + vect1.getY()*vect2.getY()+vect1.getZ()*vect2.getZ();
+    }
+    
+    public static double getCosV(Vector3d vect1, Vector3d vect2)
+    {
+        return (Vector3d.dotProdukt(vect1, vect2))/(Vector3d.getVectorLenght(vect1)*Vector3d.getVectorLenght(vect2));
+    }
 }
