@@ -9,7 +9,7 @@ package raytracer;
 import java.awt.Color;
 
 /**
- *
+ * 
  * @author Anders
  */
 public class RayTracer {
