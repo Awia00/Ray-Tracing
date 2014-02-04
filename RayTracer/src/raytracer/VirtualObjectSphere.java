@@ -24,7 +24,17 @@ public class VirtualObjectSphere implements IVirtualObject{
     
     @Override
     public double checkCollision(Ray ray) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Vector3d rayVector = ray.getVector();
+        // the Vector coordinats
+        double vX = rayVector.getX();
+        // a Position on the Ray
+        double px;
+        //
+        //calculate a, b, c
+        double a;
+        
+        return 0.0;
     }
     
 
