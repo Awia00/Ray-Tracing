@@ -11,7 +11,7 @@ package raytracer;
  * @author Anders
  */
 public class Position3d {
-    double posX, posY, posZ;
+    private double posX, posY, posZ;
 
     public Position3d(double posX, double posY, double posZ) {
         this.posX = posX;
