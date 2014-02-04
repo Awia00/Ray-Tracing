@@ -24,6 +24,12 @@ public class Ray {
     {
         return vector;
     }
+
+    public Position3d getPosition() {
+        return position;
+    }
+    
+    
     
     public void print()
     {
