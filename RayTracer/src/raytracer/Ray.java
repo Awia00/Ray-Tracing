@@ -28,7 +28,7 @@ public class Ray {
     public void print()
     {
         System.out.println("Vector: vectX=" + vector.getX() + " vectY=" + vector.getY() + " vectZ=" + vector.getZ());
-        System.out.println("Vector length = " + Vector3d.getVectorLenght(vector));
+        System.out.println("Vector length = " + vector.getVectorLenght());
         System.out.println("");
     }
     

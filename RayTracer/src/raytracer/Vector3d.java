@@ -35,19 +35,19 @@ public class Vector3d {
         return z;
     }
 
-    public static double getVectorLenght(Vector3d vector)
+    public double getVectorLenght()
     {
-        return Math.round(Math.sqrt(Math.pow(vector.getX(), 2.0)
-                + Math.pow(vector.getY(), 2.0)
-                + Math.pow(vector.getZ(), 2.0)));
+        return Math.round(Math.sqrt(Math.pow(x, 2.0)
+                + Math.pow(y, 2.0)
+                + Math.pow(z, 2.0)));
     }
 
-    public static Vector3d normalize(Vector3d vector)
+    public Vector3d normalize()
     {
-        double length = Vector3d.getVectorLenght(vector);
-        return new Vector3d(vector.getX() / length,
-                            vector.getY() / length,
-                            vector.getZ() / length);
+        double length = getVectorLenght();
+        return new Vector3d(x / length,
+                            y / length,
+                            z / length);
     }
     
     public static double dotProdukt(Vector3d vect1, Vector3d vect2)
@@ -57,6 +57,6 @@ public class Vector3d {
     
     public static double getCosV(Vector3d vect1, Vector3d vect2)
     {
-        return (Vector3d.dotProdukt(vect1, vect2))/(Vector3d.getVectorLenght(vect1)*Vector3d.getVectorLenght(vect2));
+        return (Vector3d.dotProdukt(vect1, vect2))/(vect1.getVectorLenght()*vect2.getVectorLenght());
     }
 }

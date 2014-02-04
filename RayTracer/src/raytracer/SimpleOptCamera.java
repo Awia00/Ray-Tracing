@@ -36,7 +36,7 @@ public class SimpleOptCamera implements ICamera {
                 focalDistance,
                 (height / 2) + pY * (-(height / amtPixelHeight)));
         //normalize it
-        vector = Vector3d.normalize(vector);
+        vector = vector.normalize();
         return new Ray(new Position3d(0, 0, 0), vector);
 
     }

@@ -21,16 +21,16 @@ public class Scene {
     private Color backgroundColor;
     private ArrayList<IVirtualObject> virtualObjects;
     private ArrayList<ILightObject> lights;
+    private GUIController gui;
 
     public Scene(ICamera camera) {
         this.camera = camera;
         virtualObjects = new ArrayList<>();
         picture = new Picture(camera.getAmtPixelHeight(), camera.getAmtPixelWidth());
-        createRays();
-        GUIController gui = new GUIController();
+        gui = new GUIController();
         System.out.println("camera width " + camera.getAmtPixelWidth() + " camera height " + camera.getAmtPixelHeight());
         System.out.println("picture width " + picture.getAmtPixelWidth() + " picture height " + picture.getAmtPixelHeight());
-        gui.renderImage(picture);
+        
     }
 
     public void initializer() {
@@ -52,10 +52,11 @@ public class Scene {
         for (int pX = 0; pX < camera.getAmtPixelWidth(); pX++) {
             for (int pY = 0; pY < camera.getAmtPixelHeight(); pY++) {
                 Ray ray = camera.createRay(pX, pY);
-                rayTracing(ray, levelOfRays);
-                picture.setColor(pX, pY, shading(ray));
+                picture.setColor(pX, pY, rayTracing(ray, levelOfRays));
+                //picture.setColor(pX, pY, shading(ray));
             }
         }
+        gui.renderImage(picture);
     }
 
     /**
@@ -86,11 +87,11 @@ public class Scene {
         for (IVirtualObject virtualObject : virtualObjects) {
             double collision;
             collision = virtualObject.checkCollision(ray);
-            if (collision != 0 && closestCollision == 0) {
+            if (collision > 0 && closestCollision == 0) {
                 closestCollision = collision;
                 collisionObject = virtualObject;
             }
-            if (collision != 0 && collision < closestCollision) {
+            if (collision > 0 && collision < closestCollision) {
                 closestCollision = collision;
                 collisionObject = virtualObject;
             }
@@ -117,8 +118,9 @@ public class Scene {
         }
 
     }
-
-    public static void main(String[] args) {
-        new Scene(new SimpleOptCamera(20, 20, 20, 800, 600));
+    
+    public void addVirtualObject(IVirtualObject virtualObject)
+    {
+        virtualObjects.add(virtualObject);
     }
 }

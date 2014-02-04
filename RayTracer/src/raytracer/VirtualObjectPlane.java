@@ -24,7 +24,14 @@ public class VirtualObjectPlane implements IVirtualObject{
     
     @Override
     public double checkCollision(Ray ray) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        double t = (Vector3d.dotProdukt(normVector, new Vector3d(planePosition.getPosX(),planePosition.posY, planePosition.getPosZ())))/(Vector3d.dotProdukt(normVector, ray.getVector()));
+        if(t == 0)
+        {
+            return 0.0;
+        }
+        else
+            return t;
     }
 
     @Override

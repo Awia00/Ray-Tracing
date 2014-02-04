@@ -6,6 +6,8 @@
 
 package raytracer;
 
+import java.awt.Color;
+
 /**
  *
  * @author Anders
@@ -16,7 +18,10 @@ public class RayTracer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Scene scene = new Scene(new SimpleOptCamera(20, 20, 20, 800, 600));
+        scene.setBackgroundColor(Color.darkGray);
+        scene.addVirtualObject(new VirtualObjectPlane(new Position3d(5,5,5), new Vector3d(2,2,2), new ShaderDiffuse(Color.orange)));
+        scene.createRays();
     }
     
 }
