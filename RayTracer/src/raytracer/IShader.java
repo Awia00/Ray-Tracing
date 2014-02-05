@@ -15,5 +15,5 @@ import java.util.ArrayList;
  */
 public interface IShader {
     
-    Color getShadingColor(Collision collision, ArrayList<ILightObject> lights);
+    Color getShadingColor(Collision collision, ArrayList<ILightObject> lights, Color AmbientColor);
 }

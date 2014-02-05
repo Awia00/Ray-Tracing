@@ -29,6 +29,12 @@ public class LightObject_Directional implements ILightObject {
     public double getIntensity() {
         return intensity;
     }
+
+    @Override
+    public void setIntensity(double intensity) {
+        this.intensity = intensity;
+    }
+
     
     
     

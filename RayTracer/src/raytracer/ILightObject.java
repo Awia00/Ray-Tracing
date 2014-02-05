@@ -15,4 +15,6 @@ public interface ILightObject {
     Vector3d getDirectionVector();
     
     double getIntensity();
+    
+    void setIntensity(double intensity);
 }

@@ -19,6 +19,7 @@ public class Scene {
     private Picture picture;
     private int levelOfRays = 1;
     private Color backgroundColor;
+    private Color ambientLight;
     private ArrayList<IVirtualObject> virtualObjects;
     private ArrayList<ILightObject> lights;
     private GUIController gui;
@@ -29,11 +30,19 @@ public class Scene {
         lights = new ArrayList<>();
         picture = new Picture(camera.getAmtPixelHeight(), camera.getAmtPixelWidth());
         gui = new GUIController();
-        System.out.println("camera width " + camera.getAmtPixelWidth() + " camera height " + camera.getAmtPixelHeight());
-        System.out.println("picture width " + picture.getAmtPixelWidth() + " picture height " + picture.getAmtPixelHeight());
-
+        backgroundColor = new Color(0,0,0);
+        ambientLight = new Color(3,3,3);
+        printSceneInfo();
     }
 
+    public void printSceneInfo()
+    {
+        System.out.println("camera pixels width " + camera.getAmtPixelWidth() + " camera pixels height " + camera.getAmtPixelHeight());
+        //System.out.println("picture width " + picture.getAmtPixelWidth() + " picture height " + picture.getAmtPixelHeight());
+        System.out.println("Backgroundcolor" + backgroundColor);
+        System.out.println("Ambientcolor" + ambientLight);
+    }
+    
     public void initializer() {
 
     }
@@ -46,6 +55,11 @@ public class Scene {
         this.backgroundColor = backgroundColor;
     }
 
+    public void setAmbientLight(Color ambientLight) {
+        this.ambientLight = ambientLight;
+    }
+
+    
     /**
      * create the rays one by one.
      */
@@ -92,7 +106,7 @@ public class Scene {
             }
         }
 
-        Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision, lightsHittingObject);
+        Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision, lightsHittingObject, ambientLight);
 
         // insert recoursive rayTracing method for reflection and refraction;
         // blend the colors
