@@ -26,11 +26,12 @@ public class Scene {
     public Scene(ICamera camera) {
         this.camera = camera;
         virtualObjects = new ArrayList<>();
+        lights = new ArrayList<>();
         picture = new Picture(camera.getAmtPixelHeight(), camera.getAmtPixelWidth());
         gui = new GUIController();
         System.out.println("camera width " + camera.getAmtPixelWidth() + " camera height " + camera.getAmtPixelHeight());
         System.out.println("picture width " + picture.getAmtPixelWidth() + " picture height " + picture.getAmtPixelHeight());
-        
+
     }
 
     public void initializer() {
@@ -74,7 +75,24 @@ public class Scene {
             return backgroundColor;
         }
         Collision collision = getCollision(ray, collisionObject);
-        Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision);
+
+        ArrayList<ILightObject> lightsHittingObject = new ArrayList<>();
+
+        for (ILightObject light : lights) {
+            Ray rayLight = new Ray(collision.getPosition(), light.getDirectionVector());
+            double t = 0;
+            for (IVirtualObject virtualObject : virtualObjects) {
+                double t2 = virtualObject.checkCollision(rayLight);
+                if (t2 < t) {
+                    t = t2;
+                }
+            }
+            if (t < -0.01) {
+                lightsHittingObject.add(light);
+            }
+        }
+
+        Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision, lightsHittingObject);
 
         // insert recoursive rayTracing method for reflection and refraction;
         // blend the colors
@@ -118,9 +136,12 @@ public class Scene {
         }
 
     }
-    
-    public void addVirtualObject(IVirtualObject virtualObject)
-    {
+
+    public void addVirtualObject(IVirtualObject virtualObject) {
         virtualObjects.add(virtualObject);
+    }
+
+    public void addLightObject(ILightObject lightObject) {
+        lights.add(lightObject);
     }
 }
