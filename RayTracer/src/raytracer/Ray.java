@@ -17,7 +17,7 @@ public class Ray {
     public Ray(Position3d position, Vector3d vector)
     {
         this.position = position;
-        this.vector = vector;
+        this.vector = vector.normalize();
     }
 
     public Vector3d getVector()
