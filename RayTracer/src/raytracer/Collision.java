@@ -18,7 +18,16 @@ public class Collision {
     public Collision(Position3d position, Vector3d normal) {
         
         this.position = position;
-        this.normal = normal;
+        this.normal = normal.normalize();
     }
+
+    public Position3d getPosition() {
+        return position;
+    }
+
+    public Vector3d getNormal() {
+        return normal;
+    }
+    
     
 }
