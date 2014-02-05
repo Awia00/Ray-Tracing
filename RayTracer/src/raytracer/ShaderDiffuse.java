@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ShaderDiffuse implements IShader {
 
-    Color colorDiffuse;
+    private Color colorDiffuse;
 
     public ShaderDiffuse(Color colorDiffuse) {
         this.colorDiffuse = colorDiffuse;
@@ -26,17 +26,20 @@ public class ShaderDiffuse implements IShader {
         if (lights.isEmpty()) {
             return ambientColor;
         } else {
-            double intensity = 0;
-            
+            colorToReturn = getDiffuseShading(lights, collision.getNormal());
             // calculate the intensity coming from each light.
-            for (ILightObject light : lights) {
-                intensity += light.getIntensity()*(Math.max(0, Vector3d.dotProdukt(collision.getNormal(),light.getDirectionVector())));
-            }
-            colorToReturn = ColorToolbox.ColorIntensify(colorDiffuse, intensity);
+
             colorToReturn = ColorToolbox.ColorSum(colorToReturn, ambientColor);
             return colorToReturn;
         }
-        
+    }
+
+    private Color getDiffuseShading(ArrayList<ILightObject> lights, Vector3d normvect) {
+        double intensity = 0;
+        for (ILightObject light : lights) {
+            intensity += light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect, light.getDirectionVector())));
+        }
+        return ColorToolbox.ColorIntensify(colorDiffuse, intensity);
     }
 
 }

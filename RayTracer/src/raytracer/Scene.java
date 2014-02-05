@@ -93,8 +93,9 @@ public class Scene {
         ArrayList<ILightObject> lightsHittingObject = new ArrayList<>();
 
         for (ILightObject light : lights) {
-            Ray rayLight = new Ray(collision.getPosition(), light.getDirectionVector());
+            //Ray rayLight = new Ray(collision.getPosition(), light.getDirectionVector());
             double t = 0;
+            /*
             for (IVirtualObject virtualObject : virtualObjects) {
                 double t2 = virtualObject.checkCollision(rayLight);
                 if (t2 < t) {
@@ -104,6 +105,8 @@ public class Scene {
             if (t < -0.01) {
                 lightsHittingObject.add(light);
             }
+            */ 
+            lightsHittingObject.add(light);
         }
 
         Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision, lightsHittingObject, ambientLight);

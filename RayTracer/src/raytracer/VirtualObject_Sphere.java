@@ -35,11 +35,15 @@ public class VirtualObject_Sphere implements IVirtualObject {
         double pX = rayDot.getPosX();
         double pY = rayDot.getPosY();
         double pZ = rayDot.getPosZ();
+        
+        double cX = centerPos.getPosX();
+        double cY = centerPos.getPosY();
+        double cZ = centerPos.getPosZ();
 
         //calculate a, b, c
-        double a = (vX * vX + vY * vY + vZ * vZ);
-        double b = 2.0 * (pX * vX + pY * vY + pZ * vZ - vX * centerPos.getPosX() - vY * centerPos.getPosY() - vZ * centerPos.getPosZ());;
-        double c = pX * pX - 2 * pX * centerPos.getPosX() + centerPos.getPosX() * centerPos.getPosX() + pY * pY - 2 * pY * centerPos.getPosY() + centerPos.getPosY() * centerPos.getPosY() + pZ * pZ - 2 * pZ * centerPos.getPosZ() + centerPos.getPosZ() * centerPos.getPosZ() - radius * radius;;
+        double a = Math.pow((vX-pX),2)+(Math.pow((vY-pY),2))+(Math.pow((vZ-pZ),2));//(vX * vX + vY * vY + vZ * vZ);
+        double b = 2*((vX-pX)*(pX-cX)+(vY-pY)*(pY-cY)+(vZ-pZ)*(pZ-cZ));//2.0 * (pX * vX + pY * vY + pZ * vZ - vX * centerPos.getPosX() - vY * centerPos.getPosY() - vZ * centerPos.getPosZ());;
+        double c =  pX * pX - 2 * pX * centerPos.getPosX() + centerPos.getPosX() * centerPos.getPosX() + pY * pY - 2 * pY * centerPos.getPosY() + centerPos.getPosY() * centerPos.getPosY() + pZ * pZ - 2 * pZ * centerPos.getPosZ() + centerPos.getPosZ() * centerPos.getPosZ() - radius * radius;;
         // calculate d
         double d = b*b-4*a*c;
         // test d for value

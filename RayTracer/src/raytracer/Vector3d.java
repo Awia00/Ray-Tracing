@@ -37,9 +37,9 @@ public class Vector3d {
 
     public double getVectorLenght()
     {
-        return Math.round(Math.sqrt(Math.pow(x, 2.0)
+        return Math.sqrt(Math.pow(x, 2.0)
                 + Math.pow(y, 2.0)
-                + Math.pow(z, 2.0)));
+                + Math.pow(z, 2.0));
     }
     
     public Vector3d getNegativeVector()
@@ -70,11 +70,11 @@ public class Vector3d {
     
     public static Vector3d sumVector(Vector3d vect1, Vector3d vect2)
     {
-        double x = vect1.getX() + vect2.getX();
-        double y = vect1.getY() + vect2.getY();
-        double z = vect1.getZ() + vect2.getZ();
+        double x1 = vect1.getX() + vect2.getX();
+        double y1 = vect1.getY() + vect2.getY();
+        double z1 = vect1.getZ() + vect2.getZ();
         
-        return new Vector3d(x,y,z);
+        return new Vector3d(x1,y1,z1);
     }
    
 }

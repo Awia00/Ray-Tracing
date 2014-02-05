@@ -32,7 +32,7 @@ public class Camera_SimpleOpt implements ICamera {
     public Ray createRay(int pX, int pY) {
         // create the vector
         Vector3d vector = new Vector3d(
-                ((-width)/ 2) + pX * (width / (double)amtPixelWidth),
+                ((width)/ 2) + pX * (-width / (double)amtPixelWidth),
                 focalDistance,
                 (height / 2) + pY * (-(height / (double)amtPixelHeight)));
         return new Ray(new Position3d(0, 0, 0), vector);
