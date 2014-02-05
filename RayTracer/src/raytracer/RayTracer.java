@@ -22,8 +22,8 @@ public class RayTracer {
         scene.setBackgroundColor(new Color(10,10,10));
         scene.setAmbientLight(new Color(13,13,13));
         //scene.addVirtualObject(new VirtualObject_Plane(new Position3d(5,500,5), new Vector3d(2,2,2), new ShaderDiffuse(Color.GREEN)));
-        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(50,200,50),20,new ShaderDiffuse(Color.BLUE)));
-        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(20,150,-20),25,new ShaderSpecular(Color.red, Color.white, 100)));
+        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(75,200,50),40,new ShaderDiffuse(Color.BLUE)));
+        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(20,150,-40),35,new ShaderSpecular(Color.red, Color.white, 100)));
         scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(0,400,-50),50,new ShaderDiffuse(Color.orange)));
         scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(-25,250,10),10,new ShaderSpecular(Color.CYAN, Color.white, 100)));
         
