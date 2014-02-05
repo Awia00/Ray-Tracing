@@ -9,13 +9,13 @@ package raytracer;
  *
  * @author Anders
  */
-public class VirtualObjectSphere implements IVirtualObject {
+public class VirtualObject_Sphere implements IVirtualObject {
 
     private Position3d centerPos;
     private double radius;
     private IShader shader;
 
-    public VirtualObjectSphere(Position3d centerPos, double radius, IShader shader) {
+    public VirtualObject_Sphere(Position3d centerPos, double radius, IShader shader) {
         this.centerPos = centerPos;
         this.radius = radius;
         this.shader = shader;

@@ -10,13 +10,13 @@ package raytracer;
  *
  * @author Anders
  */
-public class VirtualObjectPlane implements IVirtualObject{
+public class VirtualObject_Plane implements IVirtualObject{
 
     private Position3d planePosition;
     private Vector3d normVector;
     private IShader shading;
 
-    public VirtualObjectPlane(Position3d planePosition, Vector3d normVector, IShader shading) {
+    public VirtualObject_Plane(Position3d planePosition, Vector3d normVector, IShader shading) {
         this.planePosition = planePosition;
         this.normVector = normVector;
         this.shading = shading;
