@@ -30,7 +30,6 @@ public class ShaderDiffuse implements IShader {
             double intensity = 0;
             for (ILightObject light : lights) {
                 intensity += light.getIntensity()*(Math.max(0, Vector3d.dotProdukt(collision.getNormal(),light.getDirectionVector())));
-                System.out.println(Vector3d.dotProdukt(collision.getNormal(),light.getDirectionVector()));
             }
             int red = (int)Math.min(255,(intensity)*colorToReturn.getRed());
             int green = (int)Math.min(255,(intensity)*colorToReturn.getGreen());
