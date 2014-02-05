@@ -7,6 +7,7 @@
 package raytracer;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,5 +15,5 @@ import java.awt.Color;
  */
 public interface IShader {
     
-    Color getShadingColor(Collision collision);
+    Color getShadingColor(Collision collision, ArrayList<ILightObject> lights);
 }
