@@ -9,7 +9,7 @@ package raytracer;
  *
  * @author Anders
  */
-public class SimpleOptCamera implements ICamera {
+public class Camera_SimpleOpt implements ICamera {
 
     private double focalDistance;
     private double height, width;
@@ -19,7 +19,7 @@ public class SimpleOptCamera implements ICamera {
      * A Camera with an eye located at coordinate (0,0,0). The picture plane is
      * located perpendicular to the y axis.
      */
-    public SimpleOptCamera(double focalDistance, double width, double height, int amtPixelWidth, int amtPixelHeight) {
+    public Camera_SimpleOpt(double focalDistance, double width, double height, int amtPixelWidth, int amtPixelHeight) {
         this.focalDistance = focalDistance;
         this.height = height;
         this.width = width;
@@ -32,11 +32,9 @@ public class SimpleOptCamera implements ICamera {
     public Ray createRay(int pX, int pY) {
         // create the vector
         Vector3d vector = new Vector3d(
-                ((-width)/ 2) + pX * (width / amtPixelWidth),
+                ((-width)/ 2) + pX * (width / (double)amtPixelWidth),
                 focalDistance,
-                (height / 2) + pY * (-(height / amtPixelHeight)));
-        //normalize it
-        vector = vector.normalize();
+                (height / 2) + pY * (-(height / (double)amtPixelHeight)));
         return new Ray(new Position3d(0, 0, 0), vector);
 
     }
