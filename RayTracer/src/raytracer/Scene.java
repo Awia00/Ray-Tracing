@@ -135,7 +135,7 @@ public class Scene {
         //Position3d position = virtualObject.getCollisionPosition(ray);
         Position3d position = ray.getCollisionPosition(virtualObject.checkCollision(ray));
         Vector3d normal = virtualObject.getNormalOnCollisionPosition(position);
-        Collision collision = new Collision(position, normal);
+        Collision collision = new Collision(position, normal, ray.getVector());
 
         return collision;
     }

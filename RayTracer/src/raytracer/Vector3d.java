@@ -41,6 +41,14 @@ public class Vector3d {
                 + Math.pow(y, 2.0)
                 + Math.pow(z, 2.0)));
     }
+    
+    public Vector3d getNegativeVector()
+    {
+        double xNegative = -x;
+        double yNegative = -y;
+        double zNegative = -z;
+        return new Vector3d(xNegative,yNegative,zNegative);
+    }
 
     public Vector3d normalize()
     {
@@ -59,4 +67,14 @@ public class Vector3d {
     {
         return (Vector3d.dotProdukt(vect1, vect2))/(vect1.getVectorLenght()*vect2.getVectorLenght());
     }
+    
+    public static Vector3d sumVector(Vector3d vect1, Vector3d vect2)
+    {
+        double x = vect1.getX() + vect2.getX();
+        double y = vect1.getY() + vect2.getY();
+        double z = vect1.getZ() + vect2.getZ();
+        
+        return new Vector3d(x,y,z);
+    }
+   
 }
