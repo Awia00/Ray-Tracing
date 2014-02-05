@@ -18,12 +18,15 @@ public class RayTracer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Scene scene = new Scene(new SimpleOptCamera(20, 20, 20, 800, 600));
-        scene.setBackgroundColor(Color.darkGray);
-        //scene.addVirtualObject(new VirtualObjectPlane(new Position3d(5,5,5), new Vector3d(2,2,2), new ShaderDiffuse(Color.orange)));
-        scene.addVirtualObject(new VirtualObjectSphere(new Position3d(50,200,50),20,new ShaderDiffuse(Color.BLUE)));
-        scene.addVirtualObject(new VirtualObjectSphere(new Position3d(20,150,-20),25,new ShaderDiffuse(Color.red)));
-        scene.addVirtualObject(new VirtualObjectSphere(new Position3d(0,200,-50),30,new ShaderDiffuse(Color.orange)));
+        Scene scene = new Scene(new Camera_SimpleOpt(25, 50, 40, 800, 600));
+        scene.setBackgroundColor(new Color(10,10,10));
+        //scene.addVirtualObject(new VirtualObject_Plane(new Position3d(5,500,5), new Vector3d(2,2,2), new ShaderDiffuse(Color.GREEN)));
+        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(50,200,50),20,new ShaderDiffuse(Color.BLUE)));
+        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(20,150,-20),25,new ShaderDiffuse(Color.red)));
+        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(0,400,-50),50,new ShaderDiffuse(Color.orange)));
+        
+        scene.addLightObject(new LightObject_Directional(new Vector3d(-18,0,10),0.9));
+        scene.addLightObject(new LightObject_Directional(new Vector3d(10,-2,0),0.3));
         scene.createRays();
     }
     
