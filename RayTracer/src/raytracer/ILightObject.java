@@ -12,4 +12,7 @@ package raytracer;
  */
 public interface ILightObject {
     
+    Vector3d getDirectionVector();
+    
+    double getIntensity();
 }
