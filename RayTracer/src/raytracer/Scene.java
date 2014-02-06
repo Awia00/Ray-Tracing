@@ -24,14 +24,15 @@ public class Scene {
     private ArrayList<ILightObject> lights;
     private GUIController gui;
 
-    public Scene(ICamera camera) {
+    public Scene(ICamera camera)
+    {
         this.camera = camera;
         virtualObjects = new ArrayList<>();
         lights = new ArrayList<>();
         picture = new Picture(camera.getAmtPixelHeight(), camera.getAmtPixelWidth());
         gui = new GUIController();
-        backgroundColor = new Color(0,0,0);
-        ambientLight = new Color(3,3,3);
+        backgroundColor = new Color(0, 0, 0);
+        ambientLight = new Color(3, 3, 3);
         printSceneInfo();
     }
 
@@ -42,30 +43,36 @@ public class Scene {
         System.out.println("Backgroundcolor" + backgroundColor);
         System.out.println("Ambientcolor" + ambientLight);
     }
-    
-    public void initializer() {
+
+    public void initializer()
+    {
 
     }
 
-    public void setLevelOfRays(int levelOfRays) {
+    public void setLevelOfRays(int levelOfRays)
+    {
         this.levelOfRays = levelOfRays;
     }
 
-    public void setBackgroundColor(Color backgroundColor) {
+    public void setBackgroundColor(Color backgroundColor)
+    {
         this.backgroundColor = backgroundColor;
     }
 
-    public void setAmbientLight(Color ambientLight) {
+    public void setAmbientLight(Color ambientLight)
+    {
         this.ambientLight = ambientLight;
     }
 
-    
     /**
      * create the rays one by one.
      */
-    public void createRays() {
-        for (int pX = 0; pX < camera.getAmtPixelWidth(); pX++) {
-            for (int pY = 0; pY < camera.getAmtPixelHeight(); pY++) {
+    public void createRays()
+    {
+        for (int pX = 0; pX < camera.getAmtPixelWidth(); pX++)
+        {
+            for (int pY = 0; pY < camera.getAmtPixelHeight(); pY++)
+            {
                 Ray ray = camera.createRay(pX, pY);
                 picture.setColor(pX, pY, rayTracing(ray, levelOfRays));
                 //picture.setColor(pX, pY, shading(ray));
@@ -83,50 +90,49 @@ public class Scene {
      * via reflections and refractions.
      * @return the color this ray has got.
      */
-    private Color rayTracing(Ray ray, int levelOfRays) {
+    private Color rayTracing(Ray ray, int levelOfRays)
+    {
         IVirtualObject collisionObject = intersection(ray);
-        if (collisionObject == null) {
+        if (collisionObject == null)
+        {
             return backgroundColor;
         }
+
         Collision collision = getCollision(ray, collisionObject);
 
-        ArrayList<ILightObject> lightsHittingObject = new ArrayList<>();
-
-        for (ILightObject light : lights) {
-            //Ray rayLight = new Ray(collision.getPosition(), light.getDirectionVector());
-            double t = 0;
-            /*
-            for (IVirtualObject virtualObject : virtualObjects) {
-                double t2 = virtualObject.checkCollision(rayLight);
-                if (t2 < t) {
-                    t = t2;
-                }
-            }
-            if (t < -0.01) {
-                lightsHittingObject.add(light);
-            }
-            */ 
-            lightsHittingObject.add(light);
+        Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision, lights, ambientLight);
+        Color reflectiveColor = null;
+        if (collisionObject.getIsReflective() && levelOfRays != 0)
+        {
+            Vector3d cameraVector = ray.getVector().getNegativeVector();
+            Vector3d norm = collision.getNormal();
+            Vector3d reflective = Vector3d.sumVector(cameraVector, norm.getVectorTimesDouble(2*Vector3d.dotProdukt(norm, collision.getIncomingVector())));
+            
+            reflectiveColor = rayTracing(new Ray(collision.getPosition(), reflective), levelOfRays - 1);
         }
 
-        Color colorOnThisLevel = collisionObject.getShader().getShadingColor(collision, lightsHittingObject, ambientLight);
-
-        // insert recoursive rayTracing method for reflection and refraction;
-        // blend the colors
+        if (reflectiveColor != null && colorOnThisLevel != null)
+        {
+            return ColorToolbox.ColorBlendPct(colorOnThisLevel, reflectiveColor, collisionObject.getReflectiveComponent());
+        }
         return colorOnThisLevel;
     }
 
-    public IVirtualObject intersection(Ray ray) {
+    public IVirtualObject intersection(Ray ray)
+    {
         double closestCollision = 0;
         IVirtualObject collisionObject = null;
-        for (IVirtualObject virtualObject : virtualObjects) {
+        for (IVirtualObject virtualObject : virtualObjects)
+        {
             double collision;
             collision = virtualObject.checkCollision(ray);
-            if (collision > 0 && closestCollision == 0) {
+            if (collision > 0 && closestCollision == 0)
+            {
                 closestCollision = collision;
                 collisionObject = virtualObject;
             }
-            if (collision > 0 && collision < closestCollision) {
+            if (collision > 0 && collision < closestCollision)
+            {
                 closestCollision = collision;
                 collisionObject = virtualObject;
             }
@@ -134,7 +140,8 @@ public class Scene {
         return collisionObject;
     }
 
-    private Collision getCollision(Ray ray, IVirtualObject virtualObject) {
+    private Collision getCollision(Ray ray, IVirtualObject virtualObject)
+    {
         //Position3d position = virtualObject.getCollisionPosition(ray);
         Position3d position = ray.getCollisionPosition(virtualObject.checkCollision(ray));
         Vector3d normal = virtualObject.getNormalOnCollisionPosition(position);
@@ -143,22 +150,28 @@ public class Scene {
         return collision;
     }
 
-    public Color shading(Ray ray) {
-        if (ray.getVector().getZ() < 0.0) {
+    public Color shading(Ray ray)
+    {
+        if (ray.getVector().getZ() < 0.0)
+        {
             return Color.black;
-        } else if (ray.getVector().getX() > 0) {
+        } else if (ray.getVector().getX() > 0)
+        {
             return Color.blue;
-        } else {
+        } else
+        {
             return Color.red;
         }
 
     }
 
-    public void addVirtualObject(IVirtualObject virtualObject) {
+    public void addVirtualObject(IVirtualObject virtualObject)
+    {
         virtualObjects.add(virtualObject);
     }
 
-    public void addLightObject(ILightObject lightObject) {
+    public void addLightObject(ILightObject lightObject)
+    {
         lights.add(lightObject);
     }
 }
