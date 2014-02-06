@@ -16,4 +16,8 @@ public interface IVirtualObject {
     Vector3d getNormalOnCollisionPosition(Position3d colPos);
 
     IShader getShader();
+    
+    boolean getIsReflective();
+    
+    double getReflectiveComponent();
 }
