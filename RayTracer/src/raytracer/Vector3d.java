@@ -42,6 +42,14 @@ public class Vector3d {
                 + Math.pow(z, 2.0));
     }
     
+    public Vector3d getVectorTimesDouble(double t)
+    {
+        double x1 = x*t;
+        double y1 = y*t;
+        double z1 = z*t;
+        return new Vector3d(x1,y1,z1);
+    }
+    
     public Vector3d getNegativeVector()
     {
         double xNegative = -x;
