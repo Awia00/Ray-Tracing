@@ -43,5 +43,17 @@ public class VirtualObject_Plane implements IVirtualObject{
     public IShader getShader() {
         return shading;
     }
+
+    @Override
+    public boolean getIsReflective()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getReflectiveComponent()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

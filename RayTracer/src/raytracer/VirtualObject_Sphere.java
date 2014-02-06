@@ -14,11 +14,15 @@ public class VirtualObject_Sphere implements IVirtualObject {
     private Position3d centerPos;
     private double radius;
     private IShader shader;
+    boolean isReflective;
+    private double reflectiveComponent;
 
-    public VirtualObject_Sphere(Position3d centerPos, double radius, IShader shader) {
+    public VirtualObject_Sphere(Position3d centerPos, double radius, IShader shader, boolean isReflective, double reflectiveComponent) {
         this.centerPos = centerPos;
         this.radius = radius;
         this.shader = shader;
+        this.isReflective = isReflective;
+        this.reflectiveComponent = reflectiveComponent;
     }
 
     @Override
@@ -71,6 +75,18 @@ public class VirtualObject_Sphere implements IVirtualObject {
     @Override
     public IShader getShader() {
         return shader;
+    }
+
+    @Override
+    public boolean getIsReflective()
+    {
+        return isReflective;
+    }
+
+    @Override
+    public double getReflectiveComponent()
+    {
+        return reflectiveComponent;
     }
 
 }
