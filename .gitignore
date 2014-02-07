@@ -1,0 +1,16 @@
+# Netbeans folders #
+build/
+build.xml
+manifest.mf
+*/*/nbproject/*
+*/nbproject/*
+dist/
+
+!*/nbproject/project.properties
+!*/nbproject/project.xml
+
+# Other Files #
+*.jar
+*.war
+*.ear
+*.class
