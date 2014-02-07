@@ -15,17 +15,21 @@ public class VirtualObject_Plane implements IVirtualObject{
     private Position3d planePosition;
     private Vector3d normVector;
     private IShader shading;
+    private boolean isReflective;
+    private double reflectiveComponent;
 
-    public VirtualObject_Plane(Position3d planePosition, Vector3d normVector, IShader shading) {
+    public VirtualObject_Plane(Position3d planePosition, Vector3d normVector, IShader shading, boolean isReflective, double reflectiveComponent) {
         this.planePosition = planePosition;
-        this.normVector = normVector;
+        this.normVector = normVector.normalize();
         this.shading = shading;
+        this.isReflective = isReflective;
+        this.reflectiveComponent = reflectiveComponent;
     }
     
     @Override
     public double checkCollision(Ray ray) {
         
-        double t = (Vector3d.dotProdukt(normVector, new Vector3d(planePosition.getPosX(),planePosition.getPosY(), planePosition.getPosZ())))/(Vector3d.dotProdukt(normVector, ray.getVector()));
+        double t = (Vector3d.dotProdukt(normVector, new Vector3d(planePosition.getPosX(),planePosition.getPosY(),planePosition.getPosZ()).normalize()))/(Vector3d.dotProdukt(normVector, ray.getVector()));
         if(t == 0)
         {
             return 0.0;
@@ -47,13 +51,13 @@ public class VirtualObject_Plane implements IVirtualObject{
     @Override
     public boolean getIsReflective()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return isReflective;
     }
 
     @Override
     public double getReflectiveComponent()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return reflectiveComponent;
     }
     
 }

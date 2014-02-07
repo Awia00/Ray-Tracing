@@ -20,7 +20,7 @@ public class Collision {
         
         this.position = position;
         this.normal = normal.normalize();
-        this.incomingVector = incomingVector;
+        this.incomingVector = incomingVector.normalize();
     }
 
     public Position3d getPosition() {

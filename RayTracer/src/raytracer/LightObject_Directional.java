@@ -15,7 +15,7 @@ public class LightObject_Directional implements ILightObject {
     double intensity;
 
     public LightObject_Directional(Vector3d directionVector, double intensity) {
-        this.directionVector = directionVector.normalize();
+        this.directionVector = directionVector.normalize().getNegativeVector();
         this.intensity = intensity;
     }
     

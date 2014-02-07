@@ -31,5 +31,8 @@ public class Position3d {
         return posZ;
     }
     
-    
+    Position3d getPositionPushedOnVector(Vector3d vect)
+    {
+        return new Position3d(posX+vect.getX(),posY+vect.getY(),posZ+vect.getZ());
+    }
 }
