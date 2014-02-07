@@ -26,23 +26,21 @@ public class ShaderSpecular implements IShader {
     }
 
     @Override
-    public Color getShadingColor(Collision collision, ArrayList<ILightObject> lights, Color ambientColor) {
+    public Color getShadingColor(Collision collision, ArrayList<ILightObject> lights, double ambientCofficient) {
         Color colorToReturn = colorDiffuse;
-        if (lights.isEmpty()) {
-            return ambientColor;
-        } else {
-            colorToReturn = getDiffuseShading(lights, collision.getNormal());
+        if (!lights.isEmpty()) {
+            colorToReturn = getDiffuseShading(lights, collision.getNormal(), ambientCofficient);
             // calculate the intensity coming from each light.
             colorToReturn = ColorToolbox.ColorSum(colorToReturn, getSpecularShading(lights, collision));
-            colorToReturn = ColorToolbox.ColorSum(colorToReturn, ambientColor);
             return colorToReturn;
         }
+        return new Color(0,0,0);
     }
 
-    private Color getDiffuseShading(ArrayList<ILightObject> lights, Vector3d normvect) {
+    private Color getDiffuseShading(ArrayList<ILightObject> lights, Vector3d normvect, double ambientCofficient) {
         double intensity = 0;
         for (ILightObject light : lights) {
-            intensity += light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect, light.getDirectionVector())));
+            intensity += ambientCofficient + light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect, light.getDirectionVector())));
         }
         return ColorToolbox.ColorIntensify(colorDiffuse, intensity);
     }

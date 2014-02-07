@@ -37,9 +37,9 @@ public abstract class ColorToolbox {
      * @return
      */
     public static Color ColorBlendPct(Color color1, Color color2, double pct) {
-        int red = (int) (color1.getRed() * (1.0 - pct) + (color2.getRed() * pct));
-        int green = (int) (color1.getGreen() * (1.0 - pct) + (color2.getGreen() * pct));
-        int blue = (int) (color1.getBlue() * (1.0 - pct) + (color2.getGreen() * pct));
+        int red = (int) Math.max(Math.min(255,(color1.getRed() * (1.0 - pct) + (color2.getRed() * pct))),0);
+        int green = (int) Math.max(Math.min(255,(color1.getGreen() * (1.0 - pct) + (color2.getGreen() * pct))),0);
+        int blue = (int) Math.max(Math.min(255,(color1.getBlue() * (1.0 - pct) + (color2.getGreen() * pct))),0);
         return new Color(red, green, blue);
     }
 }

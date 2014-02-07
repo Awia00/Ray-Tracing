@@ -69,7 +69,7 @@ public class VirtualObject_Sphere implements IVirtualObject {
 
     @Override
     public Vector3d getNormalOnCollisionPosition(Position3d colPos) {
-        return new Vector3d(colPos.getPosX() - centerPos.getPosX(), colPos.getPosY() - centerPos.getPosY(), colPos.getPosZ() - centerPos.getPosZ());
+        return new Vector3d(colPos.getPosX() - centerPos.getPosX(), colPos.getPosY() - centerPos.getPosY(), colPos.getPosZ() - centerPos.getPosZ()).normalize();
     }
 
     @Override
