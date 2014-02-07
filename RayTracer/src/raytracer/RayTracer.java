@@ -18,9 +18,9 @@ public class RayTracer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Scene scene = new Scene(new Camera_SimpleOpt(25, 50, 40, 1400, 1000));
+        Scene scene = new Scene(new Camera_SimpleOpt(25, 50, 40, 800, 600));
         scene.setBackgroundColor(new Color(10,10,25));
-        scene.setAmbientLight(0.1);
+        scene.setAmbientLight(0.2);
         scene.setLevelOfRays(1);
         
         //scene.addVirtualObject(new VirtualObject_Plane(new Position3d(0,0,-1750), new Vector3d(0,0,1).normalize(), new ShaderDiffuse(Color.GREEN), false, 0.5));
@@ -35,7 +35,7 @@ public class RayTracer {
         scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(-12,250,33),12,new ShaderSpecular(Color.PINK, Color.white, 100),true,0.1));
         scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(-43,250,98),13,new ShaderSpecular(Color.YELLOW, Color.white, 100),true,0.1));
         
-        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(0,50,-140),100,new ShaderSpecular(Color.white, Color.white, 100),true,0.6));
+        scene.addVirtualObject(new VirtualObject_Sphere(new Position3d(0,50,-140),100,new ShaderSpecular(Color.white, Color.white, 100),true,0.1));
         
         //scene.addLightObject(new LightObject_Directional(new Vector3d(-1,-1,0),1));
         scene.addLightObject(new LightObject_Directional(new Vector3d(-1,1,0),0.9));
