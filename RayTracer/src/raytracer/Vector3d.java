@@ -11,7 +11,7 @@ package raytracer;
  */
 public class Vector3d {
 
-    private double x, y, z;
+    private final double x, y, z;
 
     public Vector3d(double x, double y, double z)
     {
@@ -35,6 +35,12 @@ public class Vector3d {
         return z;
     }
 
+	@Override
+	public String toString()
+	{
+		return "Vector3d Object:\n	x: " + x + " y: " + y + " z: " + z + " \n	Length = " + Math.round(getVectorLenght());
+	}
+		
     public double getVectorLenght()
     {
         return Math.sqrt(Math.pow(x, 2.0)
@@ -70,12 +76,7 @@ public class Vector3d {
     { 
         return vect1.getX()*vect2.getX() + vect1.getY()*vect2.getY()+vect1.getZ()*vect2.getZ();
     }
-    
-    public static double getCosV(Vector3d vect1, Vector3d vect2)
-    {
-        return (Vector3d.dotProdukt(vect1, vect2))/(vect1.getVectorLenght()*vect2.getVectorLenght());
-    }
-    
+
     public static Vector3d sumVector(Vector3d vect1, Vector3d vect2)
     {
         double x1 = vect1.getX() + vect2.getX();
@@ -84,5 +85,10 @@ public class Vector3d {
         
         return new Vector3d(x1,y1,z1);
     }
-   
+       
+    public static double getCosV(Vector3d vect1, Vector3d vect2)
+    {
+        return (Vector3d.dotProdukt(vect1, vect2))/(vect1.getVectorLenght()*vect2.getVectorLenght());
+    }
+    
 }
