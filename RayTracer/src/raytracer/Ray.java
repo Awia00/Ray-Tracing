@@ -38,8 +38,8 @@ public class Ray {
 	
     public Position3d getCollisionPosition(double t)
     {
-        return new Position3d(position.getPosX()*(t-1)+(t*vector.getX()), 
-                              position.getPosY()*(t-1)+(t*vector.getY()),
-                              position.getPosZ()*(t-1)+(t*vector.getZ()));
+        return new Position3d(position.getPosX()+(t*vector.getX()), 
+                              position.getPosY()+(t*vector.getY()),
+                              position.getPosZ()+(t*vector.getZ()));
     }
 }
