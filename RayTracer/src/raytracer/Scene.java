@@ -78,18 +78,18 @@ public class Scene {
      * object, and make the shader return the wanted color.
      *
      * @param ray the ray which we follow through the scene
-     * @param levelOfRays2 the amount of times the ray tracing will repeat itself
+     * @param levelOfRaysInAction the amount of times the ray tracing will repeat itself
      * via reflections and refractions.
      * @return the color this ray has got.
      */
-    private Color rayTracing(Ray ray, int levelOfRays2) {
+    private Color rayTracing(Ray ray, int levelOfRaysInAction) {
 
 
         IVirtualObject collisionObject = intersection(ray);
         if (collisionObject == null) {
             return backgroundColor;
         }
-        if (levelOfRays2 == 0)
+        if (levelOfRaysInAction == 0)
         {
             //System.out.println(ray.toString() + "\n");
         }
@@ -102,14 +102,14 @@ public class Scene {
         Color reflectiveColor = null;
         Vector3d reflective = null;
 
-        if (collisionObject.getIsReflective() && levelOfRays2 != 0) {
+        if (collisionObject.getIsReflective() && levelOfRaysInAction != 0) {
             Vector3d cameraVector = ray.getVector();
             Vector3d norm = collision.getNormal();
             Vector3d ln = norm.getVectorTimesDouble(Vector3d.dotProdukt(norm, cameraVector.getNegativeVector()));
             reflective = Vector3d.sumVector(cameraVector,ln.getVectorTimesDouble(2));
             //reflective = Vector3d.sumVector(cameraVector.getNegativeVector(), (norm.getVectorTimesDouble(2 * Vector3d.dotProdukt(norm, cameraVector))));
             Ray reflectRay = new Ray(collision.getPosition(), reflective);
-            reflectiveColor = rayTracing(reflectRay, --levelOfRays2);
+            reflectiveColor = rayTracing(reflectRay, --levelOfRaysInAction);
             }
         
         if (reflectiveColor != null) {
