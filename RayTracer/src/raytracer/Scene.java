@@ -91,6 +91,7 @@ public class Scene {
         }
         if (levelOfRaysInAction == 0)
         {
+			// print the reflection rays that hit an object (only if levelOfRays is set to more than 1)
             //System.out.println(ray.toString() + "\n");
         }
         lastObject = collisionObject;
