@@ -1,16 +1,21 @@
-# Netbeans folders #
-build/
-build.xml
-manifest.mf
-*/nbproject/*
+#ant specific
 dist/
-
-!*/nbproject/project.properties
-!*/nbproject/project.xml
-
-# Other Files #
-*.jar
-*.war
-*.ear
+build/
+ 
+#netbeans specific
+core
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+ 
+#java specific
 *.class
-*.xml
+ 
+#general swap/backup files
+*.so
+*.log
+*.out
+*~
+*.swp
+*.DS_Store
+*.lock
