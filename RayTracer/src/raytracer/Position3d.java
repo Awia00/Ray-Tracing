@@ -31,6 +31,11 @@ public class Position3d {
         return posZ;
     }
     
+	@Override
+	public String toString()
+	{
+		return "Position3d Object:\n	Position x: " + posX +  ", Position y: " + posY + ", Position z: " + posZ;
+	}
     Position3d getPositionPushedOnVector(Vector3d vect)
     {
         return new Position3d(posX+vect.getX(),posY+vect.getY(),posZ+vect.getZ());
