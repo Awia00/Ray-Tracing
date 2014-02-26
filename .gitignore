@@ -13,3 +13,4 @@ dist/
 *.war
 *.ear
 *.class
+*.xml
