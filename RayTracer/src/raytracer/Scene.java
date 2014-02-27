@@ -17,7 +17,7 @@ public class Scene {
 
     private ICamera camera;
     private Picture picture;
-    private int levelOfRays = 1;
+    private int levelOfRays = 0;
     private Color backgroundColor;
     private double ambientCofficient;
     private ArrayList<IVirtualObject> virtualObjects;
@@ -78,15 +78,21 @@ public class Scene {
      * object, and make the shader return the wanted color.
      *
      * @param ray the ray which we follow through the scene
-     * @param levelOfRays the amount of times the ray tracing will repeat itself
+     * @param levelOfRaysInAction the amount of times the ray tracing will repeat itself
      * via reflections and refractions.
      * @return the color this ray has got.
      */
-    private Color rayTracing(Ray ray, int levelOfRays) {
+    private Color rayTracing(Ray ray, int levelOfRaysInAction) {
+
 
         IVirtualObject collisionObject = intersection(ray);
         if (collisionObject == null) {
             return backgroundColor;
+        }
+        if (levelOfRaysInAction == 0)
+        {
+			// print the reflection rays that hit an object (only if levelOfRays is set to more than 1).
+            //System.out.println(ray.toString() + "\n");
         }
         lastObject = collisionObject;
         
@@ -97,22 +103,24 @@ public class Scene {
         Color reflectiveColor = null;
         Vector3d reflective = null;
 
-        if (collisionObject.getIsReflective() && levelOfRays != 0) {
-            
+        if (collisionObject.getIsReflective() && levelOfRaysInAction != 0) {
             Vector3d cameraVector = ray.getVector();
             Vector3d norm = collision.getNormal();
-            reflective = Vector3d.sumVector(cameraVector, (norm.getVectorTimesDouble(2 * Vector3d.dotProdukt(norm, cameraVector))).getNegativeVector());
-            reflectiveColor = rayTracing(new Ray(collision.getPosition(), reflective), levelOfRays - 1);
-            
-            //System.out.println(reflectiveColor);
+            Vector3d ln = norm.getVectorTimesDouble(Vector3d.dotProdukt(norm, cameraVector.getNegativeVector()));
+            reflective = Vector3d.sumVector(cameraVector,ln.getVectorTimesDouble(2));
+            //reflective = Vector3d.sumVector(cameraVector.getNegativeVector(), (norm.getVectorTimesDouble(2 * Vector3d.dotProdukt(norm, cameraVector))));
+            Ray reflectRay = new Ray(collision.getPosition(), reflective);
+            reflectiveColor = rayTracing(reflectRay, --levelOfRaysInAction);
             }
+        
         if (reflectiveColor != null) {
-            colorOnThisLevel = ColorToolbox.ColorBlendPct(colorOnThisLevel, reflectiveColor, collisionObject.getReflectiveComponent());
+            colorOnThisLevel = ColorToolbox.ColorBlendPct(colorOnThisLevel, reflectiveColor, collisionObject.getReflectiveComponent());//*Math.pow(Math.max(0,(Vector3d.dotProdukt(ray.getVector(), reflective))),5));
         }
         lastObject = null;
         return colorOnThisLevel;
     }
 
+    
     public IVirtualObject intersection(Ray ray) {
         double closestCollision = 0;
         IVirtualObject collisionObject = null;
@@ -120,11 +128,11 @@ public class Scene {
             if (!virtualObject.equals(lastObject)) {
                 double collision;
                 collision = virtualObject.checkCollision(ray);
-                if (collision > 1 && closestCollision == 0) {
+                if (collision > 0 && closestCollision == 0) {
                     closestCollision = collision;
                     collisionObject = virtualObject;
                 }
-                if (collision > 1 && collision < closestCollision) {
+                if (collision > 0 && collision < closestCollision) {
                     closestCollision = collision;
                     collisionObject = virtualObject;
                 }
@@ -135,7 +143,7 @@ public class Scene {
 
     private Collision getCollision(Ray ray, IVirtualObject virtualObject) {
         //Position3d position = virtualObject.getCollisionPosition(ray);
-        Position3d position = ray.getCollisionPosition(virtualObject.checkCollision(ray));
+        Position3d position = ray.getCollisionPosition(virtualObject.checkCollision(ray)); // remember to optimise this.
         Vector3d normal = virtualObject.getNormalOnCollisionPosition(position);
         Collision collision = new Collision(position, normal, ray.getVector());
 

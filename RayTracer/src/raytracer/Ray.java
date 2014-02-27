@@ -30,18 +30,16 @@ public class Ray {
     }
     
     
-    
-    public void print()
-    {
-        System.out.println("Vector: vectX=" + vector.getX() + " vectY=" + vector.getY() + " vectZ=" + vector.getZ());
-        System.out.println("Vector length = " + vector.getVectorLenght());
-        System.out.println("");
-    }
-    
+    @Override
+	public String toString()
+	{
+		return "Ray Object:\n	" + position.toString() + "\n	" + vector.toString();
+	}
+	
     public Position3d getCollisionPosition(double t)
     {
-        return new Position3d(position.getPosX()+t*vector.getX(), 
-                              position.getPosY()+t*vector.getY(),
-                              position.getPosZ()+t*vector.getZ());
+        return new Position3d(position.getPosX()+(t*vector.getX()), 
+                              position.getPosY()+(t*vector.getY()),
+                              position.getPosZ()+(t*vector.getZ()));
     }
 }

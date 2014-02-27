@@ -43,24 +43,41 @@ public class VirtualObject_Sphere implements IVirtualObject {
         double cX = centerPos.getPosX();
         double cY = centerPos.getPosY();
         double cZ = centerPos.getPosZ();
-
+		
+		double a;
+		double b;
+		double c;
         //calculate a, b, c
-        double a = Math.pow((vX-pX),2)+(Math.pow((vY-pY),2))+(Math.pow((vZ-pZ),2));//(vX * vX + vY * vY + vZ * vZ);
-        double b = 2*((vX-pX)*(pX-cX)+(vY-pY)*(pY-cY)+(vZ-pZ)*(pZ-cZ));//2.0 * (pX * vX + pY * vY + pZ * vZ - vX * centerPos.getPosX() - vY * centerPos.getPosY() - vZ * centerPos.getPosZ());;
-        double c =  pX * pX - 2 * pX * centerPos.getPosX() + centerPos.getPosX() * centerPos.getPosX() + pY * pY - 2 * pY * centerPos.getPosY() + centerPos.getPosY() * centerPos.getPosY() + pZ * pZ - 2 * pZ * centerPos.getPosZ() + centerPos.getPosZ() * centerPos.getPosZ() - radius * radius;;
-        // calculate d
+        a = Math.pow((vX-pX),2)+(Math.pow((vY-pY),2))+(Math.pow((vZ-pZ),2));
+        b = 2*((vX-pX)*(pX-cX)+(vY-pY)*(pY-cY)+(vZ-pZ)*(pZ-cZ));
+        c =  cX*cX + cY*cY + cZ*cZ + pX*pX +pY*pY+ pZ*pZ - (2*(cX*pX+cY*pY+cZ*pZ))-radius*radius;
+        
+		// second method
+		//a = Math.pow((pX-cX),2) + Math.pow((pY-cY),2) + Math.pow((pZ-cZ),2) - radius*radius;//(vX * vX + vY * vY + vZ * vZ);
+        //c = Math.pow((pX-vX),2) + Math.pow((pY-vY),2) + Math.pow((pZ-vZ),2);
+		//b = Math.pow((vX-cX),2) + Math.pow((vY-cY),2) + Math.pow((vZ-cZ),2) -a-c- radius*radius;
+        
+
+		
+		// calculate d
         double d = b*b-4*a*c;
         // test d for value
-        if (d>= 0)
+        if (d> 0)
         {
-            double t1 = (-b - Math.sqrt(d)) / (2.0 * a);
-            double t2 = (-b + Math.sqrt(d)) / (2.0 * a);
+            double y = Math.sqrt(d);
+            double t1 = b > 0 ? (-b - y) / (2.0 * a) : (-b+y)/(2*a);
+            double t2 = c / (t1 * a);
+			//System.out.println(t1 + " " + t2);
             if (t1> t2)
             {
                 return t2;
             }
             else
                 return t1;
+        }
+        else if (d==0)
+        {
+            return (-b)/(2*a);
         }
         //calculate t
         // find lowest value of t 
