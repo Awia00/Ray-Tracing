@@ -33,9 +33,9 @@ public class Camera_SimpleOpt implements ICamera {
         // create the vector
         Position3d pos = new Position3d(0, 0, 0);
         Vector3d vector = new Vector3d(
-                ((-width)/ 2) + pX * (width / (double)amtPixelWidth)-pos.getPosX(),
+                (-(width)/ 2) + pX * (width / (double)amtPixelWidth)-pos.getPosX(),
                 focalDistance-pos.getPosY(),
-                (height / 2) + pY * (-(height / (double)amtPixelHeight))-pos.getPosZ());
+                (-height / 2) + pY * (height / (double)amtPixelHeight)-pos.getPosZ());
         return new Ray(pos, vector);
 
     }
