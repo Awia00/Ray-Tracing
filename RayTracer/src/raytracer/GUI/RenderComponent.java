@@ -32,7 +32,7 @@ public class RenderComponent extends JComponent {
             for (int j = 0 ; j < picture.getAmtPixelHeight() ; j++)
             {
                 g.setColor(picture.getColor(i, j));
-                g.fillRect(i, j, 1, 1);
+                g.fillRect(i, getHeight()-j, 1, 1);
             }
         }
     }
