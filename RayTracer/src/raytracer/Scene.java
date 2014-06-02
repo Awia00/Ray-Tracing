@@ -89,6 +89,10 @@ public class Scene {
         if (collisionObject == null) {
             return backgroundColor;
         }
+		else if (levelOfRaysInAction == 0)
+		{
+			System.out.println("An reflection of an object has occured");
+		}
         if (levelOfRaysInAction == 0)
         {
 			// print the reflection rays that hit an object (only if levelOfRays is set to more than 1).
@@ -106,8 +110,8 @@ public class Scene {
         if (collisionObject.getIsReflective() && levelOfRaysInAction != 0) {
             Vector3d cameraVector = ray.getVector();
             Vector3d norm = collision.getNormal();
-            Vector3d ln = norm.getVectorTimesDouble(Vector3d.dotProdukt(norm, cameraVector.getNegativeVector()));
-            reflective = Vector3d.sumVector(cameraVector,ln.getVectorTimesDouble(2));
+            Vector3d ln = norm.getVectorTimesDouble(Vector3d.dotProdukt(norm, cameraVector)*2);
+            reflective = Vector3d.sumVector(cameraVector.getNegativeVector(),ln);
             //reflective = Vector3d.sumVector(cameraVector.getNegativeVector(), (norm.getVectorTimesDouble(2 * Vector3d.dotProdukt(norm, cameraVector))));
             Ray reflectRay = new Ray(collision.getPosition(), reflective);
             reflectiveColor = rayTracing(reflectRay, --levelOfRaysInAction);
