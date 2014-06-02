@@ -40,7 +40,7 @@ public class ShaderSpecular implements IShader {
     private Color getDiffuseShading(ArrayList<ILightObject> lights, Vector3d normvect, double ambientCofficient) {
         double intensity = 0;
         for (ILightObject light : lights) {
-            intensity += ambientCofficient + light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect, light.getDirectionVector())));
+            intensity += ambientCofficient + light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect.getNegativeVector(), light.getDirectionVector())));
         }
         return ColorToolbox.ColorIntensify(colorDiffuse, intensity);
     }
@@ -51,7 +51,7 @@ public class ShaderSpecular implements IShader {
         Vector3d negDirectionVector = collision.getIncomingVector().getNegativeVector();
         for (ILightObject light : lights) {
             Vector3d hVector = (Vector3d.sumVector(negDirectionVector.normalize(), light.getDirectionVector()).normalize());
-            intensity += light.getIntensity() * Math.pow(Math.max(0,Vector3d.dotProdukt(hVector.normalize(), collision.getNormal().normalize())),specularComponent);
+            intensity += light.getIntensity() * Math.pow(Math.max(0,Vector3d.dotProdukt(hVector.normalize(), collision.getNormal().getNegativeVector().normalize())),specularComponent);
         }
         return ColorToolbox.ColorIntensify(colorSpecular, Math.min(intensity,1));
     }

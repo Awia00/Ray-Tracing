@@ -34,7 +34,7 @@ public class ShaderDiffuse implements IShader {
     private Color getDiffuseShading(ArrayList<ILightObject> lights, Vector3d normvect, double ambientCofficient) {
         double intensity = 0;
         for (ILightObject light : lights) {
-            intensity += ambientCofficient +light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect, light.getDirectionVector())));
+            intensity += ambientCofficient +light.getIntensity() * (Math.max(0, Vector3d.dotProdukt(normvect.getNegativeVector(), light.getDirectionVector())));
         }
         return ColorToolbox.ColorIntensify(colorDiffuse, intensity);
     }
