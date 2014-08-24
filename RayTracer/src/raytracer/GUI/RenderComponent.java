@@ -5,6 +5,7 @@
  */
 package raytracer.GUI;
 
+import aws.color.toolbox.AWSColorToolbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

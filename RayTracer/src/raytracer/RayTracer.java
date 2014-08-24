@@ -18,7 +18,7 @@ public class RayTracer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Scene scene = new Scene(new Camera_SimpleOpt(10, 12, 9, 1200, 900));
+        Scene scene = new Scene(new Camera_SimpleOpt(10, 12, 9, 120, 90));
         scene.setBackgroundColor(new Color(225,250,250));
         scene.setAmbientLight(0.2);
         scene.setLevelOfRays(1);
