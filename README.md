@@ -1,6 +1,10 @@
-Java-Ray-Tracer
+Ray Tracing
 ===============
 
-A simple ray tracer project using Java
+This repository serves as a hub for all ray tracing implementations i make. Currently only a java project exists, but a c# implementation will be added later. 
 
-Created as a hobby project
+
+Current problems - Java:
+ - Reflections does not work
+ - Rays only work with a start position of 0,0,0
+
