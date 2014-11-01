@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RayTracingModel;
+using RayTracingModel.Model;
 using Ray_Tracing_Application.Annotations;
 using Color = System.Drawing.Color;
 
@@ -31,7 +32,7 @@ namespace Ray_Tracing_Application.ViewModels
 
         public void UpdateImage()
         {
-            Color[,] colorArray = Scene.getInstance().render();  // get the color array from the ray tracing project
+            Color[,] colorArray = Controller.GetInstance().Render();  // get the color array from the ray tracing project
 
             var height = colorArray.GetUpperBound(0) + 1;
             var width = colorArray.GetUpperBound(1) + 1;

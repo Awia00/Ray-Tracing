@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RayTracingModel
+namespace RayTracingModel.Model
 {
-    public class Scene
+    class Scene
     {
-        private static Scene instance = null;
         private bool test = true;
-        private Scene()
+        public Scene()
         {
             
         }
 
-        public Color[,] render()
+        public Color[,] Render()
         {
             Color[,] colorArray = new Color[300, 400];
 
@@ -34,12 +29,6 @@ namespace RayTracingModel
             }
             test = !test;
             return colorArray;
-        }
-
-        public static Scene getInstance()
-        {
-            if(instance == null) instance = new Scene();
-            return instance;
         }
     }
 }
