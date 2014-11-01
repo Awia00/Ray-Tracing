@@ -46,6 +46,7 @@
     <Compile Include="Model\Objects3D\IObject3D.cs" />
     <Compile Include="Model\Scene.cs" />
     <Compile Include="Model\Shaders\IShader.cs" />
+    <Compile Include="Model\Vector3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

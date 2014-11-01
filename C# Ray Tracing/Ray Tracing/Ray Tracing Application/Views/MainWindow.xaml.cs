@@ -17,6 +17,7 @@ namespace Ray_Tracing_Application.Views
         public MainWindow()
         {
             InitializeComponent();
+            UpdateRender();
             RenderGrid.DataContext = RenderViewModel;
         }
 

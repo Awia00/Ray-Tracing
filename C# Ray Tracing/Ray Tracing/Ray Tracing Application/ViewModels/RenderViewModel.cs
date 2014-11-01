@@ -25,11 +25,6 @@ namespace Ray_Tracing_Application.ViewModels
             }
         }
 
-        public RenderViewModel()
-        {
-            UpdateImage();
-        }
-
         public void UpdateImage()
         {
             Color[,] colorArray = Controller.GetInstance().Render();  // get the color array from the ray tracing project
