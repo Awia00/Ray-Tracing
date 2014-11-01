@@ -41,13 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="Model\Cameras\ICamera.cs" />
+    <Compile Include="Model\Lights\ILight.cs" />
+    <Compile Include="Model\Objects3D\IObject3D.cs" />
     <Compile Include="Model\Scene.cs" />
+    <Compile Include="Model\Shaders\IShader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\3dObjects\" />
-    <Folder Include="Model\Shaders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
