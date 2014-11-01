@@ -3,32 +3,35 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ViewModels="clr-namespace:Ray_Tracing_Application.ViewModels"
         xmlns:ProjectProperties="clr-namespace:Ray_Tracing_Application.Properties"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Name="window"
         x:Class="Ray_Tracing_Application.Views.MainWindow"
-        Title="MainWindow" Height="600" Width="800">
-    <Window.Resources>
-        <ViewModels:WPFBitmapConverter x:Key="ImageConverter" />
-        <ViewModels:RenderViewModel x:Key="RenderViewModel" />
-    </Window.Resources>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="307*"/>
-			<ColumnDefinition Width="89*"/>
-		</Grid.ColumnDefinitions>
-		<Grid Margin="10">
-			<Grid.DataContext>
-				<ViewModels:RenderViewModel/>
-			</Grid.DataContext>
-			<Image x:Name="RenderImage" Margin="10" Source="{Binding Converter={StaticResource ImageConverter}, Source={x:Static ViewModels:RenderViewModel.RenderImage}}"/>
-		</Grid>
-		<Grid Grid.Column="1" Margin="10">
-			<Button Content="Render" Margin="10,499,10,10">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="Click">
-						<ei:CallMethodAction TargetObject="{Binding Mode=OneWay, Source={StaticResource RenderViewModel}}" MethodName="UpdateImage"/>
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-			</Button>
-		</Grid>
-	</Grid>
+        Title="C# Ray Tracer" Height="600" Width="800">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="#63FFFFFF" Offset="0.176"/>
+            <GradientStop Color="#B8727272" Offset="0.799"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="307*"/>
+            <ColumnDefinition Width="89*"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="RenderGrid" Margin="10" Background="White">
+            <Grid.DataContext>
+                <ViewModels:RenderViewModel/>
+            </Grid.DataContext>
+            <Image Margin="10" Source="{Binding RenderBitmap}"/>
+        </Grid>
+        <Grid Grid.Column="1" Margin="10">
+            <Button Content="Render" Margin="10,499,10,10">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding ElementName=window, Mode=OneWay}" MethodName="UpdateRender"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </Grid>
+    </Grid>
 </Window>

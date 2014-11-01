@@ -59,7 +59,6 @@
     </ApplicationDefinition>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\RenderViewModel.cs" />
-    <Compile Include="ViewModels\WPFBitmapConverter.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

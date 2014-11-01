@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using RayTracingModel;
 using Ray_Tracing_Application.Annotations;
 using Color = System.Drawing.Color;
@@ -11,16 +13,14 @@ namespace Ray_Tracing_Application.ViewModels
 
     public class RenderViewModel : INotifyPropertyChanged
     {
-        private static Bitmap _renderImage;
-
-        public static Bitmap RenderImage
+        private BitmapSource _renderBitMapSource;
+        public BitmapSource RenderBitmap
         {
-            get { return _renderImage; }
-            private set
+            get { return _renderBitMapSource; }
+            set
             {
-                _renderImage = value;
-                //OnPropertyChanged("RenderImage");
-                // todo move the update method to the xaml.cs window and make it cfhange the source such that it updates (without true databinding since its being changed everytime)
+                _renderBitMapSource = value;
+            OnPropertyChanged("RenderBitmap");
             }
         }
 
@@ -33,15 +33,27 @@ namespace Ray_Tracing_Application.ViewModels
         {
             Color[,] colorArray = Scene.getInstance().render();  // get the color array from the ray tracing project
 
-            Bitmap image = new Bitmap(colorArray.GetLength(0),colorArray.GetLength(1));
-            for (int i = 0; i < colorArray.GetLength(0); i++)
+            var height = colorArray.GetUpperBound(0) + 1;
+            var width = colorArray.GetUpperBound(1) + 1;
+            var stride = width * 4; // bytes per row
+
+            byte[] pixelData = new byte[height * stride];
+
+            for (int y = 0; y < height; ++y)
             {
-                for (int j = 0; j < colorArray.GetLength(1); j++)
+                for (int x = 0; x < width; ++x)
                 {
-                    image.SetPixel(i,j,colorArray[i,j]);
+                    var color = colorArray[y, x];
+                    var index = (y * stride) + (x * 4);
+
+                    pixelData[index] = color.B;
+                    pixelData[index + 1] = color.G;
+                    pixelData[index + 2] = color.R;
+                    pixelData[index + 3] = color.A;
                 }
             }
-            RenderImage = image;
+
+            RenderBitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixelData, stride);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -18,7 +18,7 @@ namespace RayTracingModel
 
         public Color[,] render()
         {
-            Color[,] colorArray = new Color[400, 300];
+            Color[,] colorArray = new Color[300, 400];
 
             if (test)
             {
@@ -30,9 +30,9 @@ namespace RayTracingModel
                             Math.Max(255 - i, 0), Math.Max(255 - j, 0));
                     }
                 }
-                test = !test;
+                
             }
-            
+            test = !test;
             return colorArray;
         }
 
