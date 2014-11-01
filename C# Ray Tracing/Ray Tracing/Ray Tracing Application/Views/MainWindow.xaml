@@ -5,7 +5,7 @@
         xmlns:ProjectProperties="clr-namespace:Ray_Tracing_Application.Properties"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Name="window"
         x:Class="Ray_Tracing_Application.Views.MainWindow"
-        Title="C# Ray Tracer" Height="600" Width="800">
+        Title="C# Ray Tracer" Height="498" Width="794">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black" Offset="1"/>
@@ -18,14 +18,14 @@
             <ColumnDefinition Width="307*"/>
             <ColumnDefinition Width="89*"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="RenderGrid" Margin="10" Background="White">
+        <Grid x:Name="RenderGrid" Margin="10" Background="Black">
             <Grid.DataContext>
                 <ViewModels:RenderViewModel/>
             </Grid.DataContext>
             <Image Margin="10" Source="{Binding RenderBitmap}"/>
         </Grid>
         <Grid Grid.Column="1" Margin="10">
-            <Button Content="Render" Margin="10,499,10,10">
+            <Button Content="Render" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="41">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:CallMethodAction TargetObject="{Binding ElementName=window, Mode=OneWay}" MethodName="UpdateRender"/>

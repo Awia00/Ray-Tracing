@@ -26,7 +26,7 @@ namespace RayTracingModel
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
-                        colorArray[i, j] = Color.FromArgb(Math.Min(0 + i, 255), Math.Min(0 + j, 255),
+                        colorArray[i, j] = Color.FromArgb(255, Math.Min(0 + j, 255),
                             Math.Max(255 - i, 0), Math.Max(255 - j, 0));
                     }
                 }
