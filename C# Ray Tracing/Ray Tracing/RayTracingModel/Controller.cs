@@ -15,7 +15,7 @@ namespace RayTracingModel
 
         private Controller()
         {
-            _scene = new Scene();
+            _scene = new Scene(null);
         }
 
         public static Controller GetInstance()

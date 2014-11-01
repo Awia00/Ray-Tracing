@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RayTracingModel.Model
 {
-    class Vector3D
+    public class Vector3D
     {
         public readonly double X;
         public readonly double Y;
@@ -39,17 +39,17 @@ namespace RayTracingModel.Model
 
         // ------- Static methods -------
 
-        static Vector3D Addition(Vector3D vector1, Vector3D vector2)
+        public static Vector3D Addition(Vector3D vector1, Vector3D vector2)
         {
             return new Vector3D(vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z);
         }
 
-        static Vector3D Subtraction(Vector3D vector1, Vector3D vector2)
+        public static Vector3D Subtraction(Vector3D vector1, Vector3D vector2)
         {
             return new Vector3D(vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z);
         }
 
-        static Vector3D Multiplication(Vector3D vector1, Vector3D vector2)
+        public static Vector3D Multiplication(Vector3D vector1, Vector3D vector2)
         {
             return new Vector3D(vector1.X * vector2.X, vector1.Y * vector2.Y, vector1.Z * vector2.Z);
         }
