@@ -1,14 +1,28 @@
 ﻿
+using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using RayTracingModel;
+using Ray_Tracing_Application.Annotations;
 using Color = System.Drawing.Color;
 
 namespace Ray_Tracing_Application.ViewModels
 {
-    
-    public class RenderViewModel
+
+    public class RenderViewModel : INotifyPropertyChanged
     {
-        public static Bitmap renderImage { get; private set; }
+        private static Bitmap _renderImage;
+
+        public static Bitmap RenderImage
+        {
+            get { return _renderImage; }
+            private set
+            {
+                _renderImage = value;
+                //OnPropertyChanged("RenderImage");
+                // todo move the update method to the xaml.cs window and make it cfhange the source such that it updates (without true databinding since its being changed everytime)
+            }
+        }
 
         public RenderViewModel()
         {
@@ -27,7 +41,16 @@ namespace Ray_Tracing_Application.ViewModels
                     image.SetPixel(i,j,colorArray[i,j]);
                 }
             }
-            renderImage = image;
+            RenderImage = image;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

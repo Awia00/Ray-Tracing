@@ -10,6 +10,7 @@ namespace RayTracingModel
     public class Scene
     {
         private static Scene instance = null;
+        private bool test = true;
         private Scene()
         {
             
@@ -19,14 +20,19 @@ namespace RayTracingModel
         {
             Color[,] colorArray = new Color[400, 300];
 
-            for (int i = 0; i < colorArray.GetLength(0); i++)
+            if (test)
             {
-                for (int j = 0; j < colorArray.GetLength(1); j++)
+                for (int i = 0; i < colorArray.GetLength(0); i++)
                 {
-                    colorArray[i, j] = Color.FromArgb(Math.Min(0+i,255), Math.Min(0+j,255), Math.Max(255-i,0), Math.Max(255-j,0));
+                    for (int j = 0; j < colorArray.GetLength(1); j++)
+                    {
+                        colorArray[i, j] = Color.FromArgb(Math.Min(0 + i, 255), Math.Min(0 + j, 255),
+                            Math.Max(255 - i, 0), Math.Max(255 - j, 0));
+                    }
                 }
+                test = !test;
             }
-
+            
             return colorArray;
         }
 
