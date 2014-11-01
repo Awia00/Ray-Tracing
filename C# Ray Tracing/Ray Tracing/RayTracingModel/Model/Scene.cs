@@ -1,14 +1,26 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
+using RayTracingModel.Model.Cameras;
+using RayTracingModel.Model.Lights;
+using RayTracingModel.Model.Objects3D;
 
 namespace RayTracingModel.Model
 {
     class Scene
     {
         private bool test = true;
-        public Scene()
+
+        public ICamera Camera { get; set; }
+        public IList<IObject3D> SceneObjects { get; private set; }
+        public IList<ILight> SceneLights { get; private set; }
+
+        public Scene(ICamera camera)
         {
-            
+            Camera = camera;
+            SceneObjects = new List<IObject3D>();
+            SceneLights = new List<ILight>();
         }
 
         public Color[,] Render()

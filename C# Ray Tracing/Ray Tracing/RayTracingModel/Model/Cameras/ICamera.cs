@@ -8,5 +8,6 @@ namespace RayTracingModel.Model.Cameras
 {
     interface ICamera
     {
+        Vector3D[,] GenerateCameraVectors();
     }
 }
