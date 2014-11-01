@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ray Tracing Application", "Ray Tracing Application\Ray Tracing Application.csproj", "{942C845C-39E0-4398-9E19-373F1B517197}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayTracingModel", "RayTracingModel\RayTracingModel.csproj", "{382D135F-9393-4072-8A05-59198198C885}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{942C845C-39E0-4398-9E19-373F1B517197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{942C845C-39E0-4398-9E19-373F1B517197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{942C845C-39E0-4398-9E19-373F1B517197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{382D135F-9393-4072-8A05-59198198C885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{382D135F-9393-4072-8A05-59198198C885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{382D135F-9393-4072-8A05-59198198C885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{382D135F-9393-4072-8A05-59198198C885}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
