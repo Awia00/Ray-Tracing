@@ -84,5 +84,10 @@ namespace RayTracingModel.Model.Objects3D
             // find lowest value of t 
             else return 0.0;
         }
+
+        public Vector3D CalculateNormVector(Vector3D positionVector3D)
+        {
+            return new Vector3D(CenterPositionVector3D, positionVector3D).Normalize();
+        }
     }
 }
