@@ -32,7 +32,7 @@ namespace RayTracingModel.Model.Cameras
                             (-Width / 2 + i * pixelWidth),
                             (Direction.Length),
                             (-Height / 2 + j * pixelHeight));
-                        tempCameraVectors[i, j] = new Line3D(Eye, tempDirectionVector);
+                        tempCameraVectors[i, j] = new Line3D(Eye, tempDirectionVector.Normalize());
                     }
                 }
                 _cameraRays = tempCameraVectors;
