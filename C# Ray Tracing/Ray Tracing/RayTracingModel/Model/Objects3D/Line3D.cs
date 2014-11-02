@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RayTracingModel.Model.Objects3D
 {
-    class Line3D
+    public class Line3D
     {
         public readonly Vector3D PositionVector;
         public readonly Vector3D DirectionVector;
