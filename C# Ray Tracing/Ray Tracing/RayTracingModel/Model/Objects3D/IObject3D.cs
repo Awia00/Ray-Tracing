@@ -11,5 +11,6 @@ namespace RayTracingModel.Model.Objects3D
         Vector3D CenterPositionVector3D { get; set; }
         Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D);
         double CalculateCollisionPosition(Line3D line3D);
+        Vector3D CalculateNormVector(Vector3D positionVector3D);
     }
 }
