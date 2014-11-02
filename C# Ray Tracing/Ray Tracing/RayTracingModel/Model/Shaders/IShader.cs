@@ -19,6 +19,6 @@ namespace RayTracingModel.Model.Shaders
         double Refractivity { get; set; }
         bool IsReflective();
         bool IsRefractive();
-        Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D);
+        Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D NormalVector3D, Vector3D RayVector3D);
     }
 }

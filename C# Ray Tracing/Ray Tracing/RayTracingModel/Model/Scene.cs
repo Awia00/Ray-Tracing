@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using Color_Toolbox;
 using RayTracingModel.Model.Cameras;
 using RayTracingModel.Model.Lights;
 using RayTracingModel.Model.Objects3D;
@@ -95,10 +96,10 @@ namespace RayTracingModel.Model
                 }
             }
             _currentRecoursion--;
-            return collisionObject.CalculateColor(IsInShadow(collisionPosition), collisionPosition);
+            return collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition, ray.DirectionVector);
         }
 
-        private IList<ILight> IsInShadow(Vector3D positionOnObject)
+        private IList<ILight> LightsNotInShadow(Vector3D positionOnObject)
         {
             var tempList = new List<ILight>();
             foreach (var light in SceneLights)
