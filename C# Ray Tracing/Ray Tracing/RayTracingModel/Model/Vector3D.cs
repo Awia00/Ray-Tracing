@@ -14,6 +14,19 @@ namespace RayTracingModel.Model
 
         public readonly double Length;
 
+        /// <summary>
+        /// Empty vector. Used for ambient lights
+        /// </summary>
+        public Vector3D()
+        {
+            
+        }
+        /// <summary>
+        /// True vector.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public Vector3D(double x, double y, double z)
         {
             X = x;
