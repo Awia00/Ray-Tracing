@@ -47,6 +47,7 @@
     <Compile Include="Model\Lights\ILight.cs" />
     <Compile Include="Model\Objects3D\IObject3D.cs" />
     <Compile Include="Model\Objects3D\Line3D.cs" />
+    <Compile Include="Model\Objects3D\SphereObject3D.cs" />
     <Compile Include="Model\Scene.cs" />
     <Compile Include="Model\Shaders\FlatShader.cs" />
     <Compile Include="Model\Shaders\IShader.cs" />
