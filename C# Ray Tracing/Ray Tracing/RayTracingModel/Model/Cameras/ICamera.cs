@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RayTracingModel.Model.Objects3D;
 
 namespace RayTracingModel.Model.Cameras
 {
     interface ICamera
     {
-        double FocalDistance { get; set; }
-        Vector3D[,] GenerateCameraVectors();
+        Vector3D Direction { get; set; }
+        Vector3D Eye { get; set; }
+        double Height { get; set; }
+        double Width { get; set; }
+        int AmtOfHeightPixels { get; set; }
+        int AmtOfWidthPixels { get; set; }
+        Line3D[,] GenerateCameraVectors();
     }
 }
