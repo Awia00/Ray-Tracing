@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RayTracingModel.Model;
+using RayTracingModel.Model.Cameras;
 using RayTracingModel.Model.Lights;
+using RayTracingModel.Model.Objects3D;
+using RayTracingModel.Model.Shaders;
 
 namespace RayTracingModel
 {
@@ -22,8 +25,18 @@ namespace RayTracingModel
 
         private void TestSettings()
         {
-            _scene.SceneLights.Add(new AmbientLight(0.3,Color.FromArgb(200,200,250)));
+            // Settings
             _scene.BackgroundColor = Color.FromArgb(100, 130, 155);
+
+            // Camera
+            _scene.Camera = new SimpleCamera(new Vector3D(1, 1, 1), new Vector3D(0, 0, 0), 10, 16, 800, 1280);
+
+            // Lights
+            _scene.SceneLights.Add(new AmbientLight(0.3,Color.FromArgb(200,200,250)));
+
+            //Objects
+            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.Firebrick,0,0),new Vector3D(0,10,0),5));
+            
         }
 
         public static Controller GetInstance()
