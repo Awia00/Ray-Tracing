@@ -22,13 +22,16 @@ namespace RayTracingModel.Model.Cameras
             if (_cameraRays == null)
             {
                 var tempCameraVectors = new Line3D[AmtOfWidthPixels, AmtOfHeightPixels];
+                double pixelWidth = Width/(double)AmtOfWidthPixels;
+                double pixelHeight = Height /(double)AmtOfHeightPixels;
                 for (int i = 0; i < AmtOfWidthPixels; i++)
                 {
                     for (int j = 0; j < AmtOfHeightPixels; j++)
                     {
-                        var tempDirectionVector = new Vector3D((-Height/2 + j*(Height/(double) AmtOfHeightPixels)),
+                        var tempDirectionVector = new Vector3D(
+                            (-Width / 2 + i * pixelWidth),
                             (Direction.Length),
-                            (-Width/2 + i*(Width/(double) AmtOfWidthPixels)));
+                            (-Height / 2 + j * pixelHeight));
                         tempCameraVectors[i, j] = new Line3D(Eye, tempDirectionVector);
                     }
                 }
@@ -38,7 +41,7 @@ namespace RayTracingModel.Model.Cameras
 
         }
 
-        public SimpleCamera(Vector3D direction, Vector3D eye, double height, double width, int amtOfHeightPixels, int amtOfWidthPixels)
+        public SimpleCamera(Vector3D direction, Vector3D eye, double width, double height, int amtOfWidthPixels, int amtOfHeightPixels)
         {
             Direction = direction;
             Eye = eye;

@@ -29,18 +29,18 @@ namespace Ray_Tracing_Application.ViewModels
         {
             Color[,] colorArray = Controller.GetInstance().Render();  // get the color array from the ray tracing project
 
-            var height = colorArray.GetUpperBound(0) + 1;
-            var width = colorArray.GetUpperBound(1) + 1;
+            var width = colorArray.GetUpperBound(0) + 1;
+            var height = colorArray.GetUpperBound(1) + 1;
             var stride = width * 4; // bytes per row
 
             byte[] pixelData = new byte[height * stride];
 
-            for (int y = 0; y < height; ++y)
+            for (int x = 0; x < width; ++x)
             {
-                for (int x = 0; x < width; ++x)
+                for (int z = 0; z < height; ++z)
                 {
-                    var color = colorArray[height-y-1, x];
-                    var index = (y * stride) + (x * 4);
+                    var color = colorArray[x, height-z-1];
+                    var index = (z * stride) + (x * 4);
 
                     pixelData[index] = color.B;
                     pixelData[index + 1] = color.G;
