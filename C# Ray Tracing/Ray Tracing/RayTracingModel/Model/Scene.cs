@@ -35,8 +35,12 @@ namespace RayTracingModel.Model
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
-                        colorArray[i, j] = Color.FromArgb(255, Math.Min(0 + j, 255),
+                        colorArray[i, j] = Color.FromArgb(Math.Min(0 + j, 255),
                             Math.Max(255 - i, 0), Math.Max(255 - j, 0));
+                        Color.FromArgb(0,255,255); // j = 0, i = 0 bottom left
+                        Color.FromArgb(0, 0, 255); // i = 255, j= 0 bottom right
+                        Color.FromArgb(255, 255, 0); // i = 0, j= 255 top left
+                        Color.FromArgb(255, 0, 0); // i = 255, j= 255 top right
                     }
                 }
             }
@@ -47,25 +51,29 @@ namespace RayTracingModel.Model
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
-                        var currentRay = cameraRays[i, j];
-                        foreach (var sceneObject in SceneObjects)
-                        {
-                            double distanceToObject = sceneObject.CalculateCollisionPosition(currentRay);
-                            if (distanceToObject > 0)
-                            {
-                                colorArray[i, j] = sceneObject.CalculateColor(SceneLights,
-                                currentRay.GetPositionAlongLine(distanceToObject));
-                                goto NextPixel;
-                            }
-                        }
-                        colorArray[i, j] = BackgroundColor;
-                    NextPixel:
-                        ;
+                        colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
                     }
                 }
             }
             test = !test;
             return colorArray;
+        }
+
+        private Color CalculateObjectCollisions(Line3D ray)
+        {
+            IObject3D closestObject = null;
+            double closestObjectDistance = double.MaxValue;
+            foreach (var sceneObject in SceneObjects)
+            {
+                double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
+                if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
+                {
+                    closestObject = sceneObject;
+                    closestObjectDistance = distanceToObject;
+                }
+            }
+            if (closestObject == null) return BackgroundColor;
+            return closestObject.CalculateColor(SceneLights, ray.GetPositionAlongLine(closestObjectDistance));
         }
     }
 }
