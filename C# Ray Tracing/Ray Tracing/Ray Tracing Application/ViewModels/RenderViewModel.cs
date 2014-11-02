@@ -39,7 +39,7 @@ namespace Ray_Tracing_Application.ViewModels
             {
                 for (int x = 0; x < width; ++x)
                 {
-                    var color = colorArray[y, x];
+                    var color = colorArray[height-y-1, x];
                     var index = (y * stride) + (x * 4);
 
                     pixelData[index] = color.B;

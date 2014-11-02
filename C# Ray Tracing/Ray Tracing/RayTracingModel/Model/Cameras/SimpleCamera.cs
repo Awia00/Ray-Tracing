@@ -16,20 +16,25 @@ namespace RayTracingModel.Model.Cameras
         public int AmtOfHeightPixels { get; set; }
         public int AmtOfWidthPixels { get; set; }
 
+        private Line3D[,] _cameraRays = null;
         public Line3D[,] GenerateCameraVectors()
         {
-            var tempCameraVectors = new Line3D[AmtOfHeightPixels, AmtOfWidthPixels];
-            for (int i = 0; i < AmtOfHeightPixels; i++)
+            if (_cameraRays == null)
             {
-                for (int j = 0; j < AmtOfWidthPixels; j++)
+                var tempCameraVectors = new Line3D[AmtOfWidthPixels, AmtOfHeightPixels];
+                for (int i = 0; i < AmtOfWidthPixels; i++)
                 {
-                    var tempDirectionVector = new Vector3D(-Width/2 + i*(Width/(double)AmtOfWidthPixels), 
-                        Direction.Length,
-                        -Height/2 + j*(Height/(double)AmtOfHeightPixels));
-                    tempCameraVectors[i,j] = new Line3D(Eye, tempDirectionVector);
+                    for (int j = 0; j < AmtOfHeightPixels; j++)
+                    {
+                        var tempDirectionVector = new Vector3D((-Height/2 + j*(Height/(double) AmtOfHeightPixels)),
+                            (Direction.Length),
+                            (-Width/2 + i*(Width/(double) AmtOfWidthPixels)));
+                        tempCameraVectors[i, j] = new Line3D(Eye, tempDirectionVector);
+                    }
                 }
+                _cameraRays = tempCameraVectors;
             }
-            return tempCameraVectors;
+            return _cameraRays;
 
         }
 
@@ -41,6 +46,7 @@ namespace RayTracingModel.Model.Cameras
             Width = width;
             AmtOfHeightPixels = amtOfHeightPixels;
             AmtOfWidthPixels = amtOfWidthPixels;
+            GenerateCameraVectors();
         }
     }
 }

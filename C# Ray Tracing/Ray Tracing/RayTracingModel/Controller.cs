@@ -29,15 +29,14 @@ namespace RayTracingModel
             _scene.BackgroundColor = Color.FromArgb(100, 130, 155);
 
             // Camera
-            _scene.Camera = new SimpleCamera(new Vector3D(1, 1, 1), new Vector3D(0, -5, 0), 10, 16, 800, 1280);
+            _scene.Camera = new SimpleCamera(new Vector3D(1, 1, 1), new Vector3D(0, 0, 0), 16, 10, 1280, 800);
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.3,Color.FromArgb(200,200,250)));
 
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.Firebrick,0,0),new Vector3D(0,15,0),5));
-            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.ForestGreen, 0, 0), new Vector3D(0, 15, 1), 5));
-            
+            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.ForestGreen, 0, 0), new Vector3D(0, 15, 5), 5));
         }
 
         public static Controller GetInstance()
