@@ -30,7 +30,7 @@ namespace RayTracingModel
             _scene.AmtOfRecoursions = 2;
 
             // Camera
-            _scene.Camera = new SimpleCamera(new Vector3D(2, 2, 2), new Vector3D(0, 0, 0), 16, 10, 1280, 800);
+            _scene.Camera = new SimpleCamera(new Vector3D(2, 2, 2), new Vector3D(0, -2, 0), 16, 10, 1280, 800);
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.3,Color.FromArgb(200,200,250)));
@@ -40,6 +40,7 @@ namespace RayTracingModel
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.Firebrick,0,0), new Vector3D(-5,15,0),5));
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 5), 10));
+            _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.MediumBlue, 0.3, 0), new Vector3D(5, 12, -8), 5));
         }
 
         public static Controller GetInstance()
