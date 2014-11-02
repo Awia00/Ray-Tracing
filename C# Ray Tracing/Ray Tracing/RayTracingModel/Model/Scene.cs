@@ -96,7 +96,7 @@ namespace RayTracingModel.Model
                 }
             }
             _currentRecoursion--;
-            return collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition, ray.DirectionVector);
+            return collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition, ray.DirectionVector, collisionPosition);
         }
 
         private IList<ILight> LightsNotInShadow(Vector3D positionOnObject)
