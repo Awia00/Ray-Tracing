@@ -15,6 +15,7 @@ namespace RayTracingModel.Model
         public ICamera Camera { get; set; }
         public IList<IObject3D> SceneObjects { get; private set; }
         public IList<ILight> SceneLights { get; private set; }
+        public Color BackgroundColor { get; set; }
 
         public Scene(ICamera camera)
         {
