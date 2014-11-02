@@ -18,7 +18,7 @@ namespace RayTracingModel.Model.Lights
         }
         public DirectionalLight(Vector3D direction, double intensity, Color color)
         {
-            _direction = direction;
+            _direction = direction.Normalize();
             Intensity = intensity;
             Color = color;
         }
