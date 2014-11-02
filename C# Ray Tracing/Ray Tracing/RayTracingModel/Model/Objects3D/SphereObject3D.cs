@@ -45,19 +45,19 @@ namespace RayTracingModel.Model.Objects3D
             double cY = CenterPositionVector3D.Y;
             double cZ = CenterPositionVector3D.Z;
 
-            double a;
-            double b;
-            double c;
             //calculate a, b, c
-            a = Math.Pow((vX - pX), 2) + (Math.Pow((vY - pY), 2)) + (Math.Pow((vZ - pZ), 2));
-            b = 2 * ((vX - pX) * (pX - cX) + (vY - pY) * (pY - cY) + (vZ - pZ) * (pZ - cZ));
-            c = cX * cX + cY * cY + cZ * cZ + pX * pX + pY * pY + pZ * pZ - (2 * (cX * pX + cY * pY + cZ * pZ)) - Radius * Radius;
+            //double a = Math.Pow((vX - pX), 2) + (Math.Pow((vY - pY), 2)) + (Math.Pow((vZ - pZ), 2));
+            //double b = 2 * ((vX - pX) * (pX - cX) + (vY - pY) * (pY - cY) + (vZ - pZ) * (pZ - cZ));
+            //double c = cX * cX + cY * cY + cZ * cZ + pX * pX + pY * pY + pZ * pZ - (2 * (cX * pX + cY * pY + cZ * pZ)) - Radius * Radius;
 
             // second method
             //a = Math.pow((pX-cX),2) + Math.pow((pY-cY),2) + Math.pow((pZ-cZ),2) - radius*radius;//(vX * vX + vY * vY + vZ * vZ);
             //c = Math.pow((pX-vX),2) + Math.pow((pY-vY),2) + Math.pow((pZ-vZ),2);
             //b = Math.pow((vX-cX),2) + Math.pow((vY-cY),2) + Math.pow((vZ-cZ),2) -a-c- radius*radius;
 
+            double a = vX*vX + vY*vY + vZ*vZ;
+            double b = 2*(pX*vX + pY*vY + pZ*vZ - vX*cX - vY*cY - vZ*cZ);
+            double c = pX * pX - 2 * pX * cX + cX * cX + pY * pY - 2 * pY * cY + cY * cY + pZ * pZ - 2 * pZ * cZ + cZ * cZ - Radius * Radius;
 
 
             // calculate d
