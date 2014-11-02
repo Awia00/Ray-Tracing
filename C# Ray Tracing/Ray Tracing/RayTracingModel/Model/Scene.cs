@@ -52,12 +52,15 @@ namespace RayTracingModel.Model
                         {
                             double distanceToObject = sceneObject.CalculateCollisionPosition(currentRay);
                             if (distanceToObject > 0)
-                                colorArray[i, j] = sceneObject.CalculateColor(SceneLights, currentRay.GetPositionAlongLine(distanceToObject));
-                            else
                             {
-                                colorArray[i, j] = BackgroundColor;
+                                colorArray[i, j] = sceneObject.CalculateColor(SceneLights,
+                                currentRay.GetPositionAlongLine(distanceToObject));
+                                goto NextPixel;
                             }
                         }
+                        colorArray[i, j] = BackgroundColor;
+                    NextPixel:
+                        ;
                     }
                 }
             }

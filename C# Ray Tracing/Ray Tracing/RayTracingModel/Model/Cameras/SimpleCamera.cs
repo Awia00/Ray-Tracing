@@ -23,9 +23,9 @@ namespace RayTracingModel.Model.Cameras
             {
                 for (int j = 0; j < AmtOfWidthPixels; j++)
                 {
-                    var tempDirectionVector = Vector3D.Subtraction(new Vector3D(-Width/2 + i*(Width/(double)AmtOfWidthPixels), 
+                    var tempDirectionVector = new Vector3D(-Width/2 + i*(Width/(double)AmtOfWidthPixels), 
                         Direction.Length,
-                        -Height/2 + j*(Height/(double)AmtOfHeightPixels)) , Eye);
+                        -Height/2 + j*(Height/(double)AmtOfHeightPixels));
                     tempCameraVectors[i,j] = new Line3D(Eye, tempDirectionVector);
                 }
             }
