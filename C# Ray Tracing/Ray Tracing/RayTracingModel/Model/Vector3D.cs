@@ -74,5 +74,15 @@ namespace RayTracingModel.Model
         {
             return new Vector3D(vector1.X * vector2.X, vector1.Y * vector2.Y, vector1.Z * vector2.Z);
         }
+
+        public static double DotProdukt(Vector3D vector1, Vector3D vector2)
+        {
+            return vector1.X * vector2.X + vector1.Y * vector2.Y + vector1.Z * vector2.Z;
+        }
+
+        public static double GetCosV(Vector3D vector1, Vector3D vector2)
+        {
+            return (Vector3D.DotProdukt(vector1, vector2)) / (vector1.Length * vector2.Length);
+        }
     }
 }
