@@ -36,7 +36,7 @@ namespace RayTracingModel
 
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.Firebrick,0,0),new Vector3D(0,15,0),5));
-            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.ForestGreen, 0, 0), new Vector3D(0, 20, 0), 10));
+            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 0), 10));
         }
 
         public static Controller GetInstance()
