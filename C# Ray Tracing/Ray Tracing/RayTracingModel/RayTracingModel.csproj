@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Controller.cs" />
     <Compile Include="Model\Cameras\ICamera.cs" />
+    <Compile Include="Model\Cameras\SimpleCamera.cs" />
     <Compile Include="Model\Lights\AmbientLight.cs" />
     <Compile Include="Model\Lights\ILight.cs" />
     <Compile Include="Model\Objects3D\IObject3D.cs" />
