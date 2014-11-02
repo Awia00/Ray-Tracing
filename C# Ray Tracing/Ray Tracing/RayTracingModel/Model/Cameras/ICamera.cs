@@ -8,6 +8,7 @@ namespace RayTracingModel.Model.Cameras
 {
     interface ICamera
     {
+        double FocalDistance { get; set; }
         Vector3D[,] GenerateCameraVectors();
     }
 }
