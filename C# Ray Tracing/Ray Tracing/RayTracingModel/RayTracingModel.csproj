@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Color Toolbox">
+      <HintPath>..\Color Toolbox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -50,6 +53,7 @@
     <Compile Include="Model\Objects3D\Line3D.cs" />
     <Compile Include="Model\Objects3D\SphereObject3D.cs" />
     <Compile Include="Model\Scene.cs" />
+    <Compile Include="Model\Shaders\DiffuseShader.cs" />
     <Compile Include="Model\Shaders\FlatShader.cs" />
     <Compile Include="Model\Shaders\IShader.cs" />
     <Compile Include="Model\Shaders\ShaderComposite.cs" />
