@@ -47,25 +47,21 @@ namespace RayTracingModel.Model.Shaders
             if (Reflectivity > 1 || Reflectivity > 1) throw new Exception("Neither reflectivity or refractivity must be over 1");
         }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D NormalVector3D, Vector3D RayVector3D)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
         {
-            Color shaderColor ;
+            Color shaderColor = new Color();
+            double intensity = 0;
             if (lightsThatHitsSurface.Count == 0) throw new Exception();
-            foreach (var iLight in lightsThatHitsSurface)
+            foreach (var light in lightsThatHitsSurface)
             {
-                if (iLight is AmbientLight)
+                if (light is AmbientLight)
                 {
-                    shaderColor = iLight.Color;
-                    lightsThatHitsSurface.Remove(iLight);
-                    break;
+                    shaderColor = ColorToolbox.BlendAddition(shaderColor,ColorToolbox.ColorIntensify(light.Color, light.Intensity));
                 }
+                intensity += light.Intensity * (Math.Max(0, Vector3D.DotProdukt(normalVector3D.VectorNegation(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D))));
             }
-            foreach (var iLight in lightsThatHitsSurface)
-            {
-                
-            }
-            shaderColor = new Color();
-            return shaderColor;
+            return ColorToolbox.BlendAddition(shaderColor,ColorToolbox.ColorIntensify(DiffuseColor, intensity));
+            //(Math.max(0, Vector3d.dotProdukt(normvect.getNegativeVector(), light.getDirectionVector()))
         }
     }
 }
