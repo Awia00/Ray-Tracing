@@ -34,10 +34,11 @@ namespace RayTracingModel
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.3,Color.FromArgb(200,200,250)));
+            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(1,2,-1), 1, Color.FromArgb(200, 200, 250)));
 
             //Objects
-            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.Firebrick,0,0),new Vector3D(0,15,0),5));
-            _scene.SceneObjects.Add(new SphereObject3D(new FlatShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 0), 10));
+            _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.Firebrick,0,0), new Vector3D(-5,15,0),5));
+            _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 5), 10));
         }
 
         public static Controller GetInstance()
