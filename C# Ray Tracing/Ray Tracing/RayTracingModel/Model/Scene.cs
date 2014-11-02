@@ -37,7 +37,7 @@ namespace RayTracingModel.Model
                     {
                         colorArray[i, j] = Color.FromArgb(Math.Min(0 + j, 255),
                             Math.Max(255 - i, 0), Math.Max(255 - j, 0));
-                        Color.FromArgb(0,255,255); // j = 0, i = 0 bottom left
+                        Color.FromArgb(0, 255, 255); // j = 0, i = 0 bottom left
                         Color.FromArgb(0, 0, 255); // i = 255, j= 0 bottom right
                         Color.FromArgb(255, 255, 0); // i = 0, j= 255 top left
                         Color.FromArgb(255, 0, 0); // i = 255, j= 255 top right
@@ -46,7 +46,6 @@ namespace RayTracingModel.Model
             }
             else
             {
-                
                 for (int i = 0; i < colorArray.GetLength(0); i++)
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
@@ -73,7 +72,30 @@ namespace RayTracingModel.Model
                 }
             }
             if (closestObject == null) return BackgroundColor;
-            return closestObject.CalculateColor(SceneLights, ray.GetPositionAlongLine(closestObjectDistance));
+            return ComputeColor(ray, closestObject, ray.GetPositionAlongLine(closestObjectDistance));
+        }
+
+        private Color ComputeColor(Line3D ray, IObject3D collisionObject, Vector3D collisionPosition)
+        {
+            return collisionObject.CalculateColor(IsInShadow(collisionPosition), collisionPosition);
+        }
+
+        private IList<ILight> IsInShadow(Vector3D positionOnObject)
+        {
+            var tempList = new List<ILight>();
+            foreach (var light in SceneLights)
+            {
+                // todo create fix such that the light can be local and between the objects.
+                var lightVector = light.CalculateLightDirectionOnPosition(positionOnObject);
+                var ray = new Line3D(positionOnObject, lightVector.VectorNegation());
+                bool inShadow = false;
+                foreach (var sceneObject in SceneObjects)
+                {
+                    if (sceneObject.CalculateCollisionPosition(ray) > 0) inShadow = true;
+                }
+                if (!inShadow) {tempList.Add(light);}
+            }
+            return tempList;
         }
     }
 }
