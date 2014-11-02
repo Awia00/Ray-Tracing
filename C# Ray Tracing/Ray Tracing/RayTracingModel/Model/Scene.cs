@@ -8,7 +8,7 @@ using RayTracingModel.Model.Objects3D;
 
 namespace RayTracingModel.Model
 {
-    class Scene
+    internal class Scene
     {
         private bool test = true;
 
@@ -26,7 +26,8 @@ namespace RayTracingModel.Model
 
         public Color[,] Render()
         {
-            Color[,] colorArray = new Color[300, 400];
+            var cameraRays = Camera.GenerateCameraVectors();
+            Color[,] colorArray = new Color[cameraRays.GetLength(0), cameraRays.GetLength(1)];
 
             if (test)
             {
@@ -38,7 +39,27 @@ namespace RayTracingModel.Model
                             Math.Max(255 - i, 0), Math.Max(255 - j, 0));
                     }
                 }
+            }
+            else
+            {
                 
+                for (int i = 0; i < colorArray.GetLength(0); i++)
+                {
+                    for (int j = 0; j < colorArray.GetLength(1); j++)
+                    {
+                        var currentRay = cameraRays[i, j];
+                        foreach (var sceneObject in SceneObjects)
+                        {
+                            double distanceToObject = sceneObject.CalculateCollisionPosition(currentRay);
+                            if (distanceToObject > 0)
+                                colorArray[i, j] = sceneObject.CalculateColor(SceneLights, currentRay.GetPositionAlongLine(distanceToObject));
+                            else
+                            {
+                                colorArray[i, j] = BackgroundColor;
+                            }
+                        }
+                    }
+                }
             }
             test = !test;
             return colorArray;
