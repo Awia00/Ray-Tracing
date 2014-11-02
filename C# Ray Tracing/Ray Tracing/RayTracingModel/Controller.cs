@@ -35,6 +35,7 @@ namespace RayTracingModel
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.3,Color.FromArgb(200,200,250)));
             _scene.SceneLights.Add(new DirectionalLight(new Vector3D(1,2,-1), 1, Color.FromArgb(200, 200, 250)));
+            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(-1, 2, -1), 0.5, Color.FromArgb(200, 200, 250)));
 
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.Firebrick,0,0), new Vector3D(-5,15,0),5));
