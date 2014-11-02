@@ -15,7 +15,7 @@ namespace RayTracingModel.Model.Shaders
         public double Refractivity { get; set; }
         public bool IsReflective()
         {
-            if (Reflectivity == 0) return true;
+            if (Reflectivity > 0) return true;
             else
             {
                 return false;
@@ -24,7 +24,7 @@ namespace RayTracingModel.Model.Shaders
 
         public bool IsRefractive()
         {
-            if (Reflectivity == 0) return true;
+            if (Reflectivity > 0) return true;
             else
             {
                 return false;
