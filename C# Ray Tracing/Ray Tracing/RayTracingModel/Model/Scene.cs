@@ -12,6 +12,9 @@ namespace RayTracingModel.Model
     {
         private bool test = true;
 
+        public int AmtOfRecoursions { get; set; }
+        private int _currentRecoursion = 0;
+
         public ICamera Camera { get; set; }
         public IList<IObject3D> SceneObjects { get; private set; }
         public IList<ILight> SceneLights { get; private set; }
@@ -51,6 +54,7 @@ namespace RayTracingModel.Model
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
                         colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
+                        _currentRecoursion = 0;
                     }
                 }
             }
@@ -77,6 +81,20 @@ namespace RayTracingModel.Model
 
         private Color ComputeColor(Line3D ray, IObject3D collisionObject, Vector3D collisionPosition)
         {
+            if (_currentRecoursion <= AmtOfRecoursions)
+            {
+                if (collisionObject.Shader.IsReflective())
+                {
+                    _currentRecoursion++;
+                    //generate the reflection ray and run CalculateObject Collisions again.
+                }
+                if (collisionObject.Shader.IsRefractive())
+                {
+                    _currentRecoursion++;
+                    //generate the refraction ray and run CalculateObject Collisions again.
+                }
+            }
+            _currentRecoursion--;
             return collisionObject.CalculateColor(IsInShadow(collisionPosition), collisionPosition);
         }
 
@@ -88,6 +106,7 @@ namespace RayTracingModel.Model
                 // todo create fix such that the light can be local and between the objects.
                 var lightVector = light.CalculateLightDirectionOnPosition(positionOnObject);
                 var ray = new Line3D(positionOnObject, lightVector.VectorNegation());
+
                 bool inShadow = false;
                 foreach (var sceneObject in SceneObjects)
                 {

@@ -27,6 +27,7 @@ namespace RayTracingModel
         {
             // Settings
             _scene.BackgroundColor = Color.FromArgb(100, 130, 155);
+            _scene.AmtOfLevels = 2;
 
             // Camera
             _scene.Camera = new SimpleCamera(new Vector3D(2, 2, 2), new Vector3D(0, 0, 0), 16, 10, 1280, 800);
