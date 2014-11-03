@@ -99,11 +99,11 @@ namespace RayTracingModel.Model
                     //generate the reflection ray and run CalculateObject Collisions again.
                     Vector3D cameraVector = ray.DirectionVector;
                     Vector3D norm = collisionObject.CalculateNormVector(collisionPosition);
-                    Vector3D ln = norm.VectorTimesDouble(Vector3D.DotProdukt(norm, cameraVector) * -2);
+                    Vector3D ln =norm.VectorTimesDouble(Vector3D.DotProdukt(cameraVector,norm)*2);
                     Vector3D reflective = Vector3D.Addition(cameraVector.VectorNegation(), ln);
 
-                    Line3D reflectRay = new Line3D(collisionPosition, reflective);
-                    reflectionColor = CalculateObjectCollisions(ray);
+                    Line3D reflectRay = new Line3D(collisionPosition, reflective.VectorNegation());
+                    reflectionColor = CalculateObjectCollisions(reflectRay);
                     return ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor, collisionObject.Shader.Reflectivity);
 
                 }
