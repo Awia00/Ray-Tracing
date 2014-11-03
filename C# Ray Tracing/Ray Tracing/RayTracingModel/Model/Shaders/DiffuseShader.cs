@@ -47,21 +47,42 @@ namespace RayTracingModel.Model.Shaders
             if (Reflectivity > 1 || Reflectivity > 1) throw new Exception("Neither reflectivity or refractivity must be over 1");
         }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D,
+            Vector3D collisionPositionVector3D)
         {
-            Color shaderColor = new Color();
-            double intensity = 0;
             if (lightsThatHitsSurface.Count == 0) throw new Exception();
+            // todo refacter functionality into methods
+            Color baseColor = new Color();
+            Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface);
+            Color diffuseColor = GenerateDiffuseColor(lightsThatHitsSurface, normalVector3D, collisionPositionVector3D);
+
+            baseColor = ColorToolbox.BlendAddition(baseColor, ambientColor);
+            baseColor = ColorToolbox.BlendAddition(baseColor, diffuseColor);
+
+            return baseColor;
+        }
+
+        private Color GenerateAmbientColor(IList<ILight> lightsThatHitsSurface)
+        {
             foreach (var light in lightsThatHitsSurface)
             {
                 if (light is AmbientLight)
                 {
-                    shaderColor = ColorToolbox.BlendAddition(shaderColor,ColorToolbox.ColorIntensify(light.Color, light.Intensity));
+                    lightsThatHitsSurface.Remove(light);
+                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity);
                 }
+            }
+            return new Color();
+        }
+
+        private Color GenerateDiffuseColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D collisionPositionVector3D)
+        {
+            double intensity = 0;
+            foreach (var light in lightsThatHitsSurface)
+            {
                 intensity += light.Intensity * (Math.Max(0, Vector3D.DotProdukt(normalVector3D.VectorNegation(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D))));
             }
-            return ColorToolbox.BlendAddition(shaderColor,ColorToolbox.ColorIntensify(DiffuseColor, intensity));
-            //(Math.max(0, Vector3d.dotProdukt(normvect.getNegativeVector(), light.getDirectionVector()))
+            return ColorToolbox.ColorIntensify(DiffuseColor, intensity);
         }
     }
 }
