@@ -8,7 +8,7 @@ namespace RayTracingModel.Model.Objects3D
 {
     public class Line3D
     {
-        public readonly Vector3D PositionVector;
+        public Vector3D PositionVector { get; private set; }
         public readonly Vector3D DirectionVector;
 
         public Line3D(Vector3D positionVector, Vector3D directionVector)
@@ -20,6 +20,11 @@ namespace RayTracingModel.Model.Objects3D
         public Vector3D GetPositionAlongLine(double multiplier)
         {
             return Vector3D.Addition(PositionVector, DirectionVector.VectorTimesDouble(multiplier));
+        }
+
+        public void PushStartPositionAlongLine(double t)
+        {
+            PositionVector = GetPositionAlongLine(t);
         }
     }
 }
