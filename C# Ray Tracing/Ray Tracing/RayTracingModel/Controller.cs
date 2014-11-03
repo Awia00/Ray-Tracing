@@ -30,17 +30,17 @@ namespace RayTracingModel
             _scene.AmtOfRecoursions = 3;
 
             // Camera
-            _scene.Camera = new SimpleCamera(new Vector3D(2, 2, 2), new Vector3D(0, 0, 0), 16, 10, 1920, 1080);
+            _scene.Camera = new SimpleCamera(new Vector3D(2, 2, 2), new Vector3D(0, 0, 0), 16, 10, 1280, 800);
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.FromArgb(200,200,250)));
-            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(1,2,-1), 0.8, Color.FromArgb(200, 200, 250)));
-            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(-1, 2, -1), 0.5, Color.FromArgb(200, 200, 250)));
+            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,1,-0.5), 1, Color.FromArgb(200, 200, 250)));
+            //_scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5, 2, -0.5), 0.5, Color.FromArgb(200, 200, 250)));
 
             //Objects
-            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(0.7,0, Color.Firebrick,Color.White), new Vector3D(-5,15,0),5));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Firebrick, Color.White, 0.3, 0, 10), new Vector3D(-5,15,0),5));
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 5), 10));
-            _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.MediumBlue, 0, 0), new Vector3D(5, 12, -8), 5));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 0, 0, 5), new Vector3D(5, 12, -8), 5));
         }
 
         public static Controller GetInstance()
