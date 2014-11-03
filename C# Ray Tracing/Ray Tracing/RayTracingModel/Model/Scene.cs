@@ -87,6 +87,7 @@ namespace RayTracingModel.Model
 
         private Color ComputeColor(Line3D ray, IObject3D collisionObject, Vector3D collisionPosition)
         {
+            _currentRecoursion++;
             Color baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
                 ray.DirectionVector, collisionPosition);
             Color reflectionColor = new Color();
@@ -96,24 +97,20 @@ namespace RayTracingModel.Model
                 {
                     _currentObject3D = collisionObject;
                     //generate the reflection ray and run CalculateObject Collisions again.
-                    _currentRecoursion++;
                     Vector3D cameraVector = ray.DirectionVector;
                     Vector3D norm = collisionObject.CalculateNormVector(collisionPosition);
                     Vector3D ln = norm.VectorTimesDouble(Vector3D.DotProdukt(norm, cameraVector) * -2);
-                    Vector3D reflective = Vector3D.Addition(cameraVector.VectorNegation(), ln.Normalize());
+                    Vector3D reflective = Vector3D.Addition(cameraVector.VectorNegation(), ln);
 
                     Line3D reflectRay = new Line3D(collisionPosition, reflective);
                     reflectionColor = CalculateObjectCollisions(ray);
-                    _currentRecoursion--;
-                    return ColorToolbox.BlendSimpleByAmt(baseColor, reflectionColor, collisionObject.Shader.Reflectivity);
+                    return ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor, collisionObject.Shader.Reflectivity);
 
                 }
                 if (collisionObject.Shader.IsRefractive())
                 {
                     _currentObject3D = collisionObject;
-                    _currentRecoursion++;
                     //generate the refraction ray and run CalculateObject Collisions again.
-                    _currentRecoursion--;
                 }
             }
             _currentRecoursion--;
