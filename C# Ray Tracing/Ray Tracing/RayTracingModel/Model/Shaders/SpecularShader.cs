@@ -36,12 +36,13 @@ namespace RayTracingModel.Model.Shaders
             if (Reflectivity > 1 || Reflectivity > 1) throw new Exception("Neither reflectivity or refractivity must be over 1");
         }
 
-        public SpecularShader(double reflectivity, double refractivity, Color diffuseColor, Color specularColor)
+        public SpecularShader(Color diffuseColor, Color specularColor, double reflectivity, double refractivity, double specularComponent)
         {
             Reflectivity = reflectivity;
             Refractivity = refractivity;
             DiffuseColor = diffuseColor;
             SpecularColor = specularColor;
+            SpecularComponent = specularComponent;
         }
 
         public Color DiffuseColor { get; set; }
@@ -72,6 +73,7 @@ namespace RayTracingModel.Model.Shaders
             {
                 if (light is AmbientLight)
                 {
+                    lightsThatHitsSurface.Remove(light);
                     return ColorToolbox.ColorIntensify(light.Color, light.Intensity);
                 }
             }
@@ -95,8 +97,11 @@ namespace RayTracingModel.Model.Shaders
             Vector3D negDirectionVector = rayVector3D.VectorNegation();
             foreach (var light in lightsThatHitsSurface)
             {
-                Vector3D hVector = Vector3D.Addition(negDirectionVector.Normalize(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D).Normalize());
-                intensity += light.Intensity * Math.Pow(Math.Max(0, Vector3D.DotProdukt(hVector.Normalize(), normalVector3D.VectorNegation().Normalize())), SpecularComponent);
+                Vector3D lightReflection = Vector3D.ReflectionVector(light.CalculateLightDirectionOnPosition(collisionPositionVector3D), normalVector3D);
+                intensity += light.Intensity*Math.Pow(Math.Max(0,Vector3D.DotProdukt(lightReflection, rayVector3D.VectorNegation())),SpecularComponent);
+
+                //Vector3D hVector = Vector3D.Addition(negDirectionVector, light.CalculateLightDirectionOnPosition(collisionPositionVector3D).Normalize()).Normalize();
+                // intensity += light.Intensity * Math.Pow(Math.Max(0, Vector3D.DotProdukt(hVector, normalVector3D.VectorNegation())), SpecularComponent);
             }
             // todo rebuild color toolbox with safe check on intensify.
             return ColorToolbox.ColorIntensify(SpecularColor, intensity);
