@@ -98,6 +98,7 @@ namespace RayTracingModel.Model.Shaders
                 Vector3D hVector = Vector3D.Addition(negDirectionVector.Normalize(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D).Normalize());
                 intensity += light.Intensity * Math.Pow(Math.Max(0, Vector3D.DotProdukt(hVector.Normalize(), normalVector3D.VectorNegation().Normalize())), SpecularComponent);
             }
+            // todo rebuild color toolbox with safe check on intensify.
             return ColorToolbox.ColorIntensify(SpecularColor, intensity);
         }
 
