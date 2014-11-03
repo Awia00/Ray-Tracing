@@ -57,6 +57,7 @@
     <Compile Include="Model\Shaders\FlatShader.cs" />
     <Compile Include="Model\Shaders\IShader.cs" />
     <Compile Include="Model\Shaders\ShaderComposite.cs" />
+    <Compile Include="Model\Shaders\SpecularShader.cs" />
     <Compile Include="Model\Vector3D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
