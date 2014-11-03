@@ -74,6 +74,12 @@ namespace RayTracingModel.Model
         {
             return new Vector3D(vector1.X * vector2.X, vector1.Y * vector2.Y, vector1.Z * vector2.Z);
         }
+        public static Vector3D ReflectionVector(Vector3D incomingVector3D, Vector3D normalVector3D)
+        {
+            Vector3D ln = normalVector3D.VectorTimesDouble(Vector3D.DotProdukt(incomingVector3D, normalVector3D) * 2);
+            Vector3D reflective = Vector3D.Addition(incomingVector3D.VectorNegation(), ln);
+            return reflective.VectorNegation().Normalize();
+        }
 
         public static double DotProdukt(Vector3D vector1, Vector3D vector2)
         {
@@ -84,5 +90,6 @@ namespace RayTracingModel.Model
         {
             return (Vector3D.DotProdukt(vector1, vector2)) / (vector1.Length * vector2.Length);
         }
+
     }
 }
