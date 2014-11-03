@@ -15,6 +15,7 @@ namespace RayTracingModel.Model
 
         public int AmtOfRecoursions { get; set; }
         private int _currentRecoursion = 0;
+        private IObject3D _currentObject3D = null;
 
         public ICamera Camera { get; set; }
         public IList<IObject3D> SceneObjects { get; private set; }
@@ -56,6 +57,7 @@ namespace RayTracingModel.Model
                     {
                         colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
                         _currentRecoursion = 0;
+                        _currentObject3D = null;
                     }
                 }
             }
@@ -69,11 +71,14 @@ namespace RayTracingModel.Model
             double closestObjectDistance = double.MaxValue;
             foreach (var sceneObject in SceneObjects)
             {
-                double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
-                if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
+                if (_currentObject3D != sceneObject)
                 {
-                    closestObject = sceneObject;
-                    closestObjectDistance = distanceToObject;
+                    double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
+                    if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
+                    {
+                        closestObject = sceneObject;
+                        closestObjectDistance = distanceToObject;
+                    }
                 }
             }
             if (closestObject == null) return BackgroundColor;
@@ -82,31 +87,37 @@ namespace RayTracingModel.Model
 
         private Color ComputeColor(Line3D ray, IObject3D collisionObject, Vector3D collisionPosition)
         {
-            Color baseColor = new Color();
+            Color baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
+                ray.DirectionVector, collisionPosition);
             Color reflectionColor = new Color();
             if (_currentRecoursion <= AmtOfRecoursions)
             {
                 if (collisionObject.Shader.IsReflective())
                 {
+                    _currentObject3D = collisionObject;
+                    //generate the reflection ray and run CalculateObject Collisions again.
                     _currentRecoursion++;
                     Vector3D cameraVector = ray.DirectionVector;
                     Vector3D norm = collisionObject.CalculateNormVector(collisionPosition);
-                    Vector3D ln = norm.VectorTimesDouble(Vector3D.DotProdukt(norm, cameraVector) * 2);
-                    Vector3D reflective = Vector3D.Addition(cameraVector.VectorNegation(), ln);
+                    Vector3D ln = norm.VectorTimesDouble(Vector3D.DotProdukt(norm, cameraVector) * -2);
+                    Vector3D reflective = Vector3D.Addition(cameraVector.VectorNegation(), ln.Normalize());
+
                     Line3D reflectRay = new Line3D(collisionPosition, reflective);
                     reflectionColor = CalculateObjectCollisions(ray);
-                    //generate the reflection ray and run CalculateObject Collisions again.
+                    _currentRecoursion--;
+                    return ColorToolbox.BlendSimpleByAmt(baseColor, reflectionColor, collisionObject.Shader.Reflectivity);
+
                 }
                 if (collisionObject.Shader.IsRefractive())
                 {
+                    _currentObject3D = collisionObject;
                     _currentRecoursion++;
                     //generate the refraction ray and run CalculateObject Collisions again.
+                    _currentRecoursion--;
                 }
             }
             _currentRecoursion--;
-            baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
-                ray.DirectionVector, collisionPosition);
-            return ColorToolbox.BlendSimpleByAmt(reflectionColor,baseColor, collisionObject.Shader.Reflectivity);
+            return baseColor; // 
         }
 
         private IList<ILight> LightsNotInShadow(Vector3D positionOnObject)
