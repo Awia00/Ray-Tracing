@@ -12,6 +12,7 @@ using RayTracingModel.Model.Shaders;
 
 namespace RayTracingModel
 {
+    //todo Static setting class: Background color. Distance divider
     public class Controller
     {
         private static Controller _instance = null;
@@ -30,8 +31,8 @@ namespace RayTracingModel
             _scene.AmtOfRecoursions = 2;
 
             // Camera
-            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.FromArgb(200,200,250)));

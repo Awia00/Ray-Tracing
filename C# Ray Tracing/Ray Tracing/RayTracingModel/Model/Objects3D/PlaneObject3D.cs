@@ -25,9 +25,9 @@ namespace RayTracingModel.Model.Objects3D
             CenterPositionVector3D = centerPositionVector3D;
         }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D, Vector3D rayDirection)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D, Vector3D rayDirection, double distance)
         {
-            return Shader.CalculateColor(lightsThatHitsSurface, NormalVector3D, rayDirection, positionVector3D);
+            return Shader.CalculateColor(lightsThatHitsSurface, NormalVector3D, rayDirection, positionVector3D, distance);
         }
 
         public double CalculateCollisionPosition(Line3D line3D)

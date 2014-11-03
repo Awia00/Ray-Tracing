@@ -84,7 +84,7 @@ namespace RayTracingModel.Model
         {
             _currentRecoursion++;
             Color baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
-                ray.DirectionVector);
+                ray.DirectionVector, Vector3D.Subtraction(collisionPosition,Camera.Eye).Length);
             Color reflectionColor = new Color();
             if (_currentRecoursion <= AmtOfRecoursions)
             {

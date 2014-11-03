@@ -48,13 +48,15 @@ namespace RayTracingModel.Model.Shaders
         }
 
         public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D,
-            Vector3D collisionPositionVector3D)
+            Vector3D collisionPositionVector3D, double distance)
         {
             if (lightsThatHitsSurface.Count == 0) throw new Exception();
-            // todo refacter functionality into methods
+
+            distance = Math.Pow(distance / 20, 2);
+
             Color baseColor = new Color();
-            Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface);
-            Color diffuseColor = GenerateDiffuseColor(lightsThatHitsSurface, normalVector3D, collisionPositionVector3D);
+            Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface, distance);
+            Color diffuseColor = GenerateDiffuseColor(lightsThatHitsSurface, normalVector3D, collisionPositionVector3D, distance);
 
             baseColor = ColorToolbox.BlendAddition(baseColor, ambientColor);
             baseColor = ColorToolbox.BlendAddition(baseColor, diffuseColor);
@@ -62,27 +64,27 @@ namespace RayTracingModel.Model.Shaders
             return baseColor;
         }
 
-        private Color GenerateAmbientColor(IList<ILight> lightsThatHitsSurface)
+        private Color GenerateAmbientColor(IList<ILight> lightsThatHitsSurface, double distance)
         {
             foreach (var light in lightsThatHitsSurface)
             {
                 if (light is AmbientLight)
                 {
                     lightsThatHitsSurface.Remove(light);
-                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity);
+                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity / distance);
                 }
             }
             return new Color();
         }
 
-        private Color GenerateDiffuseColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D collisionPositionVector3D)
+        private Color GenerateDiffuseColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D collisionPositionVector3D, double distance)
         {
             double intensity = 0;
             foreach (var light in lightsThatHitsSurface)
             {
                 intensity += light.Intensity * (Math.Max(0, Vector3D.DotProdukt(normalVector3D.VectorNegation(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D))));
             }
-            return ColorToolbox.ColorIntensify(DiffuseColor, intensity);
+            return ColorToolbox.ColorIntensify(DiffuseColor, intensity / distance);
         }
     }
 }

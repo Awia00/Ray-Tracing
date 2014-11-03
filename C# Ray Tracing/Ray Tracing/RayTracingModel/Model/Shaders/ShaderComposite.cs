@@ -23,10 +23,10 @@ namespace RayTracingModel.Model.Shaders
             throw new NotImplementedException();
         }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D, double distance)
         {
             //todo create correct call for adding the different colors together.
-            return _children[0].CalculateColor(lightsThatHitsSurface, normalVector3D, rayVector3D, collisionPositionVector3D);
+            return _children[0].CalculateColor(lightsThatHitsSurface, normalVector3D, rayVector3D, collisionPositionVector3D, distance);
         }
 
         #region Composite pattern methods
