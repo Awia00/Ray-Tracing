@@ -125,6 +125,7 @@ namespace RayTracingModel.Model
                 bool inShadow = false;
                 foreach (var sceneObject in SceneObjects)
                 {
+                    if (sceneObject is PlaneObject3D) continue;
                     if (sceneObject.CalculateCollisionPosition(ray) > 0) inShadow = true;
                 }
                 if (!inShadow) {tempList.Add(light);}

@@ -41,6 +41,12 @@ namespace RayTracingModel
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Firebrick, Color.White, 0.3, 0, 10), new Vector3D(-5,15,0),5));
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 5), 10));
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 0, 0, 5), new Vector3D(5, 12, -8), 5));
+            _scene.SceneObjects.Add(new PlaneObject3D()
+            {
+                Shader = new DiffuseShader(Color.Tan,0,0),
+                CenterPositionVector3D = new Vector3D(0,5,-5),
+                NormalVector3D = new Vector3D(0,-0.1,-1).VectorNegation()
+            });
         }
 
         public static Controller GetInstance()
