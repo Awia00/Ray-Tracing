@@ -28,6 +28,7 @@ namespace RayTracingModel
         {
             // Settings
             _scene.BackgroundColor = Color.FromArgb(100, 130, 155);
+            _scene.BackgroundColor = new Color();
             _scene.AmtOfRecoursions = 2;
 
             // Camera
@@ -42,6 +43,7 @@ namespace RayTracingModel
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 0.3, 0, 10), new Vector3D(-10,15,0),5));
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 5), 10));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.ForestGreen, Color.White, 0, 0, 10), new Vector3D(75, 100, 5), 10));
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 0, 0, 5), new Vector3D(10, 20, -2), 3));
             _scene.SceneObjects.Add(new PlaneObject3D()
             {

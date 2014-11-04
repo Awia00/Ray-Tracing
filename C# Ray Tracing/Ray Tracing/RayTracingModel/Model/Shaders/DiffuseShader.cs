@@ -52,7 +52,7 @@ namespace RayTracingModel.Model.Shaders
         {
             if (lightsThatHitsSurface.Count == 0) throw new Exception();
 
-            distance = Math.Pow(distance / 20, 2);
+            distance = Math.Max(Math.Pow(distance / 30, 1.1), 1);
 
             Color baseColor = new Color();
             Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface, distance);
