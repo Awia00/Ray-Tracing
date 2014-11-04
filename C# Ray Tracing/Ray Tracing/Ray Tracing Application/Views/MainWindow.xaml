@@ -32,6 +32,11 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
+            <ProgressBar x:Name="RenderProgressBar" Margin="10,362,10,56" Height="20" VerticalAlignment="Bottom" Minimum="0" Maximum="100" Cursor="None">
+                <ProgressBar.DataContext>
+                    <ViewModels:RenderViewModel/>
+                </ProgressBar.DataContext>
+            </ProgressBar>
         </Grid>
     </Grid>
 </Window>
