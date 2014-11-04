@@ -13,5 +13,7 @@ namespace RayTracingModel.Model.Lights
         double Intensity { get; set; }
         Color Color { get; set; }
         Vector3D CalculateLightDirectionOnPosition(Vector3D positionVector3D);
+
+        ILight Clone();
     }
 }

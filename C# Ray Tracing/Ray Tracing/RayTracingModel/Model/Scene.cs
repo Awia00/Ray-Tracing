@@ -72,12 +72,12 @@ namespace RayTracingModel.Model
             double closestObjectDistance = double.MaxValue;
             foreach (var sceneObject in SceneObjects)
             {
-                    double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
-                    if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
-                    {
-                        closestObject = sceneObject;
-                        closestObjectDistance = distanceToObject;
-                    }
+                double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
+                if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
+                {
+                    closestObject = sceneObject;
+                    closestObjectDistance = distanceToObject;
+                }
             }
             if (closestObject == null)
             {
@@ -100,9 +100,12 @@ namespace RayTracingModel.Model
                 {
                     //generate the reflection ray and run CalculateObject Collisions again.
 
-                    Line3D reflectRay = new Line3D(collisionPosition, Vector3D.ReflectionVector(ray.DirectionVector,collisionObject.CalculateNormVector(collisionPosition)));
+                    Line3D reflectRay = new Line3D(collisionPosition,
+                        Vector3D.ReflectionVector(ray.DirectionVector,
+                            collisionObject.CalculateNormVector(collisionPosition)));
                     Color reflectionColor = CalculateObjectCollisions(reflectRay);
-                    baseColor = ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor, collisionObject.Shader.Reflectivity);
+                    baseColor = ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor,
+                        collisionObject.Shader.Reflectivity);
                     _distanceTravelled = currentDistance;
                 }
                 if (collisionObject.Shader.IsRefractive())
@@ -112,7 +115,8 @@ namespace RayTracingModel.Model
                 }
             }
             _currentRecoursion--;
-            return ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor, 1/Settings.DistanceInverseLaw(_distanceTravelled)); // 
+            return ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor,
+                1/Settings.DistanceInverseLaw(_distanceTravelled)); // 
         }
 
         private IList<ILight> LightsNotInShadow(Vector3D positionOnObject)
@@ -124,6 +128,8 @@ namespace RayTracingModel.Model
                 var lightVector = light.CalculateLightDirectionOnPosition(positionOnObject);
                 var ray = new Line3D(positionOnObject, lightVector.VectorNegation());
                 ray.PushStartPositionAlongLine(0.01);
+                var softShadowRays = ray.Twist(Settings.ShadowRays, 0.1);
+                double intensity = light.Intensity;
 
                 bool inShadow = false;
                 if (!(light is AmbientLight))
@@ -131,10 +137,24 @@ namespace RayTracingModel.Model
                     foreach (var sceneObject in SceneObjects)
                     {
                         if (sceneObject is PlaneObject3D) continue;
-                        if (sceneObject.CalculateCollisionPosition(ray) > 0) inShadow = true;
+
+                        foreach (var softShadowRay in softShadowRays)
+                        {
+                            // todo code does not work
+                            if (sceneObject.CalculateCollisionPosition(softShadowRay) > 0)
+                            {
+                                intensity -= light.Intensity*1/Settings.ShadowRays;
+                            }
+                        }
+                        if (intensity < 0.01) inShadow = true;
                     }
                 }
-                if (!inShadow) {tempList.Add(light);}
+                if (!inShadow)
+                {
+                    var lightWhichHits = light.Clone();
+                    lightWhichHits.Intensity = intensity;
+                    tempList.Add(lightWhichHits);
+                }
             }
             return tempList;
         }

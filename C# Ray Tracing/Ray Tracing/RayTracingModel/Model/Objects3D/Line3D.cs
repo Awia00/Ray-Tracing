@@ -26,5 +26,25 @@ namespace RayTracingModel.Model.Objects3D
         {
             PositionVector = GetPositionAlongLine(t);
         }
+
+        public IList<Line3D> Twist(int AmountOfRays, double twistAmount)
+        {
+            var temp = new List<Line3D>();
+            for (int i = 0; i <= AmountOfRays; i++)
+            {
+                var tempPos = new Vector3D(PositionVector.X + twistAmount*randomSinus(),
+                    PositionVector.Y + twistAmount*randomSinus(), PositionVector.Z + twistAmount*randomSinus());
+
+                var tempDirection = new Vector3D(DirectionVector.X + twistAmount * randomSinus(),
+                    DirectionVector.Y + twistAmount * randomSinus(), DirectionVector.Z + twistAmount * randomSinus());
+                temp.Add(new Line3D(tempPos, tempDirection));
+            }
+            return temp;
+        }
+
+        private double randomSinus()
+        {
+            return new Random().NextDouble() * (1-(-1))+1;
+        }
     }
 }

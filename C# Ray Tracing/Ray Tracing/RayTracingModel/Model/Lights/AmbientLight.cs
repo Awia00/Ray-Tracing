@@ -22,5 +22,10 @@ namespace RayTracingModel.Model.Lights
             Intensity = intensity;
             Color = color;
         }
+
+        public ILight Clone()
+        {
+            return new AmbientLight(Intensity, Color);
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace RayTracingModel
        // todo implement refraction index and refraction vectors.
     // todo implement photon loss based on an objects material AKA an object of olive oil would take up more of the light.
     // todo refactor reflection and refraction into their own classes with interface material. or into the same class "Material"
+    // todo make code async from application
     public class Controller
     {
         private static Controller _instance = null;
