@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using RayTracingModel;
@@ -25,10 +26,10 @@ namespace Ray_Tracing_Application.ViewModels
             }
         }
 
-        public void UpdateImage()
+        async public void UpdateImage()
         {
-            Color[,] colorArray = Controller.GetInstance().Render();  // get the color array from the ray tracing project
-
+            Task<Color[,]> temp = Controller.GetInstance().Render();  // get the color array from the ray tracing project
+            Color[,] colorArray = await temp;
             var width = colorArray.GetUpperBound(0) + 1;
             var height = colorArray.GetUpperBound(1) + 1;
             var stride = width * 4; // bytes per row

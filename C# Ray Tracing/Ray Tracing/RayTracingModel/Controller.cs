@@ -32,11 +32,11 @@ namespace RayTracingModel
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 2;
-            _scene.Settings.ShadowRays = 64;
+            _scene.Settings.ShadowRays = 12;
 
             // Camera
-            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
@@ -63,9 +63,10 @@ namespace RayTracingModel
             return _instance;
         }
 
-        public Color[,] Render()
+        async public Task<Color[,]> Render()
         {
-            return _scene.Render();
+            Func<Color[,]> temp = () => _scene.Render();
+            return await Task.Run(temp);
         }
     }
 }
