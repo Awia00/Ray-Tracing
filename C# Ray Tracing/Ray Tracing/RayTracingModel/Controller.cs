@@ -12,9 +12,7 @@ using RayTracingModel.Model.Shaders;
 
 namespace RayTracingModel
 {
-    //todo Static setting class: Background color. Distance divider
-    // todo remove the distance factor in the shaders and move it into the scene. That way a total distance the ray has travelled and not simply the distance from the camera can be used + better handling of background color.
-    // todo implement refraction index and refraction vectors.
+       // todo implement refraction index and refraction vectors.
     // todo implement photon loss based on an objects material AKA an object of olive oil would take up more of the light.
     // todo refactor reflection and refraction into their own classes with interface material. or into the same class "Material"
     public class Controller
@@ -51,7 +49,7 @@ namespace RayTracingModel
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 0, 0, 5), new Vector3D(10, 20, -2), 3));
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
-                Shader = new DiffuseShader(Color.SteelBlue,0.4,0),
+                Shader = new DiffuseShader(Color.Goldenrod,0.5,0),
                 CenterPositionVector3D = new Vector3D(0,5,-5),
                 NormalVector3D = new Vector3D(0,0,-1).VectorNegation()
             });

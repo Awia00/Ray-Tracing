@@ -79,13 +79,18 @@ namespace RayTracingModel.Model
                         closestObjectDistance = distanceToObject;
                     }
             }
-            if (closestObject == null) return Settings.BackgroundColor;
+            if (closestObject == null)
+            {
+                _distanceTravelled += double.MaxValue;
+                return Settings.BackgroundColor;
+            }
             _distanceTravelled += closestObjectDistance;
             return ComputeColor(ray, closestObject, ray.GetPositionAlongLine(closestObjectDistance));
         }
 
         private Color ComputeColor(Line3D ray, IObject3D collisionObject, Vector3D collisionPosition)
         {
+            double currentDistance = _distanceTravelled;
             _currentRecoursion++;
             Color baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
                 ray.DirectionVector);
@@ -98,11 +103,12 @@ namespace RayTracingModel.Model
                     Line3D reflectRay = new Line3D(collisionPosition, Vector3D.ReflectionVector(ray.DirectionVector,collisionObject.CalculateNormVector(collisionPosition)));
                     Color reflectionColor = CalculateObjectCollisions(reflectRay);
                     baseColor = ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor, collisionObject.Shader.Reflectivity);
-
+                    _distanceTravelled = currentDistance;
                 }
                 if (collisionObject.Shader.IsRefractive())
                 {
                     //generate the refraction ray and run CalculateObject Collisions again.
+                    _distanceTravelled = currentDistance;
                 }
             }
             _currentRecoursion--;
