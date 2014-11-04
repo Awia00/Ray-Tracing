@@ -71,6 +71,7 @@ namespace RayTracingModel.Model
             return colorArray;
         }
 
+
         private Color CalculateObjectCollisions(Line3D ray)
         {
             ray.PushStartPositionAlongLine(0.01);
@@ -135,7 +136,7 @@ namespace RayTracingModel.Model
                 var ray = new Line3D(positionOnObject, lightVector.VectorNegation());
                 ray.PushStartPositionAlongLine(0.01);
 
-                var softShadowRays = ray.Twist(Settings.ShadowRays, 0.1);
+                var softShadowRays = ray.Twist(Settings.ShadowRays, Settings.SoftShadowSpread);
 
                 double intensity = light.Intensity;
 
