@@ -13,19 +13,20 @@ namespace RayTracingModel.Model
     {
         private bool test = true;
 
-        public int AmtOfRecoursions { get; set; }
         private int _currentRecoursion = 0;
+        private double _distanceTravelled = 0;
 
         public ICamera Camera { get; set; }
         public IList<IObject3D> SceneObjects { get; private set; }
         public IList<ILight> SceneLights { get; private set; }
-        public Color BackgroundColor { get; set; }
+        public Settings Settings { get; set; }
 
         public Scene(ICamera camera)
         {
             Camera = camera;
             SceneObjects = new List<IObject3D>();
             SceneLights = new List<ILight>();
+            Settings = new Settings();
         }
 
         public Color[,] Render()
@@ -56,6 +57,7 @@ namespace RayTracingModel.Model
                     {
                         colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
                         _currentRecoursion = 0;
+                        _distanceTravelled = 0;
                     }
                 }
             }
@@ -65,6 +67,7 @@ namespace RayTracingModel.Model
 
         private Color CalculateObjectCollisions(Line3D ray)
         {
+            ray.PushStartPositionAlongLine(0.01);
             IObject3D closestObject = null;
             double closestObjectDistance = double.MaxValue;
             foreach (var sceneObject in SceneObjects)
@@ -76,7 +79,8 @@ namespace RayTracingModel.Model
                         closestObjectDistance = distanceToObject;
                     }
             }
-            if (closestObject == null) return BackgroundColor;
+            if (closestObject == null) return Settings.BackgroundColor;
+            _distanceTravelled += closestObjectDistance;
             return ComputeColor(ray, closestObject, ray.GetPositionAlongLine(closestObjectDistance));
         }
 
@@ -85,17 +89,15 @@ namespace RayTracingModel.Model
             _currentRecoursion++;
             Color baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
                 ray.DirectionVector);
-            Color reflectionColor = new Color();
-            if (_currentRecoursion <= AmtOfRecoursions)
+            if (_currentRecoursion <= Settings.AmtOfRecoursions)
             {
                 if (collisionObject.Shader.IsReflective())
                 {
                     //generate the reflection ray and run CalculateObject Collisions again.
 
                     Line3D reflectRay = new Line3D(collisionPosition, Vector3D.ReflectionVector(ray.DirectionVector,collisionObject.CalculateNormVector(collisionPosition)));
-                    reflectRay.PushStartPositionAlongLine(0.01);
-                    reflectionColor = CalculateObjectCollisions(reflectRay);
-                    return ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor, collisionObject.Shader.Reflectivity);
+                    Color reflectionColor = CalculateObjectCollisions(reflectRay);
+                    baseColor = ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor, collisionObject.Shader.Reflectivity);
 
                 }
                 if (collisionObject.Shader.IsRefractive())
@@ -104,7 +106,7 @@ namespace RayTracingModel.Model
                 }
             }
             _currentRecoursion--;
-            return baseColor; // 
+            return ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor, 1/Settings.DistanceInverseLaw(_distanceTravelled)); // 
         }
 
         private IList<ILight> LightsNotInShadow(Vector3D positionOnObject)

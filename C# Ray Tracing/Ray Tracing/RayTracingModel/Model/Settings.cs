@@ -13,10 +13,13 @@ namespace RayTracingModel.Model
 
         public Func<double, double> DistanceInverseLaw { get; set; }
 
+        public int AmtOfRecoursions { get; set; }
+
         public Settings()
         {
             BackgroundColor = new Color();
-            DistanceInverseLaw = i => Math.Max(Math.Pow(i / 30, 1.1), 1); ;
+            DistanceInverseLaw = i => Math.Max(Math.Pow(i / 30, 1.1), 1);
+            AmtOfRecoursions = 0;
         }
     }
 }
