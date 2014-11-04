@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using RayTracingModel.Model;
 using RayTracingModel.Model.Cameras;
@@ -66,7 +67,15 @@ namespace RayTracingModel
         async public Task<Color[,]> Render()
         {
             Func<Color[,]> temp = () => _scene.Render();
-            return await Task.Run(temp);
+            var array = await Task.Run(temp);
+            Scene.RenderProgress = 0;
+            return array;
+        }
+
+        async public Task<int> GetRenderProgress()
+        {
+            await Task.Run(() => Thread.Sleep(100));
+            return (int)(Scene.RenderProgress*100);
         }
     }
 }

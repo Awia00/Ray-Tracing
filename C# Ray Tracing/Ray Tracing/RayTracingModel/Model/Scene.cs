@@ -16,6 +16,8 @@ namespace RayTracingModel.Model
         private int _currentRecoursion = 0;
         private double _distanceTravelled = 0;
 
+        public static double RenderProgress { get; set; }
+
         public ICamera Camera { get; set; }
         public IList<IObject3D> SceneObjects { get; private set; }
         public IList<ILight> SceneLights { get; private set; }
@@ -31,6 +33,7 @@ namespace RayTracingModel.Model
 
         public Color[,] Render()
         {
+            RenderProgress = 0;
             var cameraRays = Camera.GenerateCameraVectors();
             Color[,] colorArray = new Color[cameraRays.GetLength(0), cameraRays.GetLength(1)];
 
@@ -59,8 +62,11 @@ namespace RayTracingModel.Model
                         _currentRecoursion = 0;
                         _distanceTravelled = 0;
                     }
+                    RenderProgress += 1.0/colorArray.GetLength(0);
                 }
             }
+            RenderProgress = 1;
+            
             test = !test;
             return colorArray;
         }

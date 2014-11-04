@@ -1,9 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using RayTracingModel;
 using Ray_Tracing_Application.ViewModels;
 
 namespace Ray_Tracing_Application.Views
@@ -24,7 +28,19 @@ namespace Ray_Tracing_Application.Views
         public void UpdateRender()
         {
             RenderViewModel.UpdateImage();
+            UpdateProgressBar();
             RenderGrid.DataContext = RenderViewModel;
+        }
+
+        async private void UpdateProgressBar()
+        {
+            RenderProgressBar.Value = 0;
+            do
+            {
+                Func<Task<int>> temp = () => Controller.GetInstance().GetRenderProgress();
+                RenderProgressBar.Value = await Task.Run(temp);
+            } while (RenderProgressBar.Value < 99);
+            RenderProgressBar.Value = 0;
         }
     }
 }
