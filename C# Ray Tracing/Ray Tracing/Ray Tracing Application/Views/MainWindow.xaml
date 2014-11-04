@@ -33,6 +33,7 @@
                 </i:Interaction.Triggers>
             </Button>
             <ProgressBar x:Name="RenderProgressBar" Margin="10,362,10,56" Height="20" VerticalAlignment="Bottom" Minimum="0" Maximum="100" Cursor="None"/>
+            <TextBlock x:Name="TimeTextBlock" Margin="10,0,10,56" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Bottom" Height="20" TextAlignment="Center" Foreground="#BF000000"/>
         </Grid>
     </Grid>
 </Window>

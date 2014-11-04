@@ -35,12 +35,19 @@ namespace Ray_Tracing_Application.Views
         async private void UpdateProgressBar()
         {
             RenderProgressBar.Value = 0;
+            int OneTenthSecondsPast = 0;
             do
             {
                 Func<Task<int>> temp = () => Controller.GetInstance().GetRenderProgress();
                 RenderProgressBar.Value = await Task.Run(temp);
+                OneTenthSecondsPast++;
+                if (OneTenthSecondsPast%10 == 0)
+                {
+                    TimeTextBlock.Text = "Time elapsed: " + OneTenthSecondsPast/10 + " seconds.";
+                }
             } while (RenderProgressBar.Value < 99);
             RenderProgressBar.Value = 0;
+            TimeTextBlock.Text = "Total time elapsed: " + OneTenthSecondsPast / 10 + "seconds."; 
         }
     }
 }
