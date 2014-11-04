@@ -47,7 +47,7 @@ namespace Ray_Tracing_Application.Views
                 }
             } while (RenderProgressBar.Value < 99);
             RenderProgressBar.Value = 0;
-            TimeTextBlock.Text = "Total time elapsed: " + OneTenthSecondsPast / 10 + "seconds."; 
+            TimeTextBlock.Text = "Total time elapsed: " + OneTenthSecondsPast / 10 + " seconds."; 
         }
     }
 }
