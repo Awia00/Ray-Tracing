@@ -46,7 +46,7 @@ namespace RayTracingModel.Model.Shaders
             }
         }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D, double distance)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
         {
             return BaseColor;
         }

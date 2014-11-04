@@ -49,18 +49,15 @@ namespace RayTracingModel.Model.Shaders
         public Color SpecularColor { get; set; }
         public double SpecularComponent { get; set; }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D,
-            Vector3D collisionPositionVector3D, double distance)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
         {
             if (lightsThatHitsSurface.Count == 0) throw new Exception();
 
-            distance = Math.Max(Math.Pow(distance / 30, 1.1), 1);
-
             Color baseColor = new Color();
-            Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface,distance);
-            Color diffuseColor = GenerateDiffuseColor(lightsThatHitsSurface, normalVector3D, collisionPositionVector3D,distance);
+            Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface);
+            Color diffuseColor = GenerateDiffuseColor(lightsThatHitsSurface, normalVector3D, collisionPositionVector3D);
             Color specularColor = GenerateSpecularColor(lightsThatHitsSurface, normalVector3D, rayVector3D,
-                collisionPositionVector3D,distance);
+                collisionPositionVector3D);
 
             baseColor = ColorToolbox.BlendAddition(baseColor, ambientColor);
             baseColor = ColorToolbox.BlendAddition(baseColor, diffuseColor);
@@ -69,31 +66,31 @@ namespace RayTracingModel.Model.Shaders
             return baseColor;
         }
 
-        private Color GenerateAmbientColor(IList<ILight> lightsThatHitsSurface, double distance)
+        private Color GenerateAmbientColor(IList<ILight> lightsThatHitsSurface )
         {
             foreach (var light in lightsThatHitsSurface)
             {
                 if (light is AmbientLight)
                 {
                     lightsThatHitsSurface.Remove(light);
-                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity / distance);
+                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity);
                 }
             }
             return new Color();
         }
 
-        private Color GenerateDiffuseColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D collisionPositionVector3D, double distance)
+        private Color GenerateDiffuseColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D collisionPositionVector3D)
         {
             double intensity = 0;
             foreach (var light in lightsThatHitsSurface)
             {
                 intensity += light.Intensity * (Math.Max(0, Vector3D.DotProdukt(normalVector3D.VectorNegation(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D))));
             }
-            return ColorToolbox.ColorIntensify(DiffuseColor, intensity / distance);
+            return ColorToolbox.ColorIntensify(DiffuseColor, intensity);
         }
 
         private Color GenerateSpecularColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D,
-            Vector3D collisionPositionVector3D, double distance)
+            Vector3D collisionPositionVector3D )
         {
             double intensity = 0;
             Vector3D negDirectionVector = rayVector3D.VectorNegation();
@@ -101,12 +98,8 @@ namespace RayTracingModel.Model.Shaders
             {
                 Vector3D lightReflection = Vector3D.ReflectionVector(light.CalculateLightDirectionOnPosition(collisionPositionVector3D), normalVector3D);
                 intensity += light.Intensity*Math.Pow(Math.Max(0,Vector3D.DotProdukt(lightReflection, rayVector3D.VectorNegation())),SpecularComponent);
-
-                //Vector3D hVector = Vector3D.Addition(negDirectionVector, light.CalculateLightDirectionOnPosition(collisionPositionVector3D).Normalize()).Normalize();
-                // intensity += light.Intensity * Math.Pow(Math.Max(0, Vector3D.DotProdukt(hVector, normalVector3D.VectorNegation())), SpecularComponent);
             }
-            // todo rebuild color toolbox with safe check on intensify.
-            return ColorToolbox.ColorIntensify(SpecularColor, intensity / distance);
+            return ColorToolbox.ColorIntensify(SpecularColor, intensity);
         }
 
 

@@ -15,9 +15,9 @@ namespace RayTracingModel.Model.Objects3D
         public Vector3D CenterPositionVector3D { get; set; }
         public double Radius { get; set; }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D, Vector3D rayDirection, double distance)
+        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D, Vector3D rayDirection)
         {
-            return Shader.CalculateColor(lightsThatHitsSurface, CalculateNormVector(positionVector3D), rayDirection, positionVector3D, distance);
+            return Shader.CalculateColor(lightsThatHitsSurface, CalculateNormVector(positionVector3D), rayDirection, positionVector3D);
         }
 
         public SphereObject3D(IShader shader, Vector3D centerPositionVector3D, double radius)
