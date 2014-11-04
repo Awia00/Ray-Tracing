@@ -8,6 +8,7 @@ namespace RayTracingModel.Model.Objects3D
 {
     public class Line3D
     {
+        private static Random random = new Random();
         public Vector3D PositionVector { get; private set; }
         public readonly Vector3D DirectionVector;
 
@@ -32,19 +33,20 @@ namespace RayTracingModel.Model.Objects3D
             var temp = new List<Line3D>();
             for (int i = 0; i <= AmountOfRays; i++)
             {
-                var tempPos = new Vector3D(PositionVector.X + twistAmount*randomSinus(),
-                    PositionVector.Y + twistAmount*randomSinus(), PositionVector.Z + twistAmount*randomSinus());
+                //var tempPos = new Vector3D(PositionVector.X + twistAmount*randomSinus(),
+                //    PositionVector.Y + twistAmount*randomSinus(), PositionVector.Z + twistAmount*randomSinus());
 
-                var tempDirection = new Vector3D(DirectionVector.X + twistAmount * randomSinus(),
-                    DirectionVector.Y + twistAmount * randomSinus(), DirectionVector.Z + twistAmount * randomSinus());
-                temp.Add(new Line3D(tempPos, tempDirection));
+                var tempDirection = new Vector3D(DirectionVector.X + twistAmount * randomSinus(random),
+                    DirectionVector.Y + twistAmount * randomSinus(random), DirectionVector.Z + twistAmount * randomSinus(random));
+                temp.Add(new Line3D(PositionVector, tempDirection));
             }
+            temp.Add(this);
             return temp;
         }
 
-        private double randomSinus()
+        private double randomSinus(Random random)
         {
-            return new Random().NextDouble() * (1-(-1))+1;
+            return random.NextDouble() * (1 - (-1)) + 1;
         }
     }
 }

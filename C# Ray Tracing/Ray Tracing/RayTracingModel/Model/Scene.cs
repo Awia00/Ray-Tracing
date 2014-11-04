@@ -128,33 +128,40 @@ namespace RayTracingModel.Model
                 var lightVector = light.CalculateLightDirectionOnPosition(positionOnObject);
                 var ray = new Line3D(positionOnObject, lightVector.VectorNegation());
                 ray.PushStartPositionAlongLine(0.01);
+
                 var softShadowRays = ray.Twist(Settings.ShadowRays, 0.1);
+
                 double intensity = light.Intensity;
 
-                bool inShadow = false;
+                ray.PushStartPositionAlongLine(0.01);
+
                 if (!(light is AmbientLight))
                 {
                     foreach (var sceneObject in SceneObjects)
                     {
                         if (sceneObject is PlaneObject3D) continue;
 
-                        foreach (var softShadowRay in softShadowRays)
+                        // todo code does not work
+                        int count = 0;
+                        foreach (var shadowRay in softShadowRays)
                         {
-                            // todo code does not work
-                            if (sceneObject.CalculateCollisionPosition(softShadowRay) > 0)
+                            count++;
+                            if (sceneObject.CalculateCollisionPosition(shadowRay) > 0)
                             {
-                                intensity -= light.Intensity*1/Settings.ShadowRays;
+                                count = -softShadowRays.Count;
+                                intensity -= light.Intensity/softShadowRays.Count;
+                            }
+                            else if (count > softShadowRays.Count/8)
+                            {
+                                break;
                             }
                         }
-                        if (intensity < 0.01) inShadow = true;
                     }
                 }
-                if (!inShadow)
-                {
-                    var lightWhichHits = light.Clone();
-                    lightWhichHits.Intensity = intensity;
-                    tempList.Add(lightWhichHits);
-                }
+
+                var lightWhichHits = light.Clone();
+                lightWhichHits.Intensity = intensity;
+                tempList.Add(lightWhichHits);
             }
             return tempList;
         }
