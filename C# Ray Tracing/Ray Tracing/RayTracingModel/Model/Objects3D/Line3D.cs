@@ -36,15 +36,15 @@ namespace RayTracingModel.Model.Objects3D
                 //var tempPos = new Vector3D(PositionVector.X + twistAmount*randomSinus(),
                 //    PositionVector.Y + twistAmount*randomSinus(), PositionVector.Z + twistAmount*randomSinus());
 
-                var tempDirection = new Vector3D(DirectionVector.X + twistAmount * randomSinus(random),
-                    DirectionVector.Y + twistAmount * randomSinus(random), DirectionVector.Z + twistAmount * randomSinus(random));
+                var tempDirection = new Vector3D(DirectionVector.X + twistAmount * randomSinus(),
+                    DirectionVector.Y + twistAmount * randomSinus(), DirectionVector.Z + twistAmount * randomSinus());
                 temp.Add(new Line3D(PositionVector, tempDirection.Normalize()));
             }
             temp.Add(this);
             return temp;
         }
 
-        private double randomSinus(Random random)
+        private double randomSinus()
         {
             return random.NextDouble() * (1 - (-1)) + 1;
         }

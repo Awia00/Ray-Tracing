@@ -32,7 +32,7 @@ namespace RayTracingModel.Model
             X = x;
             Y = y;
             Z = z;
-            Length = Math.Sqrt(Math.Pow(X, 2)+Math.Pow(Y, 2)+Math.Pow(Z, 2));
+            Length = Math.Sqrt(x*x + y*y + z*z); // Math.Sqrt(Math.Pow(x,2)+Math.Pow(y,2)+Math.Pow(z,2));
         }
 
         public Vector3D(Vector3D startPosition, Vector3D endPosition)
@@ -40,7 +40,7 @@ namespace RayTracingModel.Model
             X = endPosition.X - startPosition.X;
             Y = endPosition.Y - startPosition.Y;
             Z = endPosition.Z - startPosition.Z;
-            Length = Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2) + Math.Pow(Z, 2));
+            Length = Math.Sqrt(X * X + Y * Y + Z * Z);
         }
 
         public Vector3D Normalize()
