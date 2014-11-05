@@ -33,11 +33,12 @@ namespace RayTracingModel
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 2;
-            _scene.Settings.ShadowRays = 36;
+            _scene.Settings.ShadowRays = 0;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
@@ -52,7 +53,7 @@ namespace RayTracingModel
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 0, 0, 5), new Vector3D(10, 20, -2), 3));
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
-                Shader = new DiffuseShader(Color.Goldenrod,0.5,0),
+                Shader = new DiffuseShader(Color.Goldenrod,0.2,0),
                 CenterPositionVector3D = new Vector3D(0,5,-5),
                 NormalVector3D = new Vector3D(0,0,-1).VectorNegation()
             });

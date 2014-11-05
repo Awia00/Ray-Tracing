@@ -46,7 +46,7 @@ namespace RayTracingModel.Model.Objects3D
 
         private double randomSinus()
         {
-            return random.NextDouble() * (1 - (-1)) + 1;
+            return random.NextDouble() * 2-1;
         }
     }
 }
