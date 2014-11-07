@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using Color_Toolbox;
 using RayTracingModel.Model.Cameras;
 using RayTracingModel.Model.Lights;
@@ -13,9 +15,8 @@ namespace RayTracingModel.Model
     {
         private bool test = true;
 
-        private int _currentRecoursion = 0;
-        private double _distanceTravelled = 0;
-
+        [ThreadStatic] private static int _currentRecoursion = 0;
+        [ThreadStatic] private static double _distanceTravelled = 0;
         public static double RenderProgress { get; set; }
 
         public ICamera Camera { get; set; }
@@ -51,6 +52,7 @@ namespace RayTracingModel.Model
                         Color.FromArgb(255, 0, 0); // i = 255, j= 255 top right
                     }
                 }
+                RenderProgress = 1;
             }
             else
             {
@@ -58,19 +60,24 @@ namespace RayTracingModel.Model
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
-                        colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
-                        _currentRecoursion = 0;
-                        _distanceTravelled = 0;
+                        AssignColor(i,j,colorArray,cameraRays[i,j]);
                     }
-                    RenderProgress += 1.0/colorArray.GetLength(0);
                 }
             }
-            RenderProgress = 1;
+            
             
             test = !test;
             return colorArray;
         }
 
+        async private void AssignColor(int i, int j, Color[,] colorArray, Line3D ray)
+        {
+            Func<Color> tempColor = () => CalculateObjectCollisions(ray);
+            colorArray[i, j] = await Task.Run(tempColor);
+            RenderProgress += 1.0 / (colorArray.GetLength(0) * colorArray.GetLength(1));
+            _currentRecoursion = 0;
+            _distanceTravelled = 0;
+        }
 
         private Color CalculateObjectCollisions(Line3D ray)
         {
