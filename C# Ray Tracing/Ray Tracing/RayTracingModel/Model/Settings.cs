@@ -27,7 +27,7 @@ namespace RayTracingModel.Model
             DistanceInverseLaw = i => Math.Max(Math.Pow(i / 100, 2), 1);
             AmtOfRecoursions = 0;
             ShadowRays = 5;
-            SoftShadowSpread = 0.01;
+            SoftShadowSpread = 0.1;
         }
     }
 }
