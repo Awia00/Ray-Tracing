@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RayTracingModel.Model.Objects3D
 {
     public class Line3D
     {
-        private static Random _random = new Random();
         public Vector3D PositionVector { get; private set; }
         public readonly Vector3D DirectionVector;
 
@@ -45,7 +45,21 @@ namespace RayTracingModel.Model.Objects3D
 
         private double RandomTwistAmt()
         {
-            return _random.NextDouble() * 2 - 1;
+            return StaticRandom.Rand() * 2 - 1;
+        }
+
+
+        public static class StaticRandom
+        {
+            static int _seed = Environment.TickCount;
+
+            static readonly ThreadLocal<Random> random =
+                new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref _seed)));
+
+            public static double Rand()
+            {
+                return random.Value.NextDouble();
+            }
         }
     }
 }

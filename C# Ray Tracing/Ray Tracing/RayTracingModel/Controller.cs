@@ -30,7 +30,7 @@ namespace RayTracingModel
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 3;
-            _scene.Settings.ShadowRays = 0;
+            _scene.Settings.ShadowRays = 12;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
@@ -40,9 +40,9 @@ namespace RayTracingModel
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.Wheat));
-            //_scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 1, Color.Wheat));
+            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 1, Color.Wheat));
             _scene.SceneLights.Add(new DirectionalLight(new Vector3D(-0.1, 1, 0.1), 0.5, Color.Wheat));
-            _scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,10,-2)));
+            //_scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,10,-1)));
 
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 0.3, 0, 10), new Vector3D(-10,15,0),5));
