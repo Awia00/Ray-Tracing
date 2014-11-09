@@ -160,8 +160,6 @@ namespace RayTracingModel.Model
                     foreach (var sceneObject in SceneObjects)
                     {
                         if (sceneObject is PlaneObject3D) continue;
-
-                        // todo code does not work
                         int count = 0;
                         foreach (var shadowRay in softShadowRays)
                         {

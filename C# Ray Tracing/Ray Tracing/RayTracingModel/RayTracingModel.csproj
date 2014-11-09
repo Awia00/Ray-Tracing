@@ -49,6 +49,7 @@
     <Compile Include="Model\Lights\AmbientLight.cs" />
     <Compile Include="Model\Lights\DirectionalLight.cs" />
     <Compile Include="Model\Lights\ILight.cs" />
+    <Compile Include="Model\Lights\LocalLight.cs" />
     <Compile Include="Model\Objects3D\IObject3D.cs" />
     <Compile Include="Model\Objects3D\Line3D.cs" />
     <Compile Include="Model\Objects3D\PlaneObject3D.cs" />

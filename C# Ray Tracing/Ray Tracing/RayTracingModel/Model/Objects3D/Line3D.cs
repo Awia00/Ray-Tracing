@@ -8,7 +8,7 @@ namespace RayTracingModel.Model.Objects3D
 {
     public class Line3D
     {
-        private static Random random = new Random();
+        private static Random _random = new Random();
         public Vector3D PositionVector { get; private set; }
         public readonly Vector3D DirectionVector;
 
@@ -28,25 +28,24 @@ namespace RayTracingModel.Model.Objects3D
             PositionVector = GetPositionAlongLine(t);
         }
 
-        public IList<Line3D> Twist(int AmountOfRays, double twistAmount)
+        public IList<Line3D> Twist(int amountOfRays, double twistAmount)
         {
             var temp = new List<Line3D>();
-            for (int i = 0; i < AmountOfRays; i++)
+            for (int i = 0; i < amountOfRays; i++)
             {
-                //var tempPos = new Vector3D(PositionVector.X + twistAmount*randomSinus(),
-                //    PositionVector.Y + twistAmount*randomSinus(), PositionVector.Z + twistAmount*randomSinus());
-
-                var tempDirection = new Vector3D(DirectionVector.X + twistAmount * randomSinus(),
-                    DirectionVector.Y + twistAmount * randomSinus(), DirectionVector.Z + twistAmount * randomSinus());
+                var tempDirection = new Vector3D(
+                    DirectionVector.X + twistAmount * RandomTwistAmt(),
+                    DirectionVector.Y + twistAmount * RandomTwistAmt(), 
+                    DirectionVector.Z + twistAmount * RandomTwistAmt());
                 temp.Add(new Line3D(PositionVector, tempDirection.Normalize()));
             }
             temp.Add(this);
             return temp;
         }
 
-        private double randomSinus()
+        private double RandomTwistAmt()
         {
-            return random.NextDouble() * 2-1;
+            return _random.NextDouble() * 2 - 1;
         }
     }
 }
