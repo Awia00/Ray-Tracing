@@ -32,7 +32,7 @@ namespace RayTracingModel.Model
             Settings = new Settings();
         }
 
-        public Color[,] Render()
+        async public Task<Color[,]> Render()
         {
             RenderProgress = 0;
             var cameraRays = Camera.GenerateCameraVectors();
@@ -56,27 +56,32 @@ namespace RayTracingModel.Model
             }
             else
             {
+                var tasks = new List<Task<Tuple<int, int, Color>>>();
                 for (int i = 0; i < colorArray.GetLength(0); i++)
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
-                        AssignColor(i,j,colorArray,cameraRays[i,j]);
+                        tasks.Add(AssignColor(i,j,cameraRays[i,j]));
+                        
                     }
                 }
+                foreach (var task in await Task.WhenAll(tasks))
+                {
+                    colorArray[task.Item1, task.Item2] = task.Item3;
+                }
             }
-            
-            
             test = !test;
             return colorArray;
         }
 
-        async private void AssignColor(int i, int j, Color[,] colorArray, Line3D ray)
+        async private Task<Tuple<int,int,Color>> AssignColor(int i, int j, Line3D ray)
         {
-            Func<Color> tempColor = () => CalculateObjectCollisions(ray);
-            colorArray[i, j] = await Task.Run(tempColor);
-            RenderProgress += 1.0 / (colorArray.GetLength(0) * colorArray.GetLength(1));
+            Func<Color> tempColorFunc = () => CalculateObjectCollisions(ray);
+            var tempColor = await Task.Run(tempColorFunc);
+            RenderProgress += 1.0 / (Camera.AmtOfHeightPixels * Camera.AmtOfWidthPixels);
             _currentRecoursion = 0;
             _distanceTravelled = 0;
+            return Tuple.Create(i, j, tempColor);
         }
 
         private Color CalculateObjectCollisions(Line3D ray)
