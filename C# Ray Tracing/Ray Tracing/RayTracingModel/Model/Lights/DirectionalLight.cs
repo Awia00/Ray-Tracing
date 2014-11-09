@@ -16,6 +16,12 @@ namespace RayTracingModel.Model.Lights
         {
             return _direction;
         }
+
+        public double DistanceFromLight(Vector3D positionVector3D)
+        {
+            return 1;
+        }
+
         public DirectionalLight(Vector3D direction, double intensity, Color color)
         {
             _direction = direction.Normalize();

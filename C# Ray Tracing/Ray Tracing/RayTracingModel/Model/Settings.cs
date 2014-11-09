@@ -11,7 +11,8 @@ namespace RayTracingModel.Model
     {
         public Color BackgroundColor { get; set; }
 
-        public Func<double, double> DistanceInverseLaw { get; set; }
+        public Func<double, double> DistanceInverseLawCamera { get; set; }
+        public Func<double, double> DistanceInverseLawLight { get; set; }
 
         public int AmtOfRecoursions { get; set; }
 
@@ -24,7 +25,8 @@ namespace RayTracingModel.Model
         public Settings()
         {
             BackgroundColor = new Color();
-            DistanceInverseLaw = i => Math.Max(Math.Pow(i / 100, 2), 1);
+            DistanceInverseLawCamera = i => 1/Math.Max(Math.Pow(i / 100, 2), 1);
+            DistanceInverseLawLight = i => Math.Max(Math.Pow(i/50 , 2), 1);
             AmtOfRecoursions = 0;
             ShadowRays = 5;
             SoftShadowSpread = 0.1;

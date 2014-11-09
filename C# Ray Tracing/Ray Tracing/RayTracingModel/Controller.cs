@@ -29,20 +29,20 @@ namespace RayTracingModel
         {
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
-            _scene.Settings.AmtOfRecoursions = 3;
-            _scene.Settings.ShadowRays = 12;
+            _scene.Settings.AmtOfRecoursions = 2;
+            _scene.Settings.ShadowRays = 150;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
-            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.Wheat));
-            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 1, Color.Wheat));
-            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(-0.1, 1, 0.1), 0.5, Color.Wheat));
-            //_scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,10,-1)));
+           // _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 0.8, Color.Wheat));
+            //_scene.SceneLights.Add(new DirectionalLight(new Vector3D(-0.1, 1, 0.1), 0.5, Color.Wheat));
+            _scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,8,-2)));
 
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 0.3, 0, 10), new Vector3D(-10,15,0),5));

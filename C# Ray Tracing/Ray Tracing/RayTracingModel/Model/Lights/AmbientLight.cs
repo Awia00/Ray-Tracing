@@ -17,6 +17,11 @@ namespace RayTracingModel.Model.Lights
             return new Vector3D();
         }
 
+        public double DistanceFromLight(Vector3D positionVector3D)
+        {
+            return 1;
+        }
+
         public AmbientLight(double intensity, Color color)
         {
             Intensity = intensity;

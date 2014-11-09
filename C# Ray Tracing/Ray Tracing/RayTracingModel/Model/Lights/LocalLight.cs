@@ -26,6 +26,11 @@ namespace RayTracingModel.Model.Lights
             return Vector3D.Subtraction(positionVector3D, Position).Normalize();
         }
 
+        public double DistanceFromLight(Vector3D positionVector3D)
+        {
+            return Vector3D.Subtraction(positionVector3D, Position).Length;
+        }
+
         public ILight Clone()
         {
             return new LocalLight(Intensity,Color,Position);

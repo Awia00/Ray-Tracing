@@ -136,7 +136,7 @@ namespace RayTracingModel.Model
             }
             _currentRecoursion--;
             return ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor,
-                1/Settings.DistanceInverseLaw(_distanceTravelled)); // 
+                Settings.DistanceInverseLawCamera(_distanceTravelled)); // 
         }
 
         private IList<ILight> LightsNotInShadow(Vector3D positionOnObject)
@@ -152,6 +152,7 @@ namespace RayTracingModel.Model
                 var softShadowRays = ray.Twist(Settings.ShadowRays, Settings.SoftShadowSpread);
 
                 double intensity = light.Intensity;
+                intensity /= Settings.DistanceInverseLawLight(light.DistanceFromLight(positionOnObject));
 
                 ray.PushStartPositionAlongLine(0.01);
 
