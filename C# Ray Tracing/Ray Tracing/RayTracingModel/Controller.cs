@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using RayTracingModel.Model;
@@ -33,13 +30,13 @@ namespace RayTracingModel
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 3;
-            _scene.Settings.ShadowRays = 256;
+            _scene.Settings.ShadowRays = 0;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
-            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.FromArgb(200,200,250)));
@@ -61,8 +58,7 @@ namespace RayTracingModel
 
         public static Controller GetInstance()
         {
-            if (_instance == null) _instance = new Controller();
-            return _instance;
+            return _instance ?? (_instance = new Controller());
         }
 
         async public Task<Color[,]> Render()

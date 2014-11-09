@@ -69,6 +69,7 @@ namespace RayTracingModel.Model
                 {
                     colorArray[task.Item1, task.Item2] = task.Item3;
                 }
+                RenderProgress = 1;
             }
             test = !test;
             return colorArray;
