@@ -23,6 +23,8 @@ namespace RayTracingModel.Model.Shaders
             throw new NotImplementedException();
         }
 
+        public double RefractionIndex { get; set; }
+
         public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
         {
             //todo create correct call for adding the different colors together.

@@ -123,13 +123,37 @@ namespace RayTracingModel.Model
                     Line3D reflectRay = new Line3D(collisionPosition,
                         Vector3D.ReflectionVector(ray.DirectionVector,
                             collisionObject.CalculateNormVector(collisionPosition)));
+                    
                     Color reflectionColor = CalculateObjectCollisions(reflectRay);
+                    
                     baseColor = ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor,
                         collisionObject.Shader.Reflectivity);
                     _distanceTravelled = currentDistance;
                 }
                 if (collisionObject.Shader.IsRefractive())
                 {
+                    try
+                    {
+                        double n1 = Settings.SpaceRefractionIndex;
+                        double n2 = collisionObject.Shader.RefractionIndex;
+                        Vector3D normalVector = collisionObject.CalculateNormVector(collisionPosition);
+
+                        Vector3D refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector, n1,n2);
+                        Line3D refractionRay = new Line3D(collisionPosition, refractionVector);
+                        refractionRay.PushStartPositionAlongLine(0.01);
+
+                        double distanceToObject = collisionObject.CalculateCollisionPosition(refractionRay);
+                        Line3D newRay = new Line3D(ray.GetPositionAlongLine(distanceToObject), ray.DirectionVector);
+
+                        Color refractionColor = CalculateObjectCollisions(ray);
+
+                        baseColor = ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
+                        collisionObject.Shader.Refractivity);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("hallo du");
+                    }
                     //generate the refraction ray and run CalculateObject Collisions again.
                     _distanceTravelled = currentDistance;
                 }

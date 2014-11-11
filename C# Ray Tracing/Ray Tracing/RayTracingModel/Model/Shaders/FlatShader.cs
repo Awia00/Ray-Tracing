@@ -12,11 +12,12 @@ namespace RayTracingModel.Model.Shaders
     {
         public Color BaseColor { get; set; }
 
-        public FlatShader(Color baseColor, double reflectivity, double refractivity)
+        public FlatShader(Color baseColor, double reflectivity, double refractivity, double refractionIndex)
         {
             BaseColor = baseColor;
             Reflectivity = reflectivity;
             Refractivity = refractivity;
+            RefractionIndex = refractionIndex;
             CheckInvariants();
         }
 
@@ -39,12 +40,14 @@ namespace RayTracingModel.Model.Shaders
 
         public bool IsRefractive()
         {
-            if (Reflectivity > 0) return true;
+            if (Refractivity > 0) return true;
             else
             {
                 return false;
             }
         }
+
+        public double RefractionIndex { get; set; }
 
         public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D, Vector3D collisionPositionVector3D)
         {

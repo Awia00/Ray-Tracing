@@ -24,20 +24,23 @@ namespace RayTracingModel.Model.Shaders
 
         public bool IsRefractive()
         {
-            if (Reflectivity > 0) return true;
+            if (Refractivity > 0) return true;
             else
             {
                 return false;
             }
         }
 
+        public double RefractionIndex { get; set; }
+
         public Color DiffuseColor { get; set; }
 
-        public DiffuseShader(Color diffuseColor, double reflectivity, double refractivity)
+        public DiffuseShader(Color diffuseColor, double reflectivity, double refractivity, double refractionIndex)
         {
             DiffuseColor = diffuseColor;
             Reflectivity = reflectivity;
             Refractivity = refractivity;
+            RefractionIndex = refractionIndex;
             CheckInvariants();
         }
 

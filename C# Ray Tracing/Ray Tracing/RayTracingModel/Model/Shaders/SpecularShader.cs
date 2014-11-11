@@ -24,22 +24,26 @@ namespace RayTracingModel.Model.Shaders
 
         public bool IsRefractive()
         {
-            if (Reflectivity > 0) return true;
+            if (Refractivity > 0) return true;
             else
             {
                 return false;
             }
         }
+
+        public double RefractionIndex { get; set; }
+
         private void CheckInvariants()
         {
             if (Reflectivity < 0 || Reflectivity < 0) throw new Exception("Neither reflectivity or refractivity must be beneath 0");
             if (Reflectivity > 1 || Reflectivity > 1) throw new Exception("Neither reflectivity or refractivity must be over 1");
         }
 
-        public SpecularShader(Color diffuseColor, Color specularColor, double reflectivity, double refractivity, double specularComponent)
+        public SpecularShader(Color diffuseColor, Color specularColor, double specularComponent,double reflectivity, double refractivity, double refractionIndex)
         {
             Reflectivity = reflectivity;
             Refractivity = refractivity;
+            RefractionIndex = refractionIndex;
             DiffuseColor = diffuseColor;
             SpecularColor = specularColor;
             SpecularComponent = specularComponent;

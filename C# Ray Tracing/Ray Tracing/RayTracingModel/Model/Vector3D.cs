@@ -76,9 +76,21 @@ namespace RayTracingModel.Model
         }
         public static Vector3D ReflectionVector(Vector3D incomingVector3D, Vector3D normalVector3D)
         {
-            Vector3D ln = normalVector3D.VectorTimesDouble(Vector3D.DotProdukt(incomingVector3D, normalVector3D) * 2);
-            Vector3D reflective = Vector3D.Addition(incomingVector3D.VectorNegation(), ln);
+            Vector3D ln = normalVector3D.VectorTimesDouble(DotProdukt(incomingVector3D, normalVector3D) * 2);
+            Vector3D reflective = Addition(incomingVector3D.VectorNegation(), ln);
             return reflective.VectorNegation().Normalize();
+        }
+
+        public static Vector3D RefractionVector(Vector3D incomingVector3D, Vector3D normalVector3D, double refractionIndexFrom, double refractionIndexTo)
+        {
+            double n = refractionIndexFrom/refractionIndexTo;
+            double cosI = DotProdukt(normalVector3D,incomingVector3D);
+            double sinT2 = n*n*(1.0 - cosI*cosI);
+            if (sinT2 > 1.0)
+            {
+                throw new Exception();
+            }
+            return Subtraction(incomingVector3D.VectorTimesDouble(n),normalVector3D.VectorTimesDouble(n+Math.Sqrt(1.0-sinT2)));
         }
 
         public static double DotProdukt(Vector3D vector1, Vector3D vector2)

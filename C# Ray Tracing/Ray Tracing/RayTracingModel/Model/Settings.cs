@@ -11,6 +11,8 @@ namespace RayTracingModel.Model
     {
         public Color BackgroundColor { get; set; }
 
+        public double SpaceRefractionIndex { get; set; }
+
         public Func<double, double> DistanceInverseLawCamera { get; set; }
         public Func<double, double> DistanceInverseLawLight { get; set; }
 
@@ -30,6 +32,7 @@ namespace RayTracingModel.Model
             AmtOfRecoursions = 0;
             ShadowRays = 5;
             SoftShadowSpread = 0.1;
+            SpaceRefractionIndex = 1;
         }
     }
 }

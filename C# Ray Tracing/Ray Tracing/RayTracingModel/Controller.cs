@@ -34,8 +34,8 @@ namespace RayTracingModel
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 640, 400); // low res 16 10 ratio
-            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 960, 600); // medium res 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1280, 800); // HD 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(3, 3, 3), new Vector3D(0, 0, 2), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
@@ -45,15 +45,15 @@ namespace RayTracingModel
             _scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,8,-2)));
 
             //Objects
-            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 0.3, 0, 10), new Vector3D(-10,15,0),5));
-            _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0), new Vector3D(0, 25, 5), 10));
-            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.ForestGreen, Color.White, 0, 0, 10), new Vector3D(75, 100, 5), 10));
-            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 0, 0, 5), new Vector3D(10, 20, -2), 3));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 10, 0.3, 0, 1), new Vector3D(-10,15,0),5));
+            _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen, 0, 0.7, 1.33), new Vector3D(0, 25, 5), 10));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.ForestGreen, Color.White, 10, 0, 0, 1), new Vector3D(75, 100, 5), 10));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 5, 0, 0.5, 1.2), new Vector3D(10, 20, -2), 3));
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
-                Shader = new DiffuseShader(Color.Goldenrod,0.2,0),
-                CenterPositionVector3D = new Vector3D(0,5,-5),
-                NormalVector3D = new Vector3D(0,0,-1).VectorNegation()
+                Shader = new DiffuseShader(Color.Goldenrod, 0.2, 0, 1),
+                CenterPositionVector3D = new Vector3D(0, 5, -5),
+                NormalVector3D = new Vector3D(0, 0, -1).VectorNegation()
             });
         }
 
