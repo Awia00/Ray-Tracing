@@ -143,9 +143,15 @@ namespace RayTracingModel.Model
                         refractionRay.PushStartPositionAlongLine(0.01);
 
                         double distanceToObject = collisionObject.CalculateCollisionPosition(refractionRay);
-                        Line3D newRay = new Line3D(ray.GetPositionAlongLine(distanceToObject), ray.DirectionVector);
 
-                        Color refractionColor = CalculateObjectCollisions(ray);
+                        Vector3D otherSidePos = refractionRay.GetPositionAlongLine(distanceToObject);
+                        //Vector3D otherSideNormal = collisionObject.CalculateNormVector(otherSidePos);
+                        //Vector3D otherSideRefraction = Vector3D.RefractionVector(refractionVector,
+                        //    otherSideNormal, n2, n1); 
+
+                        Line3D newRay = new Line3D(otherSidePos, ray.DirectionVector);
+
+                        Color refractionColor = CalculateObjectCollisions(newRay);
 
                         baseColor = ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
                         collisionObject.Shader.Refractivity);

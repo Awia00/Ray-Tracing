@@ -90,7 +90,7 @@ namespace RayTracingModel.Model
             {
                 throw new Exception();
             }
-            return Subtraction(incomingVector3D.VectorTimesDouble(n),normalVector3D.VectorTimesDouble(n+Math.Sqrt(1.0-sinT2)));
+            return Subtraction(incomingVector3D.VectorTimesDouble(n), normalVector3D.VectorTimesDouble(n * cosI + Math.Sqrt(1.0 - sinT2)));
         }
 
         public static double DotProdukt(Vector3D vector1, Vector3D vector2)
