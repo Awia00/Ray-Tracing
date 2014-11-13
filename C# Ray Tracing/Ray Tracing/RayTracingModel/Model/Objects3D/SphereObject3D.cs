@@ -71,10 +71,16 @@ namespace RayTracingModel.Model.Objects3D
                 //System.out.println(t1 + " " + t2);
                 if (t1 > t2)
                 {
-                    return t2;
+                    if (t2 > 0) return t2;
+                    else if (t1 > 0) return t1;
+                    else return t2;
                 }
                 else
-                    return t1;
+                {
+                    if (t1 > 0) return t1;
+                    else if (t2 > 0) return t2;
+                    else return t1;
+                }
             }
             else if (d == 0)
             {
