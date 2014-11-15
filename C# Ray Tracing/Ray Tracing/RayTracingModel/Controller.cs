@@ -40,18 +40,18 @@ namespace RayTracingModel
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.Wheat));
-           // _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 0.8, Color.Wheat));
+            _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 0.8, Color.Wheat));
             _scene.SceneLights.Add(new DirectionalLight(new Vector3D(-0.1, 1, 0.1), 0.5, Color.Wheat));
-            _scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,8,-2)));
+            //_scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,8,-2)));
 
             //Objects
-            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 10,        0.3, 0, 1),    new Vector3D(-10,15,0),5));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 10,        0.3, 0, 1.5),    new Vector3D(-10,15,0),5));
 
             _scene.SceneObjects.Add(new SphereObject3D(new DiffuseShader(Color.ForestGreen,                     0, 0, 1.2),   new Vector3D(0, 25, 5), 10));
 
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.MediumBlue, Color.White, 5,     0, 0, 1.2),    new Vector3D(10, 20, -2), 3));
 
-            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Red, Color.White, 10,           0, 0, 1),      new Vector3D(0, 40, 5), 8));
+            _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Red, Color.White, 10,           0, 1, 1.4),      new Vector3D(0, 10, 5), 4));
             
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
@@ -89,7 +89,8 @@ namespace RayTracingModel
 
         async public Task<Color[,]> Render()
         {
-            Func<Color[,]> temp = () => _scene.Render().Result;
+            //Func<Color[,]> temp = () => _scene.AsyncRender().Result; // Async rendering
+            Func<Color[,]> temp = () => _scene.Render(); // sync rendering
             var array = await Task.Run(temp);
             return array;
         }

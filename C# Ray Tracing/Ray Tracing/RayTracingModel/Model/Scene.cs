@@ -17,6 +17,7 @@ namespace RayTracingModel.Model
 
         [ThreadStatic] private static int _currentRecoursion = 0;
         [ThreadStatic] private static double _distanceTravelled = 0;
+        [ThreadStatic] private static IObject3D _currentObject3D = null;
         public static double RenderProgress { get; set; }
 
         public ICamera Camera { get; set; }
@@ -32,7 +33,7 @@ namespace RayTracingModel.Model
             Settings = new Settings();
         }
 
-        async public Task<Color[,]> Render()
+        async public Task<Color[,]> AsyncRender()
         {
             RenderProgress = 0;
             var cameraRays = Camera.GenerateCameraVectors();
@@ -62,12 +63,51 @@ namespace RayTracingModel.Model
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
                         tasks.Add(AssignColor(i,j,cameraRays[i,j]));
-                        
                     }
                 }
                 foreach (var task in await Task.WhenAll(tasks))
                 {
                     colorArray[task.Item1, task.Item2] = task.Item3;
+                }
+                RenderProgress = 1;
+            }
+            test = !test;
+            return colorArray;
+        }
+
+        public Color[,] Render()
+        {
+            RenderProgress = 0;
+            var cameraRays = Camera.GenerateCameraVectors();
+            Color[,] colorArray = new Color[cameraRays.GetLength(0), cameraRays.GetLength(1)];
+
+            if (test)
+            {
+                for (int i = 0; i < colorArray.GetLength(0); i++)
+                {
+                    for (int j = 0; j < colorArray.GetLength(1); j++)
+                    {
+                        colorArray[i, j] = Color.FromArgb(Math.Min(0 + j, 255),
+                            Math.Max(255 - i, 0), Math.Max(255 - j, 0));
+                        Color.FromArgb(0, 255, 255); // j = 0, i = 0 bottom left
+                        Color.FromArgb(0, 0, 255); // i = 255, j= 0 bottom right
+                        Color.FromArgb(255, 255, 0); // i = 0, j= 255 top left
+                        Color.FromArgb(255, 0, 0); // i = 255, j= 255 top right
+                    }
+                }
+                RenderProgress = 1;
+            }
+            else
+            {
+                for (int i = 0; i < colorArray.GetLength(0); i++)
+                {
+                    for (int j = 0; j < colorArray.GetLength(1); j++)
+                    {
+                        colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
+                        RenderProgress += 1.0 / (colorArray.GetLength(0) * colorArray.GetLength(1));
+                        _currentRecoursion = 0;
+                        _distanceTravelled = 0;
+                    }
                 }
                 RenderProgress = 1;
             }
@@ -92,6 +132,7 @@ namespace RayTracingModel.Model
             double closestObjectDistance = double.MaxValue;
             foreach (var sceneObject in SceneObjects)
             {
+                if (sceneObject == _currentObject3D) continue;
                 double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
                 if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
                 {
@@ -134,11 +175,15 @@ namespace RayTracingModel.Model
                 {
                     try
                     {
+                        if (_currentRecoursion == 1)
+                        {
+                            
+                        }
                         double n1 = Settings.SpaceRefractionIndex;
                         double n2 = collisionObject.Shader.RefractionIndex;
                         Vector3D normalVector = collisionObject.CalculateNormVector(collisionPosition);
 
-                        Vector3D refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector, n1,n2);
+                        Vector3D refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector, n1,n2).Normalize();
                         Line3D refractionRay = new Line3D(collisionPosition, refractionVector);
                         refractionRay.PushStartPositionAlongLine(0.01);
 
@@ -151,6 +196,7 @@ namespace RayTracingModel.Model
 
                         Line3D newRay = new Line3D(otherSidePos, ray.DirectionVector);
 
+                        _currentObject3D = collisionObject;
                         Color refractionColor = CalculateObjectCollisions(newRay);
 
                         baseColor = ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
@@ -160,7 +206,6 @@ namespace RayTracingModel.Model
                     {
                         Console.WriteLine("hallo du");
                     }
-                    //generate the refraction ray and run CalculateObject Collisions again.
                     _distanceTravelled = currentDistance;
                 }
             }
