@@ -15,11 +15,6 @@ namespace RayTracingModel.Model.Objects3D
         public Vector3D CenterPositionVector3D { get; set; }
         public double Radius { get; set; }
 
-        public Color CalculateColor(IList<ILight> lightsThatHitsSurface, Vector3D positionVector3D, Vector3D rayDirection)
-        {
-            return Shader.CalculateColor(lightsThatHitsSurface, CalculateNormVector(positionVector3D), rayDirection, positionVector3D);
-        }
-
         public SphereObject3D(IShader shader, Vector3D centerPositionVector3D, double radius)
         {
             Shader = shader;
@@ -45,16 +40,6 @@ namespace RayTracingModel.Model.Objects3D
             double cY = CenterPositionVector3D.Y;
             double cZ = CenterPositionVector3D.Z;
 
-            //calculate a, b, c
-            //double a = Math.Pow((vX - pX), 2) + (Math.Pow((vY - pY), 2)) + (Math.Pow((vZ - pZ), 2));
-            //double b = 2 * ((vX - pX) * (pX - cX) + (vY - pY) * (pY - cY) + (vZ - pZ) * (pZ - cZ));
-            //double c = cX * cX + cY * cY + cZ * cZ + pX * pX + pY * pY + pZ * pZ - (2 * (cX * pX + cY * pY + cZ * pZ)) - Radius * Radius;
-
-            // second method
-            //a = Math.pow((pX-cX),2) + Math.pow((pY-cY),2) + Math.pow((pZ-cZ),2) - radius*radius;//(vX * vX + vY * vY + vZ * vZ);
-            //c = Math.pow((pX-vX),2) + Math.pow((pY-vY),2) + Math.pow((pZ-vZ),2);
-            //b = Math.pow((vX-cX),2) + Math.pow((vY-cY),2) + Math.pow((vZ-cZ),2) -a-c- radius*radius;
-
             double a = vX*vX + vY*vY + vZ*vZ;
             double b = 2*(pX*vX + pY*vY + pZ*vZ - vX*cX - vY*cY - vZ*cZ);
             double c = pX * pX - 2 * pX * cX + cX * cX + pY * pY - 2 * pY * cY + cY * cY + pZ * pZ - 2 * pZ * cZ + cZ * cZ - Radius * Radius;
@@ -69,20 +54,23 @@ namespace RayTracingModel.Model.Objects3D
                 double t1 = b > 0 ? (-b - y) / (2.0 * a) : (-b + y) / (2 * a);
                 double t2 = c / (t1 * a);
                 //System.out.println(t1 + " " + t2);
+
                 if (t1 > t2)
                 {
-                    if (t2 > 0) return t2;
-                    else if (t1 > 0) return t1;
-                    else return t2;
+                    return t2;
+                    //if (t2 > 0) return t2;
+                    //else if (t1 > 0) return t1;
+                    //else return t2;
                 }
                 else
                 {
-                    if (t1 > 0) return t1;
-                    else if (t2 > 0) return t2;
-                    else return t1;
+                    return t1;
+                    //if (t1 > 0) return t1;
+                    //else if (t2 > 0) return t2;
+                    //else return t1;
                 }
             }
-            else if (d == 0)
+            else if (d > 0.0001)
             {
                 return (-b) / (2 * a);
             }

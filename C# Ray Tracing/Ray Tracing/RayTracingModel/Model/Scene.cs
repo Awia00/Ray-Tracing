@@ -17,7 +17,6 @@ namespace RayTracingModel.Model
 
         [ThreadStatic] private static int _currentRecoursion = 0;
         [ThreadStatic] private static double _distanceTravelled = 0;
-        [ThreadStatic] private static IObject3D _currentObject3D = null;
         public static double RenderProgress { get; set; }
 
         public ICamera Camera { get; set; }
@@ -132,7 +131,6 @@ namespace RayTracingModel.Model
             double closestObjectDistance = double.MaxValue;
             foreach (var sceneObject in SceneObjects)
             {
-                if (sceneObject == _currentObject3D) continue;
                 double distanceToObject = sceneObject.CalculateCollisionPosition(ray);
                 if (distanceToObject > 0 && distanceToObject < closestObjectDistance)
                 {
@@ -152,18 +150,22 @@ namespace RayTracingModel.Model
         private Color ComputeColor(Line3D ray, IObject3D collisionObject, Vector3D collisionPosition)
         {
             double currentDistance = _distanceTravelled;
+            Vector3D normalVector = collisionObject.CalculateNormVector(collisionPosition);
             _currentRecoursion++;
-            Color baseColor = collisionObject.CalculateColor(LightsNotInShadow(collisionPosition), collisionPosition,
-                ray.DirectionVector);
+
+            Color baseColor = collisionObject.Shader.CalculateColor(LightsNotInShadow(collisionPosition), normalVector,
+                ray.DirectionVector,collisionPosition);
+
             if (_currentRecoursion <= Settings.AmtOfRecoursions)
             {
+                
                 if (collisionObject.Shader.IsReflective())
                 {
                     //generate the reflection ray and run CalculateObject Collisions again.
 
                     Line3D reflectRay = new Line3D(collisionPosition,
                         Vector3D.ReflectionVector(ray.DirectionVector,
-                            collisionObject.CalculateNormVector(collisionPosition)));
+                            normalVector));
                     
                     Color reflectionColor = CalculateObjectCollisions(reflectRay);
                     
@@ -175,29 +177,21 @@ namespace RayTracingModel.Model
                 {
                     try
                     {
-                        if (_currentRecoursion == 1)
-                        {
-                            
-                        }
                         double n1 = Settings.SpaceRefractionIndex;
                         double n2 = collisionObject.Shader.RefractionIndex;
-                        Vector3D normalVector = collisionObject.CalculateNormVector(collisionPosition);
-
-                        Vector3D refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector, n1,n2).Normalize();
+                        Vector3D refractionVector;
+                        if (Vector3D.DotProdukt(normalVector, ray.DirectionVector) < 0)
+                        {
+                            refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector, n1, n2);
+                        }
+                        else
+                        {
+                            refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector.VectorNegation(), n1, n2);
+                        }
+                        
                         Line3D refractionRay = new Line3D(collisionPosition, refractionVector);
-                        refractionRay.PushStartPositionAlongLine(0.01);
 
-                        double distanceToObject = collisionObject.CalculateCollisionPosition(refractionRay);
-
-                        Vector3D otherSidePos = refractionRay.GetPositionAlongLine(distanceToObject);
-                        //Vector3D otherSideNormal = collisionObject.CalculateNormVector(otherSidePos);
-                        //Vector3D otherSideRefraction = Vector3D.RefractionVector(refractionVector,
-                        //    otherSideNormal, n2, n1); 
-
-                        Line3D newRay = new Line3D(otherSidePos, ray.DirectionVector);
-
-                        _currentObject3D = collisionObject;
-                        Color refractionColor = CalculateObjectCollisions(newRay);
+                        Color refractionColor = CalculateObjectCollisions(refractionRay);
 
                         baseColor = ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
                         collisionObject.Shader.Refractivity);
@@ -236,6 +230,7 @@ namespace RayTracingModel.Model
                     foreach (var sceneObject in SceneObjects)
                     {
                         if (sceneObject is PlaneObject3D) continue;
+                        if (sceneObject.Shader.IsRefractive()) continue;
                         int count = 0;
                         foreach (var shadowRay in softShadowRays)
                         {

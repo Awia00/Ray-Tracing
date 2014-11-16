@@ -27,12 +27,12 @@ namespace RayTracingModel.Model
         public Settings()
         {
             BackgroundColor = new Color();
-            DistanceInverseLawCamera = i => 1/Math.Max(Math.Pow(i / 100, 2), 1);
+            DistanceInverseLawCamera = i => 1/Math.Max(Math.Pow(i / 1000, 2), 1);
             DistanceInverseLawLight = i => Math.Max(Math.Pow(i/50 , 2), 1);
             AmtOfRecoursions = 0;
             ShadowRays = 5;
             SoftShadowSpread = 0.1;
-            SpaceRefractionIndex = 1;
+            SpaceRefractionIndex = 1.0;
         }
     }
 }
