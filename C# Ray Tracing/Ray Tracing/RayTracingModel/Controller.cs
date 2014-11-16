@@ -29,14 +29,14 @@ namespace RayTracingModel
         {
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
-            _scene.Settings.AmtOfRecoursions = 1;
-            _scene.Settings.ShadowRays = 0;
+            _scene.Settings.AmtOfRecoursions = 4;
+            _scene.Settings.ShadowRays = 256;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 640, 400); // low res 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 960, 600); // medium res 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 960, 600); // medium res 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 1280, 800); // HD 16 10 ratio
-            //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 1920, 1200); // Full HD 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.Wheat));

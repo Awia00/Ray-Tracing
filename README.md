@@ -1,6 +1,8 @@
 Ray Tracing
 ===============
 
+![Showcase of the C# Ray Tracer](RayTracerShowcase.png)
+
 This repository serves as a hub for all ray tracing implementations i make. Currently only a java project exists, but a c# implementation will be added later. 
 
 The "Runnable Builds" folder includes the latest working builds.
