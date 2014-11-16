@@ -186,7 +186,7 @@ namespace RayTracingModel.Model
                         }
                         else
                         {
-                            refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector.VectorNegation(), n1, n2);
+                            refractionVector = Vector3D.RefractionVector(ray.DirectionVector, normalVector.VectorNegation(), n2, n1);
                         }
                         
                         Line3D refractionRay = new Line3D(collisionPosition, refractionVector);

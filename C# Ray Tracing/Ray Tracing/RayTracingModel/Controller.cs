@@ -34,15 +34,15 @@ namespace RayTracingModel
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 640, 400); // low res 16 10 ratio
-            //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 960, 600); // medium res 16 10 ratio
+            _scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 960, 600); // medium res 16 10 ratio
             //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 1280, 800); // HD 16 10 ratio
-            _scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 1920, 1200); // Full HD 16 10 ratio
+            //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 1920, 1200); // Full HD 16 10 ratio
 
             // Lights
             _scene.SceneLights.Add(new AmbientLight(0.1,Color.Wheat));
             _scene.SceneLights.Add(new DirectionalLight(new Vector3D(0.5,-0.1,-0.5), 0.8, Color.Wheat));
             _scene.SceneLights.Add(new DirectionalLight(new Vector3D(-0.1, 1, 0.1), 0.3, Color.Wheat));
-            //_scene.SceneLights.Add(new LocalLight(0.8, Color.Wheat, new Vector3D(0,8,-2)));
+            _scene.SceneLights.Add(new LocalLight(1.2, Color.Wheat, new Vector3D(0,8,20)));
 
             //Objects
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Silver, Color.White, 10,        0.3, 0, 1.5),    new Vector3D(-10,15,0),5));
@@ -89,8 +89,8 @@ namespace RayTracingModel
 
         async public Task<Color[,]> Render()
         {
-            Func<Color[,]> temp = () => _scene.AsyncRender().Result; // Async rendering
-            //Func<Color[,]> temp = () => _scene.Render(); // sync rendering
+            //Func<Color[,]> temp = () => _scene.AsyncRender().Result; // Async rendering
+            Func<Color[,]> temp = () => _scene.Render(); // sync rendering
             var array = await Task.Run(temp);
             return array;
         }
