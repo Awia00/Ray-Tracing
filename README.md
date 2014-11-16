@@ -27,7 +27,7 @@ The project was build with readability, maintainability and ease of extending in
 - Creating CRUD functionality to the GUI such that the user can change the scene.
 
 
-Java application
+Java Application
 ------------
 
 ###Features
