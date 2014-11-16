@@ -235,7 +235,8 @@ namespace RayTracingModel.Model
                         foreach (var shadowRay in softShadowRays)
                         {
                             count++;
-                            if (sceneObject.CalculateCollisionPosition(shadowRay) > 0)
+                            double distanceToCollision = sceneObject.CalculateCollisionPosition(shadowRay);
+                            if (distanceToCollision > 0 && Vector3D.IsSameDirection(lightVector, light.CalculateLightDirectionOnPosition(shadowRay.GetPositionAlongLine(distanceToCollision))))
                             {
                                 count = -softShadowRays.Count;
                                 intensity -= light.Intensity/softShadowRays.Count;

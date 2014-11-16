@@ -103,5 +103,16 @@ namespace RayTracingModel.Model
             return (Vector3D.DotProdukt(vector1, vector2)) / (vector1.Length * vector2.Length);
         }
 
+        public static bool IsSameDirection(Vector3D vector1, Vector3D vector2)
+        {
+            if (Math.Abs(vector1.X - vector2.X) < 0.001 
+                && Math.Abs(vector1.Y - vector2.Y) < 0.001 
+                && Math.Abs(vector1.Z - vector2.Z) < 0.001)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

@@ -29,8 +29,8 @@ namespace RayTracingModel
         {
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
-            _scene.Settings.AmtOfRecoursions = 4;
-            _scene.Settings.ShadowRays = 170;
+            _scene.Settings.AmtOfRecoursions = 1;
+            _scene.Settings.ShadowRays = 0;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 640, 400); // low res 16 10 ratio
@@ -89,8 +89,8 @@ namespace RayTracingModel
 
         async public Task<Color[,]> Render()
         {
-            //Func<Color[,]> temp = () => _scene.AsyncRender().Result; // Async rendering
-            Func<Color[,]> temp = () => _scene.Render(); // sync rendering
+            Func<Color[,]> temp = () => _scene.AsyncRender().Result; // Async rendering
+            //Func<Color[,]> temp = () => _scene.Render(); // sync rendering
             var array = await Task.Run(temp);
             return array;
         }
