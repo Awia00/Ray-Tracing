@@ -10,7 +10,6 @@ namespace RayTracingModel.Model.Cameras
     interface ICamera
     {
         Vector3D Direction { get; set; }
-        Vector3D Eye { get; set; }
         double Height { get; set; }
         double Width { get; set; }
         int AmtOfHeightPixels { get; set; }

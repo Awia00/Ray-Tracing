@@ -46,6 +46,7 @@
     <Compile Include="Controller.cs" />
     <Compile Include="Model\Cameras\ICamera.cs" />
     <Compile Include="Model\Cameras\SimpleCamera.cs" />
+    <Compile Include="Model\Cameras\SimpleStereoCamera.cs" />
     <Compile Include="Model\Lights\AmbientLight.cs" />
     <Compile Include="Model\Lights\DirectionalLight.cs" />
     <Compile Include="Model\Lights\ILight.cs" />
