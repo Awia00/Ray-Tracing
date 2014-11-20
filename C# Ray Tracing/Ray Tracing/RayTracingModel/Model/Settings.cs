@@ -27,7 +27,7 @@ namespace RayTracingModel.Model
         public Settings()
         {
             BackgroundColor = new Color();
-            DistanceInverseLawCamera = i => 1/Math.Max(Math.Pow(i / 1000, 2), 1);
+            DistanceInverseLawCamera = i => 1/Math.Max(Math.Pow(i / 3000, 1.2), 1);
             DistanceInverseLawLight = i => Math.Max(Math.Pow(i/50 , 2), 1);
             AmtOfRecoursions = 0;
             ShadowRays = 5;

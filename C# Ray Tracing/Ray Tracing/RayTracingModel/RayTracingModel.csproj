@@ -57,6 +57,7 @@
     <Compile Include="Model\Objects3D\SphereObject3D.cs" />
     <Compile Include="Model\Scene.cs" />
     <Compile Include="Model\Settings.cs" />
+    <Compile Include="Model\Shaders\CartoonyWrapperShader.cs" />
     <Compile Include="Model\Shaders\DiffuseShader.cs" />
     <Compile Include="Model\Shaders\FlatShader.cs" />
     <Compile Include="Model\Shaders\IShader.cs" />
