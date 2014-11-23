@@ -12,10 +12,11 @@ C# Application
  - WPF async GUI
  - Reflection
  - Refraction
- - Multithreading
+ - Multithreaded rendering
  - Shaders (Flat, Diffuse and Specular)
  - Lights(Ambient, Directional and Local) 
  - Soft Shadows.
+ - Cameras (Y-oriented and Stereo Y-oriented)
 
 ###Design
 The project was build with readability, maintainability and ease of extending in mind. Most modules have interfaces and new implementations should be easy to add. Furthermore the project is in MVVM form, such that building another GUI should be easy.
