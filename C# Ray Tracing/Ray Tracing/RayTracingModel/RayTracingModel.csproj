@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Color Toolbox">
-      <HintPath>..\Color Toolbox.dll</HintPath>
+    <Reference Include="ColorToolbox">
+      <HintPath>..\ColorToolbox.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
