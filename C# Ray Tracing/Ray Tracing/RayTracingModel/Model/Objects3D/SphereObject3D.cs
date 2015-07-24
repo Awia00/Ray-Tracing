@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RayTracingModel.Model.Lights;
 using RayTracingModel.Model.Shaders;
 
 namespace RayTracingModel.Model.Objects3D
@@ -62,21 +56,18 @@ namespace RayTracingModel.Model.Objects3D
                     //else if (t1 > 0) return t1;
                     //else return t2;
                 }
-                else
-                {
-                    return t1;
-                    //if (t1 > 0) return t1;
-                    //else if (t2 > 0) return t2;
-                    //else return t1;
-                }
+                return t1;
+                //if (t1 > 0) return t1;
+                //else if (t2 > 0) return t2;
+                //else return t1;
             }
-            else if (d > 0.0001)
+            if (d > 0.0001)
             {
                 return (-b) / (2 * a);
             }
             //calculate t
             // find lowest value of t 
-            else return 0.0;
+            return 0.0;
         }
 
         public Vector3D CalculateNormVector(Vector3D positionVector3D)

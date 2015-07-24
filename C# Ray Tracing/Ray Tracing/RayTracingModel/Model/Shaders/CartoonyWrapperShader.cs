@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RayTracingModel.Model.Lights;
 
 namespace RayTracingModel.Model.Shaders
@@ -25,19 +22,13 @@ namespace RayTracingModel.Model.Shaders
         public bool IsReflective()
         {
             if (InnerShader.Reflectivity > 0) return true;
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool IsRefractive()
         {
             if (InnerShader.Refractivity > 0) return true;
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public double RefractionIndex

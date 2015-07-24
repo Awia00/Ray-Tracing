@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using RayTracingModel.Model.Lights;
-using RayTracingModel.Model.Shaders;
+﻿using RayTracingModel.Model.Shaders;
 
 namespace RayTracingModel.Model.Objects3D
 {

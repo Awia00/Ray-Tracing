@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RayTracingModel.Model.Objects3D;
+﻿using RayTracingModel.Model.Objects3D;
 
 namespace RayTracingModel.Model.Cameras
 {

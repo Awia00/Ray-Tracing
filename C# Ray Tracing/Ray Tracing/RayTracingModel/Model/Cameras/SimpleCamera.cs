@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RayTracingModel.Model.Objects3D;
+﻿using RayTracingModel.Model.Objects3D;
 
 namespace RayTracingModel.Model.Cameras
 {
@@ -16,14 +11,14 @@ namespace RayTracingModel.Model.Cameras
         public int AmtOfHeightPixels { get; set; }
         public int AmtOfWidthPixels { get; set; }
 
-        private Line3D[,] _cameraRays = null;
+        private Line3D[,] _cameraRays;
         public Line3D[,] GenerateCameraVectors()
         {
             if (_cameraRays == null)
             {
                 var tempCameraVectors = new Line3D[AmtOfWidthPixels, AmtOfHeightPixels];
-                double pixelWidth = Width/(double)AmtOfWidthPixels;
-                double pixelHeight = Height /(double)AmtOfHeightPixels;
+                double pixelWidth = Width/AmtOfWidthPixels;
+                double pixelHeight = Height /AmtOfHeightPixels;
                 for (int i = 0; i < AmtOfWidthPixels; i++)
                 {
                     for (int j = 0; j < AmtOfHeightPixels; j++)

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RayTracingModel.Model
 {
@@ -100,7 +96,7 @@ namespace RayTracingModel.Model
 
         public static double GetCosV(Vector3D vector1, Vector3D vector2)
         {
-            return (Vector3D.DotProdukt(vector1, vector2)) / (vector1.Length * vector2.Length);
+            return (DotProdukt(vector1, vector2)) / (vector1.Length * vector2.Length);
         }
 
         public static bool IsSameDirection(Vector3D vector1, Vector3D vector2)
