@@ -32,7 +32,7 @@ namespace RayTracingModel
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 3;
             _scene.Settings.ShadowRays = 0;
-            _scene.Settings.PostEffects = new List<PostEffect>{PostEffect.DepthMap};
+            _scene.Settings.PostEffects = new List<PostEffect>{PostEffect.DepthOfField};
             _scene.Settings.FocalNear = 25;
             _scene.Settings.FocalFar = 30;
 
