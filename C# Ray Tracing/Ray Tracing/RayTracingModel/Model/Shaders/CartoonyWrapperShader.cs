@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Color_Toolbox;
 using RayTracingModel.Model.Lights;
 
 namespace RayTracingModel.Model.Shaders

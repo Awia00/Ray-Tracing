@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Color_Toolbox;
 using RayTracingModel.Model.Lights;
 
 namespace RayTracingModel.Model.Shaders
@@ -63,9 +62,9 @@ namespace RayTracingModel.Model.Shaders
             Color specularColor = GenerateSpecularColor(lightsThatHitsSurface, normalVector3D, rayVector3D,
                 collisionPositionVector3D);
 
-            baseColor = ColorToolbox.BlendAddition(baseColor, ambientColor);
-            baseColor = ColorToolbox.BlendAddition(baseColor, diffuseColor);
-            baseColor = ColorToolbox.BlendAddition(baseColor, specularColor);
+            baseColor = ColorToolbox.ColorToolbox.BlendAddition(baseColor, ambientColor);
+            baseColor = ColorToolbox.ColorToolbox.BlendAddition(baseColor, diffuseColor);
+            baseColor = ColorToolbox.ColorToolbox.BlendAddition(baseColor, specularColor);
 
             return baseColor;
         }
@@ -77,7 +76,7 @@ namespace RayTracingModel.Model.Shaders
                 if (light is AmbientLight)
                 {
                     lightsThatHitsSurface.Remove(light);
-                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity);
+                    return ColorToolbox.ColorToolbox.ColorIntensify(light.Color, light.Intensity);
                 }
             }
             return new Color();
@@ -90,7 +89,7 @@ namespace RayTracingModel.Model.Shaders
             {
                 intensity += light.Intensity * (Math.Max(0, Vector3D.DotProdukt(normalVector3D.VectorNegation(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D))));
             }
-            return ColorToolbox.ColorIntensify(DiffuseColor, intensity);
+            return ColorToolbox.ColorToolbox.ColorIntensify(DiffuseColor, intensity);
         }
 
         private Color GenerateSpecularColor(IList<ILight> lightsThatHitsSurface, Vector3D normalVector3D, Vector3D rayVector3D,
@@ -103,7 +102,7 @@ namespace RayTracingModel.Model.Shaders
                 Vector3D lightReflection = Vector3D.ReflectionVector(light.CalculateLightDirectionOnPosition(collisionPositionVector3D), normalVector3D);
                 intensity += light.Intensity*Math.Pow(Math.Max(0,Vector3D.DotProdukt(lightReflection, rayVector3D.VectorNegation())),SpecularComponent);
             }
-            return ColorToolbox.ColorIntensify(SpecularColor, intensity);
+            return ColorToolbox.ColorToolbox.ColorIntensify(SpecularColor, intensity);
         }
 
 

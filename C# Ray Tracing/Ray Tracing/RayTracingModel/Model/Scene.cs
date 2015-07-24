@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
-using Color_Toolbox;
+using ColorToolbox;
 using RayTracingModel.Model.Cameras;
 using RayTracingModel.Model.Lights;
 using RayTracingModel.Model.Objects3D;
@@ -37,6 +37,7 @@ namespace RayTracingModel.Model
             RenderProgress = 0;
             var cameraRays = Camera.GenerateCameraVectors();
             Color[,] colorArray = new Color[cameraRays.GetLength(0), cameraRays.GetLength(1)];
+            double[,] distanceArray = new double[cameraRays.GetLength(0), cameraRays.GetLength(1)];
 
             if (test)
             {
@@ -56,7 +57,7 @@ namespace RayTracingModel.Model
             }
             else
             {
-                var tasks = new List<Task<Tuple<int, int, Color>>>();
+                var tasks = new List<Task<Tuple<int, int, double, Color>>>();
                 for (int i = 0; i < colorArray.GetLength(0); i++)
                 {
                     for (int j = 0; j < colorArray.GetLength(1); j++)
@@ -66,11 +67,13 @@ namespace RayTracingModel.Model
                 }
                 foreach (var task in await Task.WhenAll(tasks))
                 {
-                    colorArray[task.Item1, task.Item2] = task.Item3;
+                    distanceArray[task.Item1, task.Item2] = task.Item3;
+                    colorArray[task.Item1, task.Item2] = task.Item4;
                 }
                 RenderProgress = 1;
             }
             test = !test;
+            colorArray = ApplyPostEffects(colorArray, distanceArray);
             return colorArray;
         }
 
@@ -79,6 +82,7 @@ namespace RayTracingModel.Model
             RenderProgress = 0;
             var cameraRays = Camera.GenerateCameraVectors();
             Color[,] colorArray = new Color[cameraRays.GetLength(0), cameraRays.GetLength(1)];
+            double[,] distanceArray = new double[cameraRays.GetLength(0), cameraRays.GetLength(1)];
 
             if (test)
             {
@@ -103,25 +107,68 @@ namespace RayTracingModel.Model
                     for (int j = 0; j < colorArray.GetLength(1); j++)
                     {
                         colorArray[i, j] = CalculateObjectCollisions(cameraRays[i, j]);
+                        distanceArray[i,j] = _distanceTravelled;
                         RenderProgress += 1.0 / (colorArray.GetLength(0) * colorArray.GetLength(1));
                         _currentRecoursion = 0;
                         _distanceTravelled = 0;
                     }
                 }
-                RenderProgress = 1;
             }
             test = !test;
+            colorArray = ApplyPostEffects(colorArray,distanceArray);
+            RenderProgress = 1;
             return colorArray;
         }
 
-        async private Task<Tuple<int,int,Color>> AssignColor(int i, int j, Line3D ray)
+        private Color[,] ApplyPostEffects(Color[,] colors, double[,] distances)
+        {
+            Color[,] colorsToReturn = global::ColorToolbox.ColorToolbox.SimpleBlur(colors, 0);
+            foreach (PostEffect postEffect in Settings.PostEffects)
+            {
+                switch (postEffect)
+                {
+                    case PostEffect.DepthOfField:
+                        int[,] distancesFixed = new int[distances.GetLength(0), distances.GetLength(1)];
+                        for (int i = 0; i < distances.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < distances.GetLength(1); j++)
+                            {
+                                if (distances[i, j] >= Settings.FocalNear && distances[i, j] <= Settings.FocalFar)
+                                {
+                                    distancesFixed[i, j] = 0;
+                                }
+                                else
+                                {
+                                    double absDistance = Math.Min(Math.Abs(Settings.FocalNear - distances[i, j]), Math.Abs(distances[i, j] - Settings.FocalFar));
+                                    double radiusOfBlur = Math.Pow(absDistance, 0.5);
+                                    if (radiusOfBlur > 25)
+                                    {
+                                        distancesFixed[i, j] = 25;
+                                    }
+                                    else
+                                    {
+                                        distancesFixed[i, j] = (int)radiusOfBlur;
+                                    }
+                                }
+                                
+                            }
+                        }
+                        colorsToReturn = global::ColorToolbox.ColorToolbox.SimpleBlur(colorsToReturn, distancesFixed);
+                        break;
+                }
+            }
+            return colorsToReturn;
+        }
+
+        async private Task<Tuple<int,int,double,Color>> AssignColor(int i, int j, Line3D ray)
         {
             Func<Color> tempColorFunc = () => CalculateObjectCollisions(ray);
             var tempColor = await Task.Run(tempColorFunc);
             RenderProgress += 1.0 / (Camera.AmtOfHeightPixels * Camera.AmtOfWidthPixels);
+            var tuple = Tuple.Create(i, j,_distanceTravelled, tempColor);
             _currentRecoursion = 0;
             _distanceTravelled = 0;
-            return Tuple.Create(i, j, tempColor);
+            return tuple;
         }
 
         private Color CalculateObjectCollisions(Line3D ray)
@@ -169,7 +216,7 @@ namespace RayTracingModel.Model
                     
                     Color reflectionColor = CalculateObjectCollisions(reflectRay);
                     
-                    baseColor = ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor,
+                    baseColor = global::ColorToolbox.ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor,
                         collisionObject.Shader.Reflectivity);
                     _distanceTravelled = currentDistance;
                 }
@@ -193,7 +240,7 @@ namespace RayTracingModel.Model
 
                         Color refractionColor = CalculateObjectCollisions(refractionRay);
 
-                        baseColor = ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
+                        baseColor = global::ColorToolbox.ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
                         collisionObject.Shader.Refractivity);
                     }
                     catch (Exception)
@@ -204,7 +251,7 @@ namespace RayTracingModel.Model
                 }
             }
             _currentRecoursion--;
-            return ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor,
+            return global::ColorToolbox.ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor,
                 Settings.DistanceInverseLawCamera(_distanceTravelled)); // 
         }
 

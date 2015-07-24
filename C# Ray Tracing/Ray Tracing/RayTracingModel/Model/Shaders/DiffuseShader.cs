@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Color_Toolbox;
 using RayTracingModel.Model.Lights;
 
 namespace RayTracingModel.Model.Shaders
@@ -58,8 +57,8 @@ namespace RayTracingModel.Model.Shaders
             Color ambientColor = GenerateAmbientColor(lightsThatHitsSurface);
             Color diffuseColor = GenerateDiffuseColor(lightsThatHitsSurface, normalVector3D, collisionPositionVector3D);
 
-            baseColor = ColorToolbox.BlendAddition(baseColor, ambientColor);
-            baseColor = ColorToolbox.BlendAddition(baseColor, diffuseColor);
+            baseColor = ColorToolbox.ColorToolbox.BlendAddition(baseColor, ambientColor);
+            baseColor = ColorToolbox.ColorToolbox.BlendAddition(baseColor, diffuseColor);
 
             return baseColor;
         }
@@ -71,7 +70,7 @@ namespace RayTracingModel.Model.Shaders
                 if (light is AmbientLight)
                 {
                     lightsThatHitsSurface.Remove(light);
-                    return ColorToolbox.ColorIntensify(light.Color, light.Intensity);
+                    return ColorToolbox.ColorToolbox.ColorIntensify(light.Color, light.Intensity);
                 }
             }
             return new Color();
@@ -84,7 +83,7 @@ namespace RayTracingModel.Model.Shaders
             {
                 intensity += light.Intensity * (Math.Max(0, Vector3D.DotProdukt(normalVector3D.VectorNegation(), light.CalculateLightDirectionOnPosition(collisionPositionVector3D))));
             }
-            return ColorToolbox.ColorIntensify(DiffuseColor, intensity);
+            return ColorToolbox.ColorToolbox.ColorIntensify(DiffuseColor, intensity);
         }
     }
 }

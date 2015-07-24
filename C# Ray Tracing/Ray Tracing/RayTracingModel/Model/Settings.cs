@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace RayTracingModel.Model
 {
+    public enum PostEffect { DepthOfField }
     public class Settings
     {
         public Color BackgroundColor { get; set; }
@@ -23,6 +24,11 @@ namespace RayTracingModel.Model
         public double SoftShadowSpread { get; set; }
 
         public int Interpolation { get; set; }
+
+        public IList<PostEffect> PostEffects { get; set; }
+
+        public double FocalNear { get; set; }
+        public double FocalFar { get; set; }
 
         public Settings()
         {

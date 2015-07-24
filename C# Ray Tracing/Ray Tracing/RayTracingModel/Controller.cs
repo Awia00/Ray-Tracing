@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +31,10 @@ namespace RayTracingModel
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 3;
-            _scene.Settings.ShadowRays = 0;
+            _scene.Settings.ShadowRays = 128;
+            _scene.Settings.PostEffects = new List<PostEffect>{PostEffect.DepthOfField};
+            _scene.Settings.FocalNear = 25;
+            _scene.Settings.FocalFar = 30;
 
             // Camera
             //_scene.Camera = new SimpleCamera(new Vector3D(4, 4, 4), new Vector3D(0, -5, 7), 16, 10, 640, 400); // low res 16 10 ratio
@@ -69,6 +73,13 @@ namespace RayTracingModel
 
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
+                Shader = new DiffuseShader(Color.Black, 0, 0, 1),
+                CenterPositionVector3D = new Vector3D(0, -5, -5),
+                NormalVector3D = new Vector3D(0, -1, 0)
+            });
+
+            _scene.SceneObjects.Add(new PlaneObject3D()
+            {
                 Shader = new DiffuseShader(Color.Wheat, 0, 0, 1),
                 CenterPositionVector3D = new Vector3D(0, 80, 0),
                 NormalVector3D = new Vector3D(0, -1, 0)
@@ -77,14 +88,14 @@ namespace RayTracingModel
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
                 Shader = new DiffuseShader(Color.CornflowerBlue, 0, 0, 1),
-                CenterPositionVector3D = new Vector3D(-25, 0, -0),
+                CenterPositionVector3D = new Vector3D(-40, 0, -0),
                 NormalVector3D = new Vector3D(1, 0, 0)
             });
 
             _scene.SceneObjects.Add(new PlaneObject3D()
             {
                 Shader = new DiffuseShader(Color.IndianRed, 0, 0, 1),
-                CenterPositionVector3D = new Vector3D(25, 0, 0),
+                CenterPositionVector3D = new Vector3D(40, 0, 0),
                 NormalVector3D = new Vector3D(-1, 0, 0)
             });
         }
