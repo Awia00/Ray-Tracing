@@ -17,7 +17,7 @@ namespace RayTracingModel
     // todo make code async from application
     public class Controller
     {
-        private static Controller _instance = null;
+        private static Controller _instance;
         private Scene _scene;
 
         private Controller()
@@ -31,8 +31,8 @@ namespace RayTracingModel
             // Settings
             _scene.Settings.BackgroundColor = Color.FromArgb(100, 130, 155);
             _scene.Settings.AmtOfRecoursions = 3;
-            _scene.Settings.ShadowRays = 128;
-            _scene.Settings.PostEffects = new List<PostEffect>{PostEffect.DepthOfField};
+            _scene.Settings.ShadowRays = 0;
+            _scene.Settings.PostEffects = new List<PostEffect>{PostEffect.DepthMap};
             _scene.Settings.FocalNear = 25;
             _scene.Settings.FocalFar = 30;
 
@@ -64,35 +64,35 @@ namespace RayTracingModel
 
             _scene.SceneObjects.Add(new SphereObject3D(new SpecularShader(Color.Aqua, Color.White, 10, 0.15, 0, 1.12), new Vector3D(10, 50, 35), 7));
 
-            _scene.SceneObjects.Add(new PlaneObject3D()
+            _scene.SceneObjects.Add(new PlaneObject3D
             {
                 Shader = new DiffuseShader(Color.Goldenrod, 0, 0, 1),
                 CenterPositionVector3D = new Vector3D(0, 5, -5),
                 NormalVector3D = new Vector3D(0, 0, 1)
             });
 
-            _scene.SceneObjects.Add(new PlaneObject3D()
+            _scene.SceneObjects.Add(new PlaneObject3D
             {
                 Shader = new DiffuseShader(Color.Black, 0, 0, 1),
                 CenterPositionVector3D = new Vector3D(0, -5, -5),
                 NormalVector3D = new Vector3D(0, -1, 0)
             });
 
-            _scene.SceneObjects.Add(new PlaneObject3D()
+            _scene.SceneObjects.Add(new PlaneObject3D
             {
                 Shader = new DiffuseShader(Color.Wheat, 0, 0, 1),
                 CenterPositionVector3D = new Vector3D(0, 80, 0),
                 NormalVector3D = new Vector3D(0, -1, 0)
             });
 
-            _scene.SceneObjects.Add(new PlaneObject3D()
+            _scene.SceneObjects.Add(new PlaneObject3D
             {
                 Shader = new DiffuseShader(Color.CornflowerBlue, 0, 0, 1),
                 CenterPositionVector3D = new Vector3D(-40, 0, -0),
                 NormalVector3D = new Vector3D(1, 0, 0)
             });
 
-            _scene.SceneObjects.Add(new PlaneObject3D()
+            _scene.SceneObjects.Add(new PlaneObject3D
             {
                 Shader = new DiffuseShader(Color.IndianRed, 0, 0, 1),
                 CenterPositionVector3D = new Vector3D(40, 0, 0),

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
-using ColorToolbox;
 using RayTracingModel.Model.Cameras;
 using RayTracingModel.Model.Lights;
 using RayTracingModel.Model.Objects3D;
@@ -15,8 +13,8 @@ namespace RayTracingModel.Model
     {
         private bool test = true;
 
-        [ThreadStatic] private static int _currentRecoursion = 0;
-        [ThreadStatic] private static double _distanceTravelled = 0;
+        [ThreadStatic] private static int _currentRecoursion;
+        [ThreadStatic] private static double _distanceTravelled;
         public static double RenderProgress { get; set; }
 
         public ICamera Camera { get; set; }
@@ -122,7 +120,7 @@ namespace RayTracingModel.Model
 
         private Color[,] ApplyPostEffects(Color[,] colors, double[,] distances)
         {
-            Color[,] colorsToReturn = global::ColorToolbox.ColorToolbox.SimpleBlur(colors, 0);
+            Color[,] colorsToReturn = ColorToolbox.ColorToolbox.SimpleBlur(colors, 0);
             foreach (PostEffect postEffect in Settings.PostEffects)
             {
                 switch (postEffect)
@@ -153,7 +151,18 @@ namespace RayTracingModel.Model
                                 
                             }
                         }
-                        colorsToReturn = global::ColorToolbox.ColorToolbox.SimpleBlur(colorsToReturn, distancesFixed);
+                        colorsToReturn = ColorToolbox.ColorToolbox.SimpleBlur(colorsToReturn, distancesFixed);
+                        break;
+                    case PostEffect.DepthMap:
+                        double maxDistance = distances.OfType<double>().Max();
+                        for (int i = 0; i < distances.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < distances.GetLength(1); j++)
+                            {
+                                int value = Math.Max(Math.Min((int)(distances[i, j]/maxDistance*255),255),0);
+                                colorsToReturn[i, j] = Color.FromArgb(255, value, value, value);
+                            }
+                        }
                         break;
                 }
             }
@@ -216,7 +225,7 @@ namespace RayTracingModel.Model
                     
                     Color reflectionColor = CalculateObjectCollisions(reflectRay);
                     
-                    baseColor = global::ColorToolbox.ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor,
+                    baseColor = ColorToolbox.ColorToolbox.BlendSimpleByAmt(reflectionColor, baseColor,
                         collisionObject.Shader.Reflectivity);
                     _distanceTravelled = currentDistance;
                 }
@@ -240,7 +249,7 @@ namespace RayTracingModel.Model
 
                         Color refractionColor = CalculateObjectCollisions(refractionRay);
 
-                        baseColor = global::ColorToolbox.ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
+                        baseColor = ColorToolbox.ColorToolbox.BlendSimpleByAmt(refractionColor, baseColor,
                         collisionObject.Shader.Refractivity);
                     }
                     catch (Exception)
@@ -251,7 +260,7 @@ namespace RayTracingModel.Model
                 }
             }
             _currentRecoursion--;
-            return global::ColorToolbox.ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor,
+            return ColorToolbox.ColorToolbox.BlendSimpleByAmt(baseColor, Settings.BackgroundColor,
                 Settings.DistanceInverseLawCamera(_distanceTravelled)); // 
         }
 

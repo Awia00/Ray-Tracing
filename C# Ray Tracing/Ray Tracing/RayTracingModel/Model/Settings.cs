@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RayTracingModel.Model
 {
-    public enum PostEffect { DepthOfField }
+    public enum PostEffect { DepthOfField, DepthMap }
     public class Settings
     {
         public Color BackgroundColor { get; set; }
