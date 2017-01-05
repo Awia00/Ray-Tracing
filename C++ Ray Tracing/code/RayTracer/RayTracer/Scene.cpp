@@ -44,7 +44,7 @@ namespace RayTracer {
 
 		this->zLocation = viewDistance;
 
-		this->arr = gcnew array<Color^>(width*height);
+		this->arr = gcnew cli::array<Color^>(width*height);
 
 		for(int i = 0; i < width*height; i++) 
 		{
@@ -70,7 +70,7 @@ namespace RayTracer {
 	vector<ShaderBase*> tealSpecular;
 	vector<ShaderBase*> yellowSpecular;
 
-	array<Color^>^ Scene::render()
+	cli::array<Color^>^ Scene::render()
 	{
 		initLists();
 		finalRenderingCornell();

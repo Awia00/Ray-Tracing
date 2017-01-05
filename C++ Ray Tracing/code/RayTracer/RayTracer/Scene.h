@@ -12,7 +12,7 @@ namespace RayTracer {
 	public ref class Scene {
 	public:
 		Scene(int height, int width, float viewdistance);
-		array<Color^>^ render();
+		cli::array<Color^>^ render();
 		ColorIntern* backgroundColor = new ColorIntern(0, 0, 0, 255);;
 		ColorIntern ambientColorOnObjects();
 		float sceneRefractionIndex = 1.0f;
@@ -23,7 +23,7 @@ namespace RayTracer {
 	private:
 		int width, height;
 		float viewPortWidth, viewPortHeight, stepSizeX, stepSizeY, zLocation;
-		array<Color^>^ arr;
+		cli::array<Color^>^ arr;
 
 
 		ColorIntern getReflectionColor(Vector3d normal, Vector3d incomingDirection, int count, Point3d hitPoint, float currentRefractionIndex);
